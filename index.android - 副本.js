@@ -20,39 +20,13 @@ var Dimensions = require('Dimensions');
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
 
-//获取当前时间
-function getNowFormatDate() {
-    var date = new Date();
-    var seperator1 = "-";
-    var seperator2 = ":";
-    var month = date.getMonth() + 1;
-    var strDate = date.getDate();
-    if (month >= 1 && month <= 9) {
-        month = "0" + month;
-    }
-    if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-    }
-    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-            + " " + date.getHours() + seperator2 + date.getMinutes()
-            + seperator2 + date.getSeconds();
-    return currentdate;
-}
+
 
 export default class LoactionApp1 extends Component {
 
 GetGpsLocation = () => {
-  
   navigator.geolocation.getCurrentPosition(
-      (initialPosition) => {
-        alert(initialPosition.coords.latitude);
-        let formData=new FormData();
-        formData.append("longitude",initialPosition.coords.longitude);
-        formData.append("latitude",initialPosition.coords.latitude);
-        formData.append("RecordTime",getNowFormatDate());
-        let url="http://1.loactionapp.applinzi.com/upload";
-        fetch(url,{method:"POST",headers:{},body:formData});
-      },
+      (initialPosition) => alert(initialPosition.coords.latitude),
       (error) => alert(error)
     );
 }
