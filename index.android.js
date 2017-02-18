@@ -12,94 +12,84 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Navigator,
+  Button,
   Image
 } from 'react-native';
+import UploadGps from './UploadGps';
+import Home from './Home';
+import ScanUpload from './ScanUpload';
+import ScanUploadResult from './ScanUploadResult';
+import Map from './map';
+
+
 
 
 var Dimensions = require('Dimensions');
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
 
-//获取当前时间
-function getNowFormatDate() {
-    var date = new Date();
-    var seperator1 = "-";
-    var seperator2 = ":";
-    var month = date.getMonth() + 1;
-    var strDate = date.getDate();
-    if (month >= 1 && month <= 9) {
-        month = "0" + month;
-    }
-    if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-    }
-    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-            + " " + date.getHours() + seperator2 + date.getMinutes()
-            + seperator2 + date.getSeconds();
-    return currentdate;
-}
-
 export default class LoactionApp1 extends Component {
-
-GetGpsLocation = () => {
-  
-  navigator.geolocation.getCurrentPosition(
-      (initialPosition) => {
-        alert(initialPosition.coords.latitude);
-        let formData=new FormData();
-        formData.append("longitude",initialPosition.coords.longitude);
-        formData.append("latitude",initialPosition.coords.latitude);
-        formData.append("RecordTime",getNowFormatDate());
-        let url="http://1.loactionapp.applinzi.com/upload";
-        fetch(url,{method:"POST",headers:{},body:formData});
-      },
-      (error) => alert(error)
-    );
-}
-
+ constructor(props){
+        super(props);
+        this.state = {
+        selectedTab:'home'
+        };
+    }
   render() {
-    return (
-      <View style={styles.container}>
-          <TouchableOpacity
-            style={styles.TouchableStyle}            
-            onPress={this.GetGpsLocation}
-          >
-            <Image style={styles.bottomIconStyle}
-              source={require('./assets/1.jpg')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.TouchableStyle}
-            //onPress={this.switchType}
-          >
-            <Image style={styles.bottomIconStyle}
-              source={require('./assets/2.jpg')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.TouchableStyle}
-            //onPress={this.switchType}
-          >
-            <Image style={styles.bottomIconStyle}
-              source={require('./assets/3.jpg')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.TouchableStyle}
-            //onPress={this.switchType}
-          >
-            <Image  style={styles.bottomIconStyle}
-              source={require('./assets/4.jpg')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.TouchableStyle}
-            //onPress={this.switchType}
-          >
-            <Image  style={styles.bottomIconStyle}
-              source={require('./assets/5.jpg')}
-            />
-          </TouchableOpacity>
+    let defaultName = 'ScanUpload';
+    let defaultComponent = ScanUpload;
+    return (       
+     <View style={{flex: 1}}>
+        <TabNavigator   Style={styles.tab} >
+            <TabNavigator.Item
+            selected={this.state.selectedTab === 'home'}
+            title="Home"
+            renderIcon={() => <Image source={require('./assets/1.jpg')} style={styles.iconStyle}/>}
+            renderSelectedIcon={() => <Image source={require('./assets/1.jpg')} style={styles.iconStyle}/>}
+            badgeText="tips"
+            onPress={() => this.setState({ selectedTab: 'home' })}>
+            
+            <Home {...this.props}/>
+            </TabNavigator.Item>
+            
+            <TabNavigator.Item                   //手动输入设备信息，上传GPS定位信息
+            selected={this.state.selectedTab === 'UploadGps'}
+            title="UploadGps"
+            renderIcon={() => <Image source={require('./assets/1.jpg')} style={styles.iconStyle}/>}
+            renderSelectedIcon={() => <Image source={require('./assets/1.jpg')}  style={styles.iconStyle}/>}
+            onPress={() => this.setState({ selectedTab: 'UploadGps' })}>
+            <UploadGps {...this.props}/>
+            </TabNavigator.Item>
+           
+            <TabNavigator.Item                       //扫描设备条码，上传GPS定位信息
+            selected={this.state.selectedTab === 'ScanUpload'}
+            title="ScanUpload"
+            renderIcon={() => <Image source={require('./assets/1.jpg')} style={styles.iconStyle}/>}
+            renderSelectedIcon={() => <Image source={require('./assets/1.jpg')}  style={styles.iconStyle}/>}
+            onPress={() => this.setState({ selectedTab: 'ScanUpload' })}>
+            
+            <Navigator
+              initialRoute={{ name: defaultName, component: defaultComponent }}
+              configureScene={(route) => {
+                return Navigator.SceneConfigs.VerticalDownSwipeJump;
+              }}
+              renderScene={(route, navigator) => {
+                let Component = route.component;
+                return <Component {...route.params} navigator={navigator} />
+              }} />            
+            </TabNavigator.Item>
+
+            <TabNavigator.Item
+            selected={this.state.selectedTab === 'map'}
+            title="map"
+            renderIcon={() => <Image source={require('./assets/1.jpg')} style={styles.iconStyle}/>}
+            renderSelectedIcon={() => <Image source={require('./assets/1.jpg')} style={styles.iconStyle}/>}
+            badgeText=""
+            onPress={() => this.setState({ selectedTab: 'map' })}>
+            <Map {...this.props}/>
+            </TabNavigator.Item>
+          </TabNavigator>
       </View>
     );
   }
@@ -123,6 +113,31 @@ const styles = StyleSheet.create({
     bottom:0,
     //height:w,
     
+  },
+  iconStyle:{                  //底部tab导航栏样式
+       width:26,
+       height:26,
+   },
+   textStyle:{        
+       color:'#999',
+   },
+   selectedTextStyle:{
+       color:'black',
+   },
+  ButtonStyle:{
+    position:'absolute',
+    top:50,
+  },
+   tab: {
+        height: 100,
+        backgroundColor: '#eee',
+        alignItems: 'center'
+    },
+    himiTextStyle:{
+      backgroundColor:'#eee',
+      color:'#f00',
+      fontSize:30,
+      marginTop:30,
   },
   TouchableStyle:{
     //flex:1,
