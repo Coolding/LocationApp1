@@ -1,0 +1,12 @@
+
+http://api.map.baidu.com/direction?origin=latlng:24.569164,118.046722|name:单位&destination=latlng:24.476265,118.120904|name:我家&mode=driving&region=厦门&output=html&src=yourCompanyName|yourAppName
+
+	
+
+上传表计/表箱定位信息后提示当前台区还有多少表箱未管理，表箱编号
+上传，关联时判断表箱里面的表计用电地址和当前gps地址距离是否在合理范围内，是的话才关联，不是的话提醒
+
+
+
+微信公众号数据迁移过来
+批量上传数据库的方法？

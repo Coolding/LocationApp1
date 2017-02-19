@@ -9,7 +9,10 @@ import {
   
 const {width, height} = Dimensions.get('window');  
   
-const url = "http://api.map.baidu.com/marker?location=39.916979519873,116.41004950566&title=我的位置&content=百度奎科大厦&output=html ";  
+var url = "http://1.loactionapp.applinzi.com/showMap/118.120925,24.476224";  
+
+
+
 export default class Map extends Component {  
   
   constructor(props) {  
@@ -19,15 +22,14 @@ export default class Map extends Component {
   render() {  
     return (  
       <View style={styles.container}>  
-        <WebView  
-          style={{width:width,height:height-20,backgroundColor:'gray'}}  
-          source={{uri:url,method: 'GET'}}  
-          javaScriptEnabled={true}  
-          domStorageEnabled={true}  
-          scalesPageToFit={false}  
-          />  
-      </View>  
-    );  
+      <WebView
+          style={styles.webView}
+          source={{uri:url}}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+      />
+      </View>
+    )
   }  
 }  
   
@@ -37,4 +39,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#f2f2f2',  
     paddingTop:20,  
   },  
+  webView: {
+    //backgroundColor: BGWASH,
+    height: 350,
+  },
 });  
