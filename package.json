@@ -7,8 +7,10 @@
     "test": "jest"
   },
   "dependencies": {
+    "autosuggest": "0.0.2",
     "react": "15.4.2",
     "react-native": "0.41.1",
+    "react-native-autosuggest": "0.0.18",
     "react-native-camera": "^0.6.0",
     "react-native-storage": "^0.1.5",
     "react-native-tab-navigator": "^0.3.3"

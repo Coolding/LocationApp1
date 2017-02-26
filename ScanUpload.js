@@ -172,6 +172,7 @@ export default class ScanUpload extends React.Component {
     return icon;
   }
 
+//扫描到条形码
   onBarCodeRead=(e)=>{
     const { navigator } = this.props;
     navigator.replace({

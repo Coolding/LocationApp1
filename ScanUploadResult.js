@@ -8,6 +8,7 @@ import {
   Button,
   Image
 } from 'react-native';
+import ScanUpload from './ScanUpload';
 
 //获取当前时间
 function getNowFormatDate() {
@@ -64,6 +65,13 @@ export default class ScanUploadResult extends Component {
         let url="http://1.loactionapp.applinzi.com/upload";
         fetch(url,{method:"POST",headers:{},body:formData});
         alert("上传成功");                                        //改进：上传成功，失败判断
+        const { navigator } = this.props;
+        if(navigator) {
+            navigator.replace({
+                name: 'ScanUpload',
+                component: ScanUpload,
+              });
+        }
 }
 
 

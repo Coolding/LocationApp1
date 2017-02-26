@@ -6,10 +6,13 @@ import {
   Button,
   View,
   TouchableOpacity,
-  Image
+  Image,
+  Picker,
 } from 'react-native';
 
-
+//改进：上传后自动清空输入的设备信息
+//获取GPS时没权限？信号不好半天获取不到时会不会用了上个的经纬度或者用0？
+var latitude,longitude
 
 //获取当前时间
 function getNowFormatDate() {
@@ -38,16 +41,38 @@ export default class UploadGps extends Component {
  super(props);
  this.state = {
       selectedTab:'UploadGps',
-      longitude:0,
-      latitude:0,
       AssetInfo:"",
+      relateCount:0,
+      assetInput:"",    //设备信息输入框的值
+      uploadResult:"",
+      currentAddr:"",
     };
  }
- componentDidMount= () => {
+
+ GetAndUploadGps= () => {
+   this.setState({relateCount:0,assetInfo:0,currentAddr:""}); 
+   latitude=0
+   longitude=0
     navigator.geolocation.getCurrentPosition(
       (initialPosition) => {
-          this.setState({longitude:initialPosition.coords.longitude});
-          this.setState({latitude:initialPosition.coords.latitude});
+          latitude=initialPosition.coords.latitude
+          longitude=initialPosition.coords.longitude
+          //上传的操作要放在这个获取gps的回调函数里面，才能保证获取gps成功后才上传。如果信号不好获取不到怎么办？
+          let formData=new FormData();                 
+          formData.append("longitude",longitude);
+          formData.append("latitude",latitude);
+          formData.append("RecordTime",getNowFormatDate());
+          formData.append("AssetInfo",this.state.AssetInfo);
+          let url="http://1.loactionapp.applinzi.com/upload";
+          fetch(url,{method:"POST",headers:{},body:formData}).then(response => response.json())
+          .then(data => {
+            this.setState({relateCount:data['boxRelateCount']+data['addrRelateCount']});  
+            this.setState({uploadResult:"成功"})
+            this.setState({currentAddr:data['addr']})
+            
+          })
+          .catch(e => this.setState({uploadResult:e}));                     
+
       },
       (error) => console.error(error)
     );
@@ -57,45 +82,32 @@ export default class UploadGps extends Component {
  
   }
 
- UploadGps = () => {  //获取GPS地址
-//    navigator.geolocation.getCurrentPosition(
-//       (initialPosition) => {
-//         alert(initialPosition.coords.latitude);
-//         let formData=new FormData();
-//         formData.append("longitude",initialPosition.coords.longitude);
-//         formData.append("latitude",initialPosition.coords.latitude);
-//         formData.append("RecordTime",getNowFormatDate());
-//         let url="http://1.loactionapp.applinzi.com/upload";
-//         fetch(url,{method:"POST",headers:{},body:formData});
-//       },
-//       (error) => alert(error)
-//     );
-        let formData=new FormData();
-        formData.append("longitude",this.state.longitude);
-        formData.append("latitude",this.state.latitude);
-        formData.append("RecordTime",getNowFormatDate());
-        formData.append("AssetInfo",this.state.AssetInfo);
-        let url="http://1.loactionapp.applinzi.com/upload";
-        fetch(url,{method:"POST",headers:{},body:formData});
-        alert("上传成功");                                        //改进：上传成功，失败判断
-}
-
+ 
   render() {
     return (
       <View  style={styles.container}>        
-        <Text style={styles.textStyle}>当前位置GPS：{this.state.longitude},{this.state.latitude}</Text>
         <Text style={styles.textStyle}>请输入资产编码或者设备编号等关键信息,然后点击上传按钮</Text>
         <TextInput
         style={{height: 40,width:200, borderColor: 'gray', borderWidth: 1}}
-        onChangeText={(text) => this.setState({AssetInfo:text})}
-        //value={this.state.text}
-        />
+        onChangeText={(text) =>   this.setState({AssetInfo:text})  }
+        //onFocus={()=>clear()}     //写法不对？？？
+        //onEndEditing={clear()}   //写法不对？？？
+         />
       <Button
-        onPress={this.UploadGps}
+        onPress={this.GetAndUploadGps}
         title="上传"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
     />
+    <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}</Text>
+    <Text style={styles.textStyle}>上传的设备信息为：{this.state.AssetInfo}</Text>
+    <Text style={styles.textStyle}>关联设备数：{this.state.relateCount}</Text>
+    <Text style={styles.textStyle}>上传的经度为：{longitude}</Text>
+    <Text style={styles.textStyle}>上传的纬度为：{latitude}</Text>
+
+    <Text style={styles.textStyle,styles.addrStyle}>你在“ {this.state.currentAddr} ”附近</Text>
+
+
       </View>
     )
   }
@@ -109,11 +121,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-    marginBottom: 100,
+    marginBottom: 0,
   },
   textStyle:{
-    fontSize: 25,
+    fontSize: 15,
     textAlign: 'center',
     margin: 10,
+    padding:10,
+  },
+  addrStyle:{
+     color:'red',
   }
 })
