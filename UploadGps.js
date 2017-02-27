@@ -46,6 +46,7 @@ export default class UploadGps extends Component {
       assetInput:"",    //设备信息输入框的值
       uploadResult:"",
       currentAddr:"",
+      currentTgName:"",
     };
  }
 
@@ -57,7 +58,7 @@ export default class UploadGps extends Component {
       (initialPosition) => {
           latitude=initialPosition.coords.latitude
           longitude=initialPosition.coords.longitude
-          //上传的操作要放在这个获取gps的回调函数里面，才能保证获取gps成功后才上传。如果信号不好获取不到怎么办？
+          //上传的操作要放在这个获取gps的回调函数里面，才能保证获取gps成功后才上传。如果信号不好获取不到怎么办？该函数有超时回调函数（？？）
           let formData=new FormData();                 
           formData.append("longitude",longitude);
           formData.append("latitude",latitude);
@@ -69,7 +70,7 @@ export default class UploadGps extends Component {
             this.setState({relateCount:data['boxRelateCount']+data['addrRelateCount']});  
             this.setState({uploadResult:"成功"})
             this.setState({currentAddr:data['addr']})
-            
+            this.setState({currentTgName:data['currentTgName']})            
           })
           .catch(e => this.setState({uploadResult:e}));                     
 
@@ -102,10 +103,10 @@ export default class UploadGps extends Component {
     <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}</Text>
     <Text style={styles.textStyle}>上传的设备信息为：{this.state.AssetInfo}</Text>
     <Text style={styles.textStyle}>关联设备数：{this.state.relateCount}</Text>
-    <Text style={styles.textStyle}>上传的经度为：{longitude}</Text>
-    <Text style={styles.textStyle}>上传的纬度为：{latitude}</Text>
-
+    <Text style={styles.textStyle}>上传的经度为：{longitude}、
+                                   上传的纬度为：{latitude}</Text>
     <Text style={styles.textStyle,styles.addrStyle}>你在“ {this.state.currentAddr} ”附近</Text>
+    <Text style={styles.textStyle}>所在台区为：{this.state.currentTgName}</Text>
 
 
       </View>
