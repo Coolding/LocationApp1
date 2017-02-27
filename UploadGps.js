@@ -13,7 +13,6 @@ import {
 //改进：上传后自动清空输入的设备信息
 //获取GPS时没权限？信号不好半天获取不到时会不会用了上个的经纬度或者用0？
 var latitude,longitude
-var Lastlatitude,Lastlongitude
 
 //获取当前时间
 function getNowFormatDate() {
@@ -50,6 +49,10 @@ export default class UploadGps extends Component {
       currentTgName:"",
       watchID:"",
       lastPosition:"",
+      Lastlatitude:"",
+      Lastlongitude:"",
+      Currentlatitude:"",
+      Currentlongitude:"",
     };
  }
 
@@ -61,6 +64,8 @@ export default class UploadGps extends Component {
       (initialPosition) => {
           latitude=initialPosition.coords.latitude
           longitude=initialPosition.coords.longitude
+          this.setState({Currentlatitude:initialPosition.coords.latitude})
+          this.setState({Currentlongitude:initialPosition.coords.longitude})
           //上传的操作要放在这个获取gps的回调函数里面，才能保证获取gps成功后才上传。如果信号不好获取不到怎么办？该函数有超时回调函数（？？）
           let formData=new FormData();                 
           formData.append("longitude",longitude);
@@ -82,22 +87,25 @@ export default class UploadGps extends Component {
     );
     this.watchID = navigator.geolocation.watchPosition((lastPosition) => {
       this.setState({lastPosition});
-      Lastlatitude=lastPosition.coords.latitude
-      Lastlongitude=lastPosition.coords.longitude
+      this.setState({Lastlatitude:lastPosition.coords.latitude})
+      this.setState({Lastlongitude:lastPosition.coords.longitude})
 
     });
  
   }
    componentDidMount= () => {
     navigator.geolocation.getCurrentPosition(
-      (initialPosition) =>{ latitude=initialPosition.coords.latitude
-          longitude=initialPosition.coords.longitude},
+      (initialPosition) =>{ 
+          latitude=initialPosition.coords.latitude
+          longitude=initialPosition.coords.longitude
+          this.setState({Currentlatitude:initialPosition.coords.latitude})
+          this.setState({Currentlongitude:initialPosition.coords.longitude})},
       (error) => console.error(error)
     );
     this.watchID = navigator.geolocation.watchPosition((lastPosition) => {
       this.setState({lastPosition});
-      Lastlatitude=lastPosition.coords.latitude
-      Lastlongitude=lastPosition.coords.longitude
+      this.setState({Lastlatitude:lastPosition.coords.latitude})
+      this.setState({Lastlongitude:lastPosition.coords.longitude})
     });
   }
   componentWillUnmount= () => {
@@ -108,7 +116,8 @@ export default class UploadGps extends Component {
   render() {
     return (
       <View  style={styles.container}>     
-        <Text style={styles.textStyle}>LastGPS:{Lastlatitude},{Lastlongitude}</Text>
+        <Text style={styles.textStyle}>LastGPS:{this.state.Lastlatitude},{this.state.Lastlongitude}</Text>
+        <Text style={styles.textStyle}>CurrentGPS:{this.state.Currentlatitude},{this.state.Currentlongitude}</Text>
         <Text style={styles.textStyle}>请输入资产编码或者设备编号等关键信息,然后点击上传按钮</Text>
         <TextInput
         style={{height: 40,width:200, borderColor: 'gray', borderWidth: 1}}
@@ -123,13 +132,10 @@ export default class UploadGps extends Component {
         accessibilityLabel="Learn more about this purple button"
     />
     
-    <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}</Text>
-    <Text style={styles.textStyle}>上传的设备信息为：{this.state.AssetInfo}</Text>
+    <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}，上传的设备信息为：{this.state.AssetInfo}</Text>
     <Text style={styles.textStyle}>关联设备数：{this.state.relateCount}</Text>
-    <Text style={styles.textStyle}>上传的经度为：{longitude}、
-                                   上传的纬度为：{latitude}</Text>
-    <Text style={styles.textStyle,styles.addrStyle}>你在“ {this.state.currentAddr} ”附近</Text>
-    <Text style={styles.textStyle}>所在台区为：{this.state.currentTgName}</Text>
+    <Text style={styles.textStyle}>上传的经度为：{longitude}、上传的纬度为：{latitude}</Text>
+    <Text style={styles.textStyle,styles.addrStyle}>你在“ {this.state.currentAddr} ”附近，所在台区为：{this.state.currentTgName}</Text>
 
 
       </View>
@@ -142,7 +148,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
     marginBottom: 0,
