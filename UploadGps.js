@@ -13,6 +13,7 @@ import {
 //改进：上传后自动清空输入的设备信息
 //获取GPS时没权限？信号不好半天获取不到时会不会用了上个的经纬度或者用0？
 var latitude,longitude
+var Lastlatitude,Lastlongitude
 
 //获取当前时间
 function getNowFormatDate() {
@@ -47,11 +48,13 @@ export default class UploadGps extends Component {
       uploadResult:"",
       currentAddr:"",
       currentTgName:"",
+      watchID:"",
+      lastPosition:"",
     };
  }
 
  GetAndUploadGps= () => {
-   this.setState({relateCount:0,assetInfo:0,currentAddr:""}); 
+   this.setState({relateCount:0,assetInfo:0,currentAddr:"",currentTgName:""}); 
    latitude=0
    longitude=0
     navigator.geolocation.getCurrentPosition(
@@ -77,16 +80,35 @@ export default class UploadGps extends Component {
       },
       (error) => console.error(error)
     );
-    // this.watchID = navigator.geolocation.watchPosition((lastPosition) => {
-    //   this.setState({lastPosition});
-    // });
+    this.watchID = navigator.geolocation.watchPosition((lastPosition) => {
+      this.setState({lastPosition});
+      Lastlatitude=lastPosition.coords.latitude
+      Lastlongitude=lastPosition.coords.longitude
+
+    });
  
   }
+   componentDidMount= () => {
+    navigator.geolocation.getCurrentPosition(
+      (initialPosition) =>{ latitude=initialPosition.coords.latitude
+          longitude=initialPosition.coords.longitude},
+      (error) => console.error(error)
+    );
+    this.watchID = navigator.geolocation.watchPosition((lastPosition) => {
+      this.setState({lastPosition});
+      Lastlatitude=lastPosition.coords.latitude
+      Lastlongitude=lastPosition.coords.longitude
+    });
+  }
+  componentWillUnmount= () => {
+    navigator.geolocation.clearWatch(this.watchID);
+  }
 
- 
+
   render() {
     return (
-      <View  style={styles.container}>        
+      <View  style={styles.container}>     
+        <Text style={styles.textStyle}>LastGPS:{Lastlatitude},{Lastlongitude}</Text>
         <Text style={styles.textStyle}>请输入资产编码或者设备编号等关键信息,然后点击上传按钮</Text>
         <TextInput
         style={{height: 40,width:200, borderColor: 'gray', borderWidth: 1}}
@@ -100,6 +122,7 @@ export default class UploadGps extends Component {
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
     />
+    
     <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}</Text>
     <Text style={styles.textStyle}>上传的设备信息为：{this.state.AssetInfo}</Text>
     <Text style={styles.textStyle}>关联设备数：{this.state.relateCount}</Text>
