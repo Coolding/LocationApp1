@@ -71,7 +71,7 @@ export default class UploadGps extends Component {
           fetch(url,{method:"POST",headers:{},body:formData}).then(response => response.json())
           .then(data => {
             this.setState({relateCount:data['boxRelateCount']+data['addrRelateCount']});  
-            this.setState({uploadResult:"成功"})
+            this.setState({uploadResult:data['uploadResult']})
             this.setState({currentAddr:data['addr']})
             this.setState({currentTgName:data['currentTgName']})            
           })
@@ -129,7 +129,6 @@ export default class UploadGps extends Component {
     关联设备数：{this.state.relateCount}{'\n'} 上传的经纬度为：{this.state.Currentlatitude}{'\n'}{this.state.Currentlongitude}{'\n'}
     你在“ {this.state.currentAddr} ”附近{'\n'}所在台区为：{this.state.currentTgName}</Text>
 
-
       </View>
     )
   }
@@ -147,9 +146,11 @@ const styles = StyleSheet.create({
   },
   textStyle:{
     fontSize: 15,
-    textAlign: 'center',
-    margin: 10,
-    padding:10,
+    textAlign: 'left',
+    margin: 2,
+    //padding:10,
+    borderWidth:1,
+  	borderRadius:5,
   },
   addrStyle:{
      color:'red',
