@@ -12,7 +12,6 @@ import {
 
 //改进：上传后自动清空输入的设备信息
 //获取GPS时没权限？信号不好半天获取不到时会不会用了上个的经纬度或者用0？
-var latitude,longitude
 
 //获取当前时间
 function getNowFormatDate() {
@@ -58,18 +57,14 @@ export default class UploadGps extends Component {
 
  GetAndUploadGps= () => {
    this.setState({relateCount:0,assetInfo:0,currentAddr:"",currentTgName:""}); 
-   latitude=0
-   longitude=0
     navigator.geolocation.getCurrentPosition(
       (initialPosition) => {
-          latitude=initialPosition.coords.latitude
-          longitude=initialPosition.coords.longitude
           this.setState({Currentlatitude:initialPosition.coords.latitude})
           this.setState({Currentlongitude:initialPosition.coords.longitude})
           //上传的操作要放在这个获取gps的回调函数里面，才能保证获取gps成功后才上传。如果信号不好获取不到怎么办？该函数有超时回调函数（？？）
           let formData=new FormData();                 
-          formData.append("longitude",longitude);
-          formData.append("latitude",latitude);
+          formData.append("longitude",this.state.Currentlongitude);
+          formData.append("latitude",this.state.Currentlatitude);
           formData.append("RecordTime",getNowFormatDate());
           formData.append("AssetInfo",this.state.AssetInfo);
           let url="http://1.loactionapp.applinzi.com/upload";
@@ -96,8 +91,6 @@ export default class UploadGps extends Component {
    componentDidMount= () => {
     navigator.geolocation.getCurrentPosition(
       (initialPosition) =>{ 
-          latitude=initialPosition.coords.latitude
-          longitude=initialPosition.coords.longitude
           this.setState({Currentlatitude:initialPosition.coords.latitude})
           this.setState({Currentlongitude:initialPosition.coords.longitude})},
       (error) => console.error(error)
@@ -116,8 +109,8 @@ export default class UploadGps extends Component {
   render() {
     return (
       <View  style={styles.container}>     
-        <Text style={styles.textStyle}>LastGPS:{this.state.Lastlatitude},{this.state.Lastlongitude}</Text>
-        <Text style={styles.textStyle}>CurrentGPS:{this.state.Currentlatitude},{this.state.Currentlongitude}</Text>
+        <Text style={styles.textStyle}>LastGPS:{this.state.Lastlatitude},{this.state.Lastlongitude}{'\n'}
+         CurrentGPS:{this.state.Currentlatitude},{this.state.Currentlongitude}</Text>
         <Text style={styles.textStyle}>请输入资产编码或者设备编号等关键信息,然后点击上传按钮</Text>
         <TextInput
         style={{height: 40,width:200, borderColor: 'gray', borderWidth: 1}}
@@ -132,10 +125,9 @@ export default class UploadGps extends Component {
         accessibilityLabel="Learn more about this purple button"
     />
     
-    <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}，上传的设备信息为：{this.state.AssetInfo}</Text>
-    <Text style={styles.textStyle}>关联设备数：{this.state.relateCount}</Text>
-    <Text style={styles.textStyle}>上传的经度为：{longitude}、上传的纬度为：{latitude}</Text>
-    <Text style={styles.textStyle,styles.addrStyle}>你在“ {this.state.currentAddr} ”附近，所在台区为：{this.state.currentTgName}</Text>
+    <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}{'\n'}上传的设备信息为：{this.state.AssetInfo}{'\n'}
+    关联设备数：{this.state.relateCount}{'\n'} 上传的经纬度为：{this.state.Currentlatitude}{'\n'}{this.state.Currentlongitude}{'\n'}
+    你在“ {this.state.currentAddr} ”附近{'\n'}所在台区为：{this.state.currentTgName}</Text>
 
 
       </View>
