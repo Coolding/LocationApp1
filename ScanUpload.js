@@ -10,6 +10,10 @@ import {
 import Camera from 'react-native-camera';
 import ScanUploadResult from './ScanUploadResult';
 
+var Dimensions = require('Dimensions');
+var w=Dimensions.get('window').width;
+var h=Dimensions.get('window').height;  //获得屏幕的宽高
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -54,6 +58,21 @@ const styles = StyleSheet.create({
   buttonsSpace: {
     width: 10,
   },
+  rectangleContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'transparent'
+    },
+    rectangle: {
+        height: w*0.6,
+        width: w*0.6,
+        marginBottom:0,
+        marginLeft:0,
+        borderWidth: 1,
+        borderColor: '#FFFFFF',
+        backgroundColor: 'transparent'
+    },
 });
 
 export default class ScanUpload extends React.Component {
@@ -185,6 +204,7 @@ export default class ScanUpload extends React.Component {
 }
 
   render() {
+
     return (
       <View style={styles.container}>
         <StatusBar
@@ -202,8 +222,11 @@ export default class ScanUpload extends React.Component {
           flashMode={this.state.camera.flashMode}
           defaultTouchToFocus
           mirrorImage={false}
-          onBarCodeRead={this.onBarCodeRead}
-        />
+          onBarCodeRead={this.onBarCodeRead} >
+          <View style={styles.rectangleContainer}>               
+               <View style={styles.rectangle} />
+          </View>
+        </Camera>
         <View style={[styles.overlay, styles.topOverlay]}>
           <TouchableOpacity
             style={styles.typeButton}
