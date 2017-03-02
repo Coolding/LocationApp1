@@ -111,7 +111,7 @@ export default class UploadGps extends Component {
       <View  style={styles.container}>     
         <Text style={styles.textStyle}>LastGPS:{this.state.Lastlatitude},{this.state.Lastlongitude}{'\n'}
          CurrentGPS:{this.state.Currentlatitude},{this.state.Currentlongitude}</Text>
-        <Text style={styles.textStyle}>请输入资产编码或者设备编号等关键信息,然后点击上传按钮</Text>
+        <Text style={styles.textStyle}>请输入资产编码或者设备编号、设备名称等关键信息,然后点击上传按钮</Text>
         <TextInput
         style={{height: 40,width:200, borderColor: 'gray', borderWidth: 1}}
         onChangeText={(text) =>   this.setState({AssetInfo:text})  }
