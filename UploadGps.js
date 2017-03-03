@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   Image,
   Picker,
+  ScrollView,
+  ListView,
 } from 'react-native';
 
 //改进：上传后自动清空输入的设备信息
@@ -38,6 +40,7 @@ function getNowFormatDate() {
 export default class UploadGps extends Component {
  constructor(props) {
  super(props);
+ var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
  this.state = {
       selectedTab:'UploadGps',
       AssetInfo:"",
@@ -52,6 +55,10 @@ export default class UploadGps extends Component {
       Lastlongitude:"",
       Currentlatitude:"",
       Currentlongitude:"",
+      boxRelateCount:"",
+      addrRelateCount:"",
+      JustInsertRecord:[""],
+      dataSource: ds.cloneWithRows(JustInsertRecord),
     };
  }
 
@@ -70,10 +77,13 @@ export default class UploadGps extends Component {
           let url="http://1.loactionapp.applinzi.com/upload";
           fetch(url,{method:"POST",headers:{},body:formData}).then(response => response.json())
           .then(data => {
-            this.setState({relateCount:data['boxRelateCount']+data['addrRelateCount']});  
+            this.setState({boxRelateCount:data['boxRelateCount']});  
+            this.setState({addrRelateCount:data['addrRelateCount']});  
             this.setState({uploadResult:data['uploadResult']})
             this.setState({currentAddr:data['addr']})
-            this.setState({currentTgName:data['currentTgName']})            
+            this.setState({currentTgName:data['currentTgName']})  
+            this.setState({JustInsertRecord:data['JustInsertRecord']}) 
+                      
           })
           .catch(e => this.setState({uploadResult:e}));                     
 
@@ -108,7 +118,9 @@ export default class UploadGps extends Component {
 
   render() {
     return (
-      <View  style={styles.container}>     
+      
+      <View  style={styles.container} >    
+      <ScrollView> 
         <Text style={styles.textStyle}>LastGPS:{this.state.Lastlatitude},{this.state.Lastlongitude}{'\n'}
          CurrentGPS:{this.state.Currentlatitude},{this.state.Currentlongitude}</Text>
         <Text style={styles.textStyle}>请输入资产编码或者设备编号、设备名称等关键信息,然后点击上传按钮</Text>
@@ -126,10 +138,11 @@ export default class UploadGps extends Component {
     />
     
     <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}{'\n'}上传的设备信息为：{this.state.AssetInfo}{'\n'}
-    关联设备数：{this.state.relateCount}{'\n'} 上传的经纬度为：{this.state.Currentlatitude}{'\n'}{this.state.Currentlongitude}{'\n'}
+    当前表箱关联设备数：{this.state.boxRelateCount}{'\n'} 当前地址关联设备数：{this.state.addrRelateCount}{'\n'} 上传的经纬度为：{this.state.Currentlatitude}{'\n'}{this.state.Currentlongitude}{'\n'}
     你在“ {this.state.currentAddr} ”附近{'\n'}所在台区为：{this.state.currentTgName}</Text>
-
+ </ScrollView>
       </View>
+      
     )
   }
 }
