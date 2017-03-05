@@ -89,7 +89,16 @@ export default class LoactionApp1 extends Component {
             renderIcon={() => <Image source={require('./assets/1.jpg')} style={styles.iconStyle}/>}
             renderSelectedIcon={() => <Image source={require('./assets/1.jpg')}  style={styles.iconStyle}/>}
             onPress={() => this.setState({ selectedTab: 'UploadGps' })}>
-            <UploadGps {...this.props}/>
+
+            <Navigator
+              initialRoute={{ name: 'UploadGps', component: UploadGps }}
+              configureScene={(route) => {
+                return Navigator.SceneConfigs.VerticalDownSwipeJump;
+              }}
+              renderScene={(route, navigator) => {
+                let Component = route.component;
+                return <Component {...route.params} navigator={navigator} />
+              }} />   
             </TabNavigator.Item>
            
             <TabNavigator.Item                       //扫描设备条码，上传GPS定位信息

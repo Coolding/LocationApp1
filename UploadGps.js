@@ -11,6 +11,7 @@ import {
   ScrollView,
   ListView,
 } from 'react-native';
+import boxConsRelate from './boxConsRelate';
 
 //改进：上传后自动清空输入的设备信息
 //获取GPS时没权限？信号不好半天获取不到时会不会用了上个的经纬度或者用0？
@@ -40,7 +41,7 @@ function getNowFormatDate() {
 export default class UploadGps extends Component {
  constructor(props) {
  super(props);
- var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+ //var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
  this.state = {
       selectedTab:'UploadGps',
       AssetInfo:"",
@@ -57,10 +58,24 @@ export default class UploadGps extends Component {
       Currentlongitude:"",
       boxRelateCount:"",
       addrRelateCount:"",
-      JustInsertRecord:[""],
-      dataSource: ds.cloneWithRows(JustInsertRecord),
+      boxAssetNo:"",
+      InsertSerial:0,
+      //JustInsertRecord:[""],
+      //dataSource: ds.cloneWithRows(['row 1', 'row 2']),
     };
  }
+
+boxConsRelateCheck= () =>{
+  const { navigator } = this.props;
+  navigator.replace({
+      name: 'boxConsRelate',
+      component: boxConsRelate,
+      params: {
+        boxAssetNo:this.state.boxAssetNo,
+        InsertSerial:this.state.InsertSerial,
+      }});
+}
+
 
  GetAndUploadGps= () => {
    this.setState({relateCount:0,assetInfo:0,currentAddr:"",currentTgName:""}); 
@@ -82,7 +97,11 @@ export default class UploadGps extends Component {
             this.setState({uploadResult:data['uploadResult']})
             this.setState({currentAddr:data['addr']})
             this.setState({currentTgName:data['currentTgName']})  
-            this.setState({JustInsertRecord:data['JustInsertRecord']}) 
+            //this.setState({JustInsertRecord:data['JustInsertRecord']}) 
+            this.setState({boxAssetNo:data['boxAssetNo']}) 
+            this.setState({InsertSerial:data['InsertSerial']}) 
+            
+            //this.setState({dataSource:this.state.dataSource.cloneWithRows(this.state.JustInsertRecord)})  
                       
           })
           .catch(e => this.setState({uploadResult:e}));                     
@@ -127,8 +146,6 @@ export default class UploadGps extends Component {
         <TextInput
         style={{height: 40,width:200, borderColor: 'gray', borderWidth: 1}}
         onChangeText={(text) =>   this.setState({AssetInfo:text})  }
-        //onFocus={()=>clear()}     //写法不对？？？
-        //onEndEditing={clear()}   //写法不对？？？
          />
       <Button
         onPress={this.GetAndUploadGps}
@@ -137,9 +154,30 @@ export default class UploadGps extends Component {
         accessibilityLabel="Learn more about this purple button"
     />
     
-    <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}{'\n'}上传的设备信息为：{this.state.AssetInfo}{'\n'}
-    当前表箱关联设备数：{this.state.boxRelateCount}{'\n'} 当前地址关联设备数：{this.state.addrRelateCount}{'\n'} 上传的经纬度为：{this.state.Currentlatitude}{'\n'}{this.state.Currentlongitude}{'\n'}
-    你在“ {this.state.currentAddr} ”附近{'\n'}所在台区为：{this.state.currentTgName}</Text>
+    <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}{'\n'}
+        这是系统收到的第{this.state.InsertSerial}个GPS信息{'\n'}
+        上传的设备信息为：{this.state.AssetInfo}{'\n'}
+        当前表箱关联设备数：{this.state.boxRelateCount}{'\n'}
+        当前地址关联设备数：{this.state.addrRelateCount}{'\n'} 
+        上传的经纬度为：{this.state.Currentlatitude},{this.state.Currentlongitude}{'\n'}
+        你在“ {this.state.currentAddr} ”附近{'\n'}
+        所在台区为：{this.state.currentTgName}{'\n'}
+        当前表箱号:{this.state.boxAssetNo}</Text>
+         <Button
+        onPress={this.boxConsRelateCheck}
+        title="表箱信息收集，箱户关系核对请点击"
+        color="#841584"
+        accessibilityLabel=""
+        />
+        <Button
+        onPress={this.boxConsRelateCheck}
+        title="电能表信息收集请点击"
+        color="#841584"
+        accessibilityLabel=""
+        />
+{/*<ListView
+          dataSource={this.state.dataSource}
+          renderRow={(rowData) => <Text>{rowData.AssetInfo}</Text>} />*/}
  </ScrollView>
       </View>
       

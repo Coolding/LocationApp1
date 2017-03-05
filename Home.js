@@ -9,6 +9,9 @@ import {
   Image
 } from 'react-native';
 
+var currentUser
+
+
 export default class Home extends Component {
  constructor(props) {
  super(props);
@@ -22,15 +25,16 @@ export default class Home extends Component {
     rawData: { 
       from: 'some other site',
       userid: 'some userid',
-      token: 'some token'
+      token: 'some token',
+      currentUserName:"王丁盛",
     },
 
     // 如果不指定过期时间，则会使用defaultExpires参数
     // 如果设为null，则永不过期
-    expires: 1000 * 3600
+    expires: null
   }); 
 }
-  readStor = () => {   
+  readStor =() => {   
       storage.load({
     key: 'loginState',
     // autoSync(默认为true)意味着在没有找到数据或数据过期时自动调用相应的sync方法
@@ -53,9 +57,10 @@ export default class Home extends Component {
     // 而不能在then以外处理
     // 也没有办法“变成”同步返回
     // 你也可以使用“看似”同步的async/await语法
-    console.log(ret.userid);
-    alert(ret.userid);
-    this.setState({ user: ret });
+    //console.log(ret.readPara);
+    alert(ret.currentUserName);
+    //this.setState({ user: ret });
+    return ret
   }).catch(err => {
     //如果没有找到数据且没有sync方法，
     //或者有其他异常，则在catch中返回
@@ -70,6 +75,8 @@ export default class Home extends Component {
     }
   })
 }
+
+ 
   render() {
     return (
       <View style={{flex:1,backgroundColor:'#eee',justifyContent:'center'}}>
