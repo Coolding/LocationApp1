@@ -13,8 +13,7 @@ import {
   Button,
 } from 'react-native';
 import UploadGps from './UploadGps';
-
-var TextFirstColor = ["red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red"]
+var TextColorSet=["red","black","red","green","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red"]
 
 export default class boxConsRelate extends Component {
 constructor(props) {
@@ -25,7 +24,9 @@ constructor(props) {
         InsertSerial:"",
         dataSource: ds.cloneWithRows(['row 1', 'row 2']),
         boxTpis:"",
-        
+        returnData:"",
+        TextColorSet1: TextColorSet
+
     };
   }
 
@@ -40,8 +41,10 @@ constructor(props) {
           let url="http://1.loactionapp.applinzi.com/boxConsRelateGet";
           fetch(url,{method:"POST",headers:{},body:formData}).then(response => response.json())
           .then(data => {     
+             this.setState({returnData:data['JustInsertRecord']})   
+             alert((data['JustInsertRecord'].keys('AssetInfo').length))
+  
              this.setState({dataSource:this.state.dataSource.cloneWithRows(data['JustInsertRecord'])}) 
-      
           })
           .catch(e => 
           {
@@ -52,9 +55,11 @@ constructor(props) {
  }
 
 //确认箱户关系正确
-confirmConsBoxRelate=  function(rowID,AssetInfo,BoxAssetNo)   { 
-    //TextFirstColor[rowID]='black';
-    this.setState({boxTpis:""})
+confirmConsBoxRelate=  function(rowID,AssetInfo,BoxAssetNo)   {  
+    TextColorSet[rowID]='black';         
+    
+    this.setState({TextColorSet1:TextColorSet})
+    this.setState({dataSource:this.state.dataSource.cloneWithRows(this.state.returnData)}) 
     let formData=new FormData();             
     formData.append("AssetInfo",AssetInfo);  
     formData.append("BoxAssetNo",BoxAssetNo);  
@@ -86,9 +91,10 @@ confirmConsBoxRelate=  function(rowID,AssetInfo,BoxAssetNo)   {
           dataSource={this.state.dataSource}
           renderRow={(rowData,sectionID,rowID) =>             
             <View>
-              <Text style={{color:TextFirstColor[0]}} > 
+              <Text style={{color:this.state.TextColorSet1[rowID]}} > 
                   表号:{rowData.AssetInfo}{'\n'}
-                  地址:{rowData.elecAddr}{'\n'}     
+                  地址:{rowData.elecAddr}{'\n'}   
+                  {this.state.TextColorSet1[rowID]}{'\n'}  
               </Text>
               <Button
                   style={{width:200}}
