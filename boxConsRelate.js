@@ -13,7 +13,14 @@ import {
   Button,
 } from 'react-native';
 import UploadGps from './UploadGps';
+
 var TextColorSet=["red","black","red","green","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red","red"]
+var dataBlob=[]
+
+ for (var i = 0 ; i < 35 ; i++){
+                 dataBlob[i]={}
+                 dataBlob[i].color='red';
+              }
 
 export default class boxConsRelate extends Component {
 constructor(props) {
@@ -42,9 +49,12 @@ constructor(props) {
           fetch(url,{method:"POST",headers:{},body:formData}).then(response => response.json())
           .then(data => {     
              this.setState({returnData:data['JustInsertRecord']})   
-             alert((data['JustInsertRecord'].keys('AssetInfo').length))
-  
-             this.setState({dataSource:this.state.dataSource.cloneWithRows(data['JustInsertRecord'])}) 
+             alert(data['JustInsertRecord'].length)
+              for (var i = 0 ; i < data['JustInsertRecord'].length ; i++){
+                 dataBlob[i] = data['JustInsertRecord'][i];
+                 dataBlob[i].color='red';
+              }
+             this.setState({dataSource:this.state.dataSource.cloneWithRows(dataBlob)}) 
           })
           .catch(e => 
           {
@@ -56,10 +66,12 @@ constructor(props) {
 
 //确认箱户关系正确
 confirmConsBoxRelate=  function(rowID,AssetInfo,BoxAssetNo)   {  
-    TextColorSet[rowID]='black';         
-    
+    TextColorSet[rowID]='black';             
     this.setState({TextColorSet1:TextColorSet})
-    this.setState({dataSource:this.state.dataSource.cloneWithRows(this.state.returnData)}) 
+    dataBlob[rowID].color='black'
+    alert(dataBlob[rowID].color)
+    this.setState({dataSource:this.state.dataSource.cloneWithRows(dataBlob)}) 
+    
     let formData=new FormData();             
     formData.append("AssetInfo",AssetInfo);  
     formData.append("BoxAssetNo",BoxAssetNo);  
@@ -84,17 +96,18 @@ confirmConsBoxRelate=  function(rowID,AssetInfo,BoxAssetNo)   {
       <Text>表箱信息：</Text>
       <TextInput
           style={{height: 40,width:200, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(text) =>   this.setState({boxTpis:text})  }
+          onChangeText={(text) => this.setState({boxTpis:text})  }
           />
       <Text>箱户关系核对</Text>
       <ListView
           dataSource={this.state.dataSource}
           renderRow={(rowData,sectionID,rowID) =>             
             <View>
-              <Text style={{color:this.state.TextColorSet1[rowID]}} > 
+              <Text style={{color:dataBlob[rowID]["color"]}} > 
+                  颜色:{dataBlob[rowID]["color"]}{'\n'}
+                  序号:{rowID+1}{'\n'}
                   表号:{rowData.AssetInfo}{'\n'}
-                  地址:{rowData.elecAddr}{'\n'}   
-                  {this.state.TextColorSet1[rowID]}{'\n'}  
+                  地址:{rowData.elecAddr}{'\n'}    
               </Text>
               <Button
                   style={{width:200}}
