@@ -13,6 +13,11 @@ import {
 } from 'react-native';
 import boxConsRelate from './boxConsRelate';
 
+ var  BoxConsRelateConfirm=[], 
+      AssetArray=[], 
+      elecAddrArray=[];
+ 
+
 //改进：上传后自动清空输入的设备信息
 //获取GPS时没权限？信号不好半天获取不到时会不会用了上个的经纬度或者用0？
 
@@ -41,7 +46,7 @@ function getNowFormatDate() {
 export default class UploadGps extends Component {
  constructor(props) {
  super(props);
- //var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+ 
  this.state = {
       selectedTab:'UploadGps',
       AssetInfo:"",
@@ -60,21 +65,48 @@ export default class UploadGps extends Component {
       addrRelateCount:"",
       boxAssetNo:"",
       InsertSerial:0,
-      //JustInsertRecord:[""],
-      //dataSource: ds.cloneWithRows(['row 1', 'row 2']),
+      AssetSerial:"",  //用于显示、核对箱户关系
+      currentComfirmIndex:0,
+
     };
  }
 
-boxConsRelateCheck= () =>{
-  const { navigator } = this.props;
-  navigator.replace({
-      name: 'boxConsRelate',
-      component: boxConsRelate,
-      params: {
-        boxAssetNo:this.state.boxAssetNo,
-        InsertSerial:this.state.InsertSerial,
-      }});
-}
+// boxConsRelateCheck= () =>{
+//   const { navigator } = this.props;
+//   navigator.replace({
+//       name: 'boxConsRelate',
+//       component: boxConsRelate,
+//       params: {
+//         boxAssetNo:this.state.boxAssetNo,
+//         InsertSerial:this.state.InsertSerial,
+//       }});
+// }
+
+//表计在这个表箱里
+confirmOk= () =>{
+    let tmpText=''  
+    BoxConsRelateConfirm[this.state.currentComfirmIndex]="在这个表箱里面";
+    for (var i = 0 ; i < this.state.JustInsertRecord.length ; i++){
+              // this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
+            tmpText=tmpText+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'
+          }
+    this.setState({AssetSerial:tmpText})
+    this.setState({currentComfirmIndex:this.state.currentComfirmIndex+1})
+ }
+
+//表计不在这个表箱
+confirmNo =() =>{
+    let tmpText=''  
+    BoxConsRelateConfirm[this.state.currentComfirmIndex]="不属于该表箱";
+    for (var i = 0 ; i < this.state.JustInsertRecord.length ; i++){
+              // this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
+            tmpText=tmpText+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'
+          }
+    this.setState({AssetSerial:tmpText})
+    this.setState({currentComfirmIndex:this.state.currentComfirmIndex+1})
+ }
+
+
 
 
  GetAndUploadGps= () => {
@@ -97,12 +129,22 @@ boxConsRelateCheck= () =>{
             this.setState({uploadResult:data['uploadResult']})
             this.setState({currentAddr:data['addr']})
             this.setState({currentTgName:data['currentTgName']})  
-            //this.setState({JustInsertRecord:data['JustInsertRecord']}) 
             this.setState({boxAssetNo:data['boxAssetNo']}) 
             this.setState({InsertSerial:data['InsertSerial']}) 
+            this.setState({JustInsertRecord:data['JustInsertRecord']})     
+            //获取刚刚插入的记录（用于核对箱户关系）     
+            this.setState({AssetSerial:""})  
+            this.setState({currentComfirmIndex:0})   
+            BoxConsRelateConfirm=[]; 
+            AssetArray=[];
+            elecAddrArray=[]
+            for (var i = 0 ; i < data['JustInsertRecord'].length ; i++){
+                 BoxConsRelateConfirm[i]="未确认"
+                 AssetArray[i]=data['JustInsertRecord'][i]['AssetInfo']
+                 elecAddrArray[i]=data['JustInsertRecord'][i]['elecAddr']
+                 this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
+              }
             
-            //this.setState({dataSource:this.state.dataSource.cloneWithRows(this.state.JustInsertRecord)})  
-                      
           })
           .catch(e => this.setState({uploadResult:e}));                     
 
@@ -162,22 +204,27 @@ boxConsRelateCheck= () =>{
         上传的经纬度为：{this.state.Currentlatitude},{this.state.Currentlongitude}{'\n'}
         你在“ {this.state.currentAddr} ”附近{'\n'}
         所在台区为：{this.state.currentTgName}{'\n'}
-        当前表箱号:{this.state.boxAssetNo}</Text>
+        当前表箱号:{this.state.boxAssetNo}{'\n'}
+        不对，电能表所在表箱号应该是：</Text>
+        <TextInput
+        style={{height: 40,width:200, borderColor: 'gray', borderWidth: 1}}
+       // onChangeText={(text) =>   this.setState({AssetInfo:text})  }
+         />
+         <Text style={styles.textStyle}>  {AssetArray[this.state.currentComfirmIndex]} </Text>
          <Button
-        onPress={this.boxConsRelateCheck}
-        title="表箱信息收集，箱户关系核对请点击"
+        onPress={this.confirmOk}
+        title="在表箱里"
         color="#841584"
         accessibilityLabel=""
         />
-        <Button
-        onPress={this.boxConsRelateCheck}
-        title="电能表信息收集请点击"
+         <Button
+        onPress={this.confirmNo}
+        title="不在这个表箱里面"
         color="#841584"
         accessibilityLabel=""
         />
-{/*<ListView
-          dataSource={this.state.dataSource}
-          renderRow={(rowData) => <Text>{rowData.AssetInfo}</Text>} />*/}
+        <Text style={styles.textStyle}>箱户对应关系：{'\n'}{this.state.AssetSerial}{'\n'}</Text>
+       
  </ScrollView>
       </View>
       

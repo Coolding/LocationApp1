@@ -25,14 +25,26 @@ var dataBlob=[]
 export default class boxConsRelate extends Component {
 constructor(props) {
     super(props);
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    var ds = new ListView.DataSource({rowHasChanged:   (r1, r2) => {
+                if (r1 !== r2) {
+                    //alert("不相等=");
+                    console.log(r1);
+                    console.log(r2);
+                } else {
+                    console.log("相等=");
+                    console.log(r1);
+                    console.log(r2);
+                }
+                return r1 !== r2;
+            }});
     this.state = {
         boxAssetNo:"",
         InsertSerial:"",
         dataSource: ds.cloneWithRows(['row 1', 'row 2']),
         boxTpis:"",
         returnData:"",
-        TextColorSet1: TextColorSet
+        TextColorSet1: TextColorSet,
+        AssetSerial:"",
 
     };
   }
@@ -49,10 +61,14 @@ constructor(props) {
           fetch(url,{method:"POST",headers:{},body:formData}).then(response => response.json())
           .then(data => {     
              this.setState({returnData:data['JustInsertRecord']})   
-             alert(data['JustInsertRecord'].length)
+             //alert(data['JustInsertRecord'].length)
+             this.setState({AssetSerial:''})   
+             
               for (var i = 0 ; i < data['JustInsertRecord'].length ; i++){
                  dataBlob[i] = data['JustInsertRecord'][i];
                  dataBlob[i].color='red';
+                 this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+data['JustInsertRecord'][i]['AssetInfo']+'  '+data['JustInsertRecord'][i]['elecAddr']+'\n'}) 
+                 //alert(this.state.AssetSerial) 
               }
              this.setState({dataSource:this.state.dataSource.cloneWithRows(dataBlob)}) 
           })
@@ -70,7 +86,7 @@ confirmConsBoxRelate=  function(rowID,AssetInfo,BoxAssetNo)   {
     this.setState({TextColorSet1:TextColorSet})
     dataBlob[rowID].color='black'
     alert(dataBlob[rowID].color)
-    this.setState({dataSource:this.state.dataSource.cloneWithRows(dataBlob)}) 
+    //this.setState({dataSource:this.state.dataSource.cloneWithRows(dataBlob)}) 
     
     let formData=new FormData();             
     formData.append("AssetInfo",AssetInfo);  
@@ -99,25 +115,7 @@ confirmConsBoxRelate=  function(rowID,AssetInfo,BoxAssetNo)   {
           onChangeText={(text) => this.setState({boxTpis:text})  }
           />
       <Text>箱户关系核对</Text>
-      <ListView
-          dataSource={this.state.dataSource}
-          renderRow={(rowData,sectionID,rowID) =>             
-            <View>
-              <Text style={{color:dataBlob[rowID]["color"]}} > 
-                  颜色:{dataBlob[rowID]["color"]}{'\n'}
-                  序号:{rowID+1}{'\n'}
-                  表号:{rowData.AssetInfo}{'\n'}
-                  地址:{rowData.elecAddr}{'\n'}    
-              </Text>
-              <Button
-                  style={{width:200}}
-                  onPress={()=>this.confirmConsBoxRelate(rowID,rowData.AssetInfo,this.state.boxAssetNo)}
-                  title="确认"
-                  color="#00FF00"
-                /> 
-            </View>       
-            }           
-      />
+     <Text>电表号为:{'\n'}{this.state.AssetSerial}</Text>
       </ScrollView> 
       </View>
     );

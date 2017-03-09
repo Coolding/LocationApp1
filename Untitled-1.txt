@@ -1,0 +1,19 @@
+    // <ListView
+      //     dataSource={this.state.dataSource}
+      //     renderRow={(rowData,sectionID,rowID) =>             
+      //       <View>
+      //         <Text style={{color:dataBlob[rowID]["color"]}} > 
+      //             颜色:{dataBlob[rowID]["color"]}{'\n'}
+      //             序号:{rowID+1}{'\n'}
+      //             表号:{rowData.AssetInfo}{'\n'}
+      //             地址:{rowData.elecAddr}{'\n'}    
+      //         </Text>
+      //         <Button
+      //             style={{width:200}}
+      //             onPress={()=>this.confirmConsBoxRelate(rowID,rowData.AssetInfo,this.state.boxAssetNo)}
+      //             title="确认"
+      //             color="#00FF00"
+      //           /> 
+      //       </View>       
+      //       }           
+      // />
