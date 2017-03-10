@@ -67,7 +67,8 @@ export default class UploadGps extends Component {
       InsertSerial:0,
       AssetSerial:"",  //用于显示、核对箱户关系
       currentComfirmIndex:0,
-
+      factBoxAssetNo:'',  //现场实际的表箱号
+      boxDisable:false,
     };
  }
 
@@ -90,8 +91,21 @@ confirmOk= () =>{
               // this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
             tmpText=tmpText+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'
           }
+
+   
+    let formData=new FormData();             
+    formData.append("AssetInfo",this.state.JustInsertRecord[this.state.currentComfirmIndex]['AssetInfo']);  
+    formData.append("BoxAssetNo",this.state.JustInsertRecord[this.state.currentComfirmIndex]['boxAssetNo']);  
+    formData.append("confirmContent","在这个表箱里")
+    let url="http://1.loactionapp.applinzi.com/confirmConsBoxRelate";
+    fetch(url,{method:"POST",headers:{},body:formData}).then(response => response)
+    .then(data => console.log(data))
+   .catch(e => console.log("Oops, error", e))
+
     this.setState({AssetSerial:tmpText})
     this.setState({currentComfirmIndex:this.state.currentComfirmIndex+1})
+    
+
  }
 
 //表计不在这个表箱
@@ -102,19 +116,43 @@ confirmNo =() =>{
               // this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
             tmpText=tmpText+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'
           }
+
+    let formData=new FormData();             
+    formData.append("AssetInfo",this.state.JustInsertRecord[this.state.currentComfirmIndex]['AssetInfo']);  
+    formData.append("BoxAssetNo",this.state.JustInsertRecord[this.state.currentComfirmIndex]['boxAssetNo']);  
+    formData.append("confirmContent","不在这个表箱里")
+    let url="http://1.loactionapp.applinzi.com/confirmConsBoxRelate";
+    fetch(url,{method:"POST",headers:{},body:formData}).then(response => response)
+    .then(data => console.log(data))
+   .catch(e => console.log("Oops, error", e))
+
+
     this.setState({AssetSerial:tmpText})
     this.setState({currentComfirmIndex:this.state.currentComfirmIndex+1})
  }
 
+//所属表箱号不正确，上传现场的表箱号
+confirmBoxAssetNo =() =>{
 
+  let formData=new FormData();             
+    formData.append("AssetInfo",this.state.AssetInfo);  
+    formData.append("BoxAssetNo",this.state.factBoxAssetNo);  
+    formData.append("confirmContent","在这个表箱里")
+    let url="http://1.loactionapp.applinzi.com/confirmConsBoxRelate";
+    fetch(url,{method:"POST",headers:{},body:formData}).then(response => response)
+    .then(data => alert("上传表箱号成功"))
+   .catch(e => console.log("Oops, error", e))
+}
 
 
  GetAndUploadGps= () => {
    this.setState({relateCount:0,assetInfo:0,currentAddr:"",currentTgName:""}); 
+   this.setState({boxDisable:true})
     navigator.geolocation.getCurrentPosition(
       (initialPosition) => {
           this.setState({Currentlatitude:initialPosition.coords.latitude})
           this.setState({Currentlongitude:initialPosition.coords.longitude})
+          
           //上传的操作要放在这个获取gps的回调函数里面，才能保证获取gps成功后才上传。如果信号不好获取不到怎么办？该函数有超时回调函数（？？）
           let formData=new FormData();                 
           formData.append("longitude",this.state.Currentlongitude);
@@ -132,6 +170,7 @@ confirmNo =() =>{
             this.setState({boxAssetNo:data['boxAssetNo']}) 
             this.setState({InsertSerial:data['InsertSerial']}) 
             this.setState({JustInsertRecord:data['JustInsertRecord']})     
+            this.setState({boxDisable:false})
             //获取刚刚插入的记录（用于核对箱户关系）     
             this.setState({AssetSerial:""})  
             this.setState({currentComfirmIndex:0})   
@@ -193,6 +232,7 @@ confirmNo =() =>{
         onPress={this.GetAndUploadGps}
         title="上传"
         color="#841584"
+        disabled={this.state.boxDisable}
         accessibilityLabel="Learn more about this purple button"
     />
     
@@ -203,13 +243,22 @@ confirmNo =() =>{
         当前地址关联设备数：{this.state.addrRelateCount}{'\n'} 
         上传的经纬度为：{this.state.Currentlatitude},{this.state.Currentlongitude}{'\n'}
         你在“ {this.state.currentAddr} ”附近{'\n'}
-        所在台区为：{this.state.currentTgName}{'\n'}
-        当前表箱号:{this.state.boxAssetNo}{'\n'}
-        不对，电能表所在表箱号应该是：</Text>
+        所在台区为：{this.state.currentTgName}{'\n'}</Text>
+
+ <Text style={styles.textStyle}>
+        当前表箱号:{this.state.boxAssetNo}， 如果不正确，请在下框内输入现场实际所属表箱号：{'\n'}</Text>
         <TextInput
         style={{height: 40,width:200, borderColor: 'gray', borderWidth: 1}}
-       // onChangeText={(text) =>   this.setState({AssetInfo:text})  }
+         onChangeText={(text) =>   this.setState({factBoxAssetNo:text})  }
          />
+         <Button
+        onPress={this.confirmBoxAssetNo}
+        title="确认表箱号"
+        color="#841584"
+        accessibilityLabel=""
+        />
+
+
          <Text style={styles.textStyle}>  {AssetArray[this.state.currentComfirmIndex]} </Text>
          <Button
         onPress={this.confirmOk}
