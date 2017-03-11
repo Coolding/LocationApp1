@@ -20,7 +20,7 @@ import UploadGps from './UploadGps';
 import Home from './Home';
 import ScanUpload from './ScanUpload';
 import ScanUploadResult from './ScanUploadResult';
-import Map from './map';
+import Search from './Search';
 import Storage from 'react-native-storage';
 import { AsyncStorage } from 'react-native';
 
@@ -126,7 +126,16 @@ export default class LoactionApp1 extends Component {
             renderSelectedIcon={() => <Image source={require('./assets/1.jpg')} style={styles.iconStyle}/>}
             badgeText=""
             onPress={() => this.setState({ selectedTab: 'map' })}>
-            <Map {...this.props}/>
+            
+            <Navigator
+              initialRoute={{ name: 'Search', component: Search }}
+              configureScene={(route) => {
+                return Navigator.SceneConfigs.VerticalDownSwipeJump;
+              }}
+              renderScene={(route, navigator) => {
+                let Component = route.component;
+                return <Component {...route.params} navigator={navigator} />
+              }} />   
             </TabNavigator.Item>
           </TabNavigator>
       </View>
