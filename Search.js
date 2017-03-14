@@ -10,6 +10,8 @@ import {
   Button,
 } from 'react-native'; 
 import SearchResult from './SearchResult'; 
+import ScanSearch from './ScanSearch'; 
+
   
 const {width, height} = Dimensions.get('window');  
   
@@ -19,7 +21,6 @@ export default class Search extends Component {
   
   constructor(props) {  
     super(props); 
-
      this.state = {
      toSearchAssetNo:""
     }; 
@@ -39,6 +40,15 @@ export default class Search extends Component {
         }});
  }
 
+//跳转到扫描（电能表二维码）批量定位页面
+ gotoScanSearch=()=>{
+     const { navigator } = this.props;
+     navigator.replace({
+        name: 'ScanSearch',
+        component: ScanSearch,
+        });
+ }
+
   render() {  
     return (  
       <View style={styles.container}>  
@@ -53,7 +63,13 @@ export default class Search extends Component {
         color="#841584"
         accessibilityLabel=""
         />
-
+        <Text> {'\n'}</Text>
+         <Button
+        onPress={this.gotoScanSearch}
+        title="扫描条码批量定位"
+        color="#FF00FF"
+        accessibilityLabel=""
+        />
       </View>
     )
   }  
