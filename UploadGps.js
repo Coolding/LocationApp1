@@ -13,6 +13,9 @@ import {
 } from 'react-native';
 import boxConsRelate from './boxConsRelate';
 
+var Dimensions = require('Dimensions');
+var w=Dimensions.get('window').width;
+var h=Dimensions.get('window').height;  //获得屏幕的宽高
  var  BoxConsRelateConfirm=[], 
       AssetArray=[], 
       elecAddrArray=[];
@@ -221,21 +224,26 @@ confirmBoxAssetNo =() =>{
       
       <View  style={styles.container} >    
       <ScrollView> 
-        <Text style={styles.textStyle}>LastGPS:{this.state.Lastlatitude},{this.state.Lastlongitude}{'\n'}
-         CurrentGPS:{this.state.Currentlatitude},{this.state.Currentlongitude}</Text>
+        {/*<Text style={styles.textStyle}>LastGPS:{this.state.Lastlatitude},{this.state.Lastlongitude}{'\n'}
+         CurrentGPS:{this.state.Currentlatitude},{this.state.Currentlongitude}</Text>*/}
+         <View  style={{height:40,backgroundColor:'#46A3FF',justifyContent: 'center',}} ><Text style={{fontSize:20,textAlign:'center'}}>上传设备GPS</Text></View>
+          <View style={styles.textViewStyle}>
         <Text style={styles.textStyle}>请输入资产编码或者设备编号、设备名称等关键信息,然后点击上传按钮</Text>
+        </View>
         <TextInput
-        style={{height: 40,width:200, borderColor: 'gray', borderWidth: 1}}
+        style={{marginLeft:w*0.1,marginBottom:10,height:40,width:w*0.8, borderColor: 'gray', borderWidth: 1}}
         onChangeText={(text) =>   this.setState({AssetInfo:text})  }
          />
+        <View style={styles.BottonStyle}>
       <Button
         onPress={this.GetAndUploadGps}
         title="上传"
-        color="#841584"
+        color="#ff9a00"
         disabled={this.state.boxDisable}
         accessibilityLabel="Learn more about this purple button"
     />
-    
+    </View>
+      <View style={styles.textViewStyle}>
     <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}{'\n'}
         这是系统收到的第{this.state.InsertSerial}个GPS信息{'\n'}
         上传的设备信息为：{this.state.AssetInfo}{'\n'}
@@ -244,34 +252,42 @@ confirmBoxAssetNo =() =>{
         上传的经纬度为：{this.state.Currentlatitude},{this.state.Currentlongitude}{'\n'}
         你在“ {this.state.currentAddr} ”附近{'\n'}
         所在台区为：{this.state.currentTgName}{'\n'}</Text>
-
- <Text style={styles.textStyle}>
+   </View>
+     <View style={styles.textViewStyle}>
+     <Text style={styles.textStyle}>
         当前表箱号:{this.state.boxAssetNo}， 如果不正确，请在下框内输入现场实际所属表箱号：{'\n'}</Text>
+      </View>
         <TextInput
-        style={{height: 40,width:200, borderColor: 'gray', borderWidth: 1}}
+        style={{marginLeft:w*0.1,marginBottom:10,height:40,width:w*0.8, borderWidth: 1}}
          onChangeText={(text) =>   this.setState({factBoxAssetNo:text})  }
          />
+
+          <View style={styles.BottonStyle}>
          <Button
         onPress={this.confirmBoxAssetNo}
-        title="确认表箱号"
-        color="#841584"
+        title="修改表箱号"
+        color="#ff9a00"
         accessibilityLabel=""
         />
-
+         </View>
 
          <Text style={styles.textStyle}>  {AssetArray[this.state.currentComfirmIndex]} </Text>
+          <View style={styles.BottonStyle}>
          <Button
         onPress={this.confirmOk}
         title="在表箱里"
-        color="#841584"
+        color="#ff9a00"
         accessibilityLabel=""
         />
+       </View>
+         <View style={styles.BottonStyle}>
          <Button
         onPress={this.confirmNo}
         title="不在这个表箱里面"
-        color="#841584"
+        color="#ff9a00"
         accessibilityLabel=""
         />
+        </View>
         <Text style={styles.textStyle}>箱户对应关系：{'\n'}{this.state.AssetSerial}{'\n'}</Text>
        
  </ScrollView>
@@ -288,17 +304,36 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#ffffd0',
     marginBottom: 0,
+  },
+  textViewStyle:{
+    backgroundColor:"white",
+    marginLeft:w*0.1,
+    marginRight:w*0.1,
+    marginBottom:10,
+    borderWidth:0,
+    borderRadius:5,
   },
   textStyle:{
     fontSize: 15,
     textAlign: 'left',
-    margin: 2,
+    marginLeft: 10,
+    marginRight: 10,
     //padding:10,
-    borderWidth:1,
-  	borderRadius:5,
-  },
+    //borderWidth:1,
+  	//borderRadius:5,
+    //borderColor:"white"
+},
+BottonStyle:{
+  marginLeft:w*0.1,
+  marginBottom:7,
+  height:30,
+  width:w*0.8,
+  backgroundColor:"#ff9a00",
+  borderColor:"#ff9a00",
+  borderWidth:1,	
+  borderRadius:5,},
   addrStyle:{
      color:'red',
   }
