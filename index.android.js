@@ -75,9 +75,9 @@ export default class LoactionApp1 extends Component {
             <TabNavigator.Item
             selected={this.state.selectedTab === 'home'}
             title="Home"
-            renderIcon={() => <Image source={require('./assets/1.jpg')} style={styles.iconStyle}/>}
-            renderSelectedIcon={() => <Image source={require('./assets/1.jpg')} style={styles.iconStyle}/>}
-            badgeText="tips"
+            renderIcon={() => <Image source={require('./assets/1.png')} style={styles.iconStyle}/>}
+            renderSelectedIcon={() => <Image source={require('./assets/12.png')} style={styles.iconStyle}/>}
+            badgeText=""
             onPress={() => this.setState({ selectedTab: 'home' })}>
             
             <Home {...this.props}/>
@@ -86,8 +86,8 @@ export default class LoactionApp1 extends Component {
             <TabNavigator.Item                   //手动输入设备信息，上传GPS定位信息
             selected={this.state.selectedTab === 'UploadGps'}
             title="UploadGps"
-            renderIcon={() => <Image source={require('./assets/1.jpg')} style={styles.iconStyle}/>}
-            renderSelectedIcon={() => <Image source={require('./assets/1.jpg')}  style={styles.iconStyle}/>}
+            renderIcon={() => <Image source={require('./assets/2.png')} style={styles.iconStyle}/>}
+            renderSelectedIcon={() => <Image source={require('./assets/22.png')}  style={styles.iconStyle}/>}
             onPress={() => this.setState({ selectedTab: 'UploadGps' })}>
 
             <Navigator
@@ -104,8 +104,8 @@ export default class LoactionApp1 extends Component {
             <TabNavigator.Item                       //扫描设备条码，上传GPS定位信息
             selected={this.state.selectedTab === 'ScanUpload'}
             title="ScanUpload"
-            renderIcon={() => <Image source={require('./assets/1.jpg')} style={styles.iconStyle}/>}
-            renderSelectedIcon={() => <Image source={require('./assets/1.jpg')}  style={styles.iconStyle}/>}
+            renderIcon={() => <Image source={require('./assets/3.png')} style={styles.iconStyle}/>}
+            renderSelectedIcon={() => <Image source={require('./assets/32.png')}  style={styles.iconStyle}/>}
             onPress={() => this.setState({ selectedTab: 'ScanUpload' })}>
             
             <Navigator
@@ -122,8 +122,8 @@ export default class LoactionApp1 extends Component {
             <TabNavigator.Item
             selected={this.state.selectedTab === 'map'}
             title="map"
-            renderIcon={() => <Image source={require('./assets/1.jpg')} style={styles.iconStyle}/>}
-            renderSelectedIcon={() => <Image source={require('./assets/1.jpg')} style={styles.iconStyle}/>}
+            renderIcon={() => <Image source={require('./assets/4.png')} style={styles.iconStyle}/>}
+            renderSelectedIcon={() => <Image source={require('./assets/42.png')} style={styles.iconStyle}/>}
             badgeText=""
             onPress={() => this.setState({ selectedTab: 'map' })}>
             
