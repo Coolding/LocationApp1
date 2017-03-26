@@ -105,20 +105,24 @@ export default class Home extends Component {
     return (
       <View Style={styles.container} >
       <View  style={{height:40,backgroundColor:'#46A3FF',justifyContent: 'center',}} ><Text style={{fontSize:20,textAlign:'center'}}>首页</Text></View>
-      <View style={{width:w, marginBottom:10,}}><Image source={require('./assets/banner.png')} style={{height:h/6,width:w,resizeMode:"stretch"}}/></View>
+      <View style={{width:w, marginBottom:3,}}><Image source={require('./assets/banner.png')} style={{height:h/6,width:w,resizeMode:"stretch"}}/></View>
       <View  style={styles.sbu_view}>
            
-        <TouchableOpacity style={{marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}>
+        <TouchableOpacity style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}>
             <Image source={require('./assets/home1.png')} style={styles.icon_img} />
             <Text>上传历史</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}>
+        <TouchableOpacity style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}>
             <Image source={require('./assets/home2.png')} style={styles.icon_img} />
             <Text>最近查询</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}>
+        <TouchableOpacity style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}>
             <Image source={require('./assets/home3.png')} style={styles.icon_img} />
             <Text>附近未上传</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}>
+            <Image source={require('./assets/home1.png')} style={styles.icon_img} />
+            <Text>上传排名</Text>
         </TouchableOpacity>
       
      </View> 
@@ -147,7 +151,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#f4f6f6',
     //marginBottom: 100,
   },
   textStyle:{
@@ -160,13 +164,15 @@ const styles = StyleSheet.create({
     resizeMode:Image.resizeMode.contain,
 },
 sbu_view:{
-    height:104,
+    height:70,
     marginLeft: 1,
     marginRight:1,
     borderWidth:1,
     borderRadius:5,
+    borderColor:"white",
     marginBottom:10,
     flexDirection:'row',
+    //backgroundColor: 'white',
 },
 sbu_borderRight:{
     borderColor:'#fff',

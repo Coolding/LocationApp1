@@ -6,6 +6,7 @@ import {
   Button,
   View,
   TouchableOpacity,
+  TouchableHighlight,
   Image,
   Picker,
   ScrollView,
@@ -16,9 +17,10 @@ import boxConsRelate from './boxConsRelate';
 var Dimensions = require('Dimensions');
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
- var  BoxConsRelateConfirm=[], 
-      AssetArray=[], 
-      elecAddrArray=[];
+// var  BoxConsRelateConfirm=[], 
+//       AssetArray=[], 
+//       elecAddrArray=[];
+var  BoxConsRelateConfirm=[]; 
  
 
 //改进：上传后自动清空输入的设备信息
@@ -178,13 +180,15 @@ confirmBoxAssetNo =() =>{
             this.setState({AssetSerial:""})  
             this.setState({currentComfirmIndex:0})   
             BoxConsRelateConfirm=[]; 
-            AssetArray=[];
-            elecAddrArray=[]
+            //AssetArray=[];
+            //elecAddrArray=[]
             for (var i = 0 ; i < data['JustInsertRecord'].length ; i++){
-                 BoxConsRelateConfirm[i]="未确认"
-                 AssetArray[i]=data['JustInsertRecord'][i]['AssetInfo']
-                 elecAddrArray[i]=data['JustInsertRecord'][i]['elecAddr']
-                 this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
+                 BoxConsRelateConfirm[i]={}
+                 BoxConsRelateConfirm[i]['Confirm']="未确认"
+                 BoxConsRelateConfirm[i]['AssetNo']=data['JustInsertRecord'][i]['AssetInfo']
+                 BoxConsRelateConfirm[i]['elecAddr']=data['JustInsertRecord'][i]['elecAddr']
+                 BoxConsRelateConfirm[i]['id']=i
+                 //this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
               }
             
           })
@@ -227,50 +231,94 @@ confirmBoxAssetNo =() =>{
         {/*<Text style={styles.textStyle}>LastGPS:{this.state.Lastlatitude},{this.state.Lastlongitude}{'\n'}
          CurrentGPS:{this.state.Currentlatitude},{this.state.Currentlongitude}</Text>*/}
          <View  style={{height:40,backgroundColor:'#46A3FF',justifyContent: 'center',}} ><Text style={{fontSize:20,textAlign:'center'}}>上传设备GPS</Text></View>
-          <View style={styles.textViewStyle}>
+          <View style={{marginTop:10}}>
         <Text style={styles.textStyle}>请输入资产编码或者设备编号、设备名称等关键信息,然后点击上传按钮</Text>
         </View>
-        <TextInput
-        style={{marginLeft:w*0.1,marginBottom:10,height:40,width:w*0.8, borderColor: 'gray', borderWidth: 1}}
-        onChangeText={(text) =>   this.setState({AssetInfo:text})  }
-         />
-        <View style={styles.BottonStyle}>
-      <Button
-        onPress={this.GetAndUploadGps}
-        title="上传"
-        color="#ff9a00"
-        disabled={this.state.boxDisable}
-        accessibilityLabel="Learn more about this purple button"
-    />
+        
+        <View  style={{height:40,flexDirection: 'row',alignItems:'flex-start',marginBottom:10}} >
+
+            <TextInput
+            style={{marginLeft:w*0.02,marginBottom:10,height:40,width:w*0.75, borderColor: 'gray', borderWidth:1,borderRadius:5}}
+            underlineColorAndroid="transparent"
+            placeholder="请输入表号，表箱号，户号或者设备名称"
+            onChangeText={(text) =>   this.setState({AssetInfo:text})  }
+              />
+            <View style={{marginLeft:w*0.02,marginBottom:10,height:45,width:w*0.15}}>
+            <Button    
+                sytle={styles.BottonStyle}              
+                onPress={this.GetAndUploadGps}
+                title="上传"                
+                color="#ff9a00"
+                disabled={this.state.boxDisable}
+                accessibilityLabel="Learn more about this purple button"
+                />
+            </View>
+       </View>
+
+    <View style={styles.textViewStyle}>
+        <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}{'\n'}</Text>
     </View>
-      <View style={styles.textViewStyle}>
-    <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}{'\n'}
-        这是系统收到的第{this.state.InsertSerial}个GPS信息{'\n'}
-        上传的设备信息为：{this.state.AssetInfo}{'\n'}
-        当前表箱关联设备数：{this.state.boxRelateCount}{'\n'}
-        当前地址关联设备数：{this.state.addrRelateCount}{'\n'} 
-        上传的经纬度为：{this.state.Currentlatitude},{this.state.Currentlongitude}{'\n'}
-        你在“ {this.state.currentAddr} ”附近{'\n'}
-        所在台区为：{this.state.currentTgName}{'\n'}</Text>
-   </View>
-     <View style={styles.textViewStyle}>
+    <View style={styles.textViewStyle}>
+        <Text style={styles.textStyle}>这是系统收到的第{this.state.InsertSerial}个GPS信息{'\n'}</Text>
+    </View>
+    <View style={styles.textViewStyle}>
+        <Text style={styles.textStyle}>上传的设备信息为：{this.state.AssetInfo}{'\n'}</Text>
+    </View>
+    <View style={styles.textViewStyle}>
+        <Text style={styles.textStyle}>当前表箱关联设备数：{this.state.boxRelateCount}{'\n'}</Text>
+    </View>
+    <View style={styles.textViewStyle}>
+        <Text style={styles.textStyle}>当前地址关联设备数：{this.state.addrRelateCount}{'\n'}</Text>
+    </View>
+    <View style={styles.textViewStyle}>
+        <Text style={styles.textStyle}>上传的经纬度为：{this.state.Currentlatitude},{this.state.Currentlongitude}{'\n'}</Text>
+    </View>
+    <View style={styles.textViewStyle}>
+        <Text style={styles.textStyle}>你在“ {this.state.currentAddr} ”附近{'\n'}</Text>
+    </View>
+    <View style={styles.textViewStyle}>
+        <Text style={styles.textStyle}>所在台区为：{this.state.currentTgName}{'\n'}</Text>
+    </View>
+
+ 
+     <View style={[styles.textViewStyle,{marginTop:10,height:100}]}>
      <Text style={styles.textStyle}>
-        当前表箱号:{this.state.boxAssetNo}， 如果不正确，请在下框内输入现场实际所属表箱号：{'\n'}</Text>
-      </View>
-        <TextInput
-        style={{marginLeft:w*0.1,marginBottom:10,height:40,width:w*0.8, borderWidth: 1}}
-         onChangeText={(text) =>   this.setState({factBoxAssetNo:text})  }
-         />
+        系统关联的表箱号是:{this.state.boxAssetNo}， 如果与现场不符，请输入现场的表箱号：{'\n'}</Text>
+    
+      <View  style={{height:40,flexDirection: 'row',alignItems:'flex-start',marginBottom:10}} >
+            <TextInput
+            style={{marginLeft:w*0.02,marginBottom:10,height:40,width:w*0.75, borderColor: 'gray', borderWidth:1,borderRadius:5}}
+                underlineColorAndroid="transparent"
+                placeholder ="请输入正确的表箱号"
+            onChangeText={(text) =>   this.setState({factBoxAssetNo:text})  }
+            />
 
-          <View style={styles.BottonStyle}>
-         <Button
-        onPress={this.confirmBoxAssetNo}
-        title="修改表箱号"
-        color="#ff9a00"
-        accessibilityLabel=""
-        />
-         </View>
+            <View style={{marginLeft:w*0.02,marginBottom:10,height:45,width:w*0.15}}>
+                <Button
+                onPress={this.confirmBoxAssetNo}
+                title="确认"
+                color="#ff9a00"
+                accessibilityLabel=""
+                />
+            </View>
+    </View>
+     </View>
 
+
+       <View>
+        {  
+            BoxConsRelateConfirm.map( function(RelateConfirm){
+               return (
+                 <View>
+                 <Text key={RelateConfirm.id}>表号：{RelateConfirm.AssetNo} 地址：{RelateConfirm.elecAddr}  {RelateConfirm.Confirm}</Text>
+                 </View>
+               )
+               
+               } )
+         
+}
+        </View>
+{/*
          <Text style={styles.textStyle}>  {AssetArray[this.state.currentComfirmIndex]} </Text>
           <View style={styles.BottonStyle}>
          <Button
@@ -288,7 +336,7 @@ confirmBoxAssetNo =() =>{
         accessibilityLabel=""
         />
         </View>
-        <Text style={styles.textStyle}>箱户对应关系：{'\n'}{this.state.AssetSerial}{'\n'}</Text>
+        <Text style={styles.textStyle}>箱户对应关系：{'\n'}{this.state.AssetSerial}{'\n'}</Text>*/}
        
  </ScrollView>
       </View>
@@ -304,14 +352,19 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#ffffd0',
+    backgroundColor: '#f4f6f6',
     marginBottom: 0,
   },
   textViewStyle:{
+    flexDirection: 'column',
+    justifyContent: 'center',
+    //alignItems: 'center',
     backgroundColor:"white",
-    marginLeft:w*0.1,
-    marginRight:w*0.1,
-    marginBottom:10,
+    marginLeft:w*0.01,
+    marginRight:w*0.01,
+    marginBottom:1,
+    marginTop:0,
+    height:40,
     borderWidth:0,
     borderRadius:5,
   },
@@ -326,14 +379,18 @@ const styles = StyleSheet.create({
     //borderColor:"white"
 },
 BottonStyle:{
-  marginLeft:w*0.1,
+  justifyContent: 'center',
+  alignItems:'stretch',
+  marginLeft:w*0.25,
+  marginRight:w*0.25,
   marginBottom:7,
   height:30,
-  width:w*0.8,
+  //width:w*0.8,
   backgroundColor:"#ff9a00",
   borderColor:"#ff9a00",
   borderWidth:1,	
-  borderRadius:5,},
+  borderRadius:20,},
+
   addrStyle:{
      color:'red',
   }
