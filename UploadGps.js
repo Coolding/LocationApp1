@@ -20,7 +20,7 @@ var h=Dimensions.get('window').height;  //获得屏幕的宽高
 // var  BoxConsRelateConfirm=[], 
 //       AssetArray=[], 
 //       elecAddrArray=[];
-var  BoxConsRelateConfirm=[]; 
+ var  BoxConsRelateConfirm=[];
  
 
 //改进：上传后自动清空输入的设备信息
@@ -74,6 +74,7 @@ export default class UploadGps extends Component {
       currentComfirmIndex:0,
       factBoxAssetNo:'',  //现场实际的表箱号
       boxDisable:false,
+      sBoxConsRelateConfirm:[],
     };
  }
 
@@ -190,6 +191,8 @@ confirmBoxAssetNo =() =>{
                  BoxConsRelateConfirm[i]['id']=i
                  //this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
               }
+              this.setState({sBoxConsRelateConfirm:BoxConsRelateConfirm})  
+              
             
           })
           .catch(e => this.setState({uploadResult:e}));                     
@@ -226,11 +229,11 @@ confirmBoxAssetNo =() =>{
   render() {
     return (
       
-      <View  style={styles.container} >    
+      <View  style={styles.container} >   
+      <View  style={{height:40,width:w,backgroundColor:'#46A3FF',justifyContent: 'center',}} ><Text style={{fontSize:20,textAlign:'center'}}>上传设备GPS</Text></View> 
       <ScrollView> 
         {/*<Text style={styles.textStyle}>LastGPS:{this.state.Lastlatitude},{this.state.Lastlongitude}{'\n'}
          CurrentGPS:{this.state.Currentlatitude},{this.state.Currentlongitude}</Text>*/}
-         <View  style={{height:40,backgroundColor:'#46A3FF',justifyContent: 'center',}} ><Text style={{fontSize:20,textAlign:'center'}}>上传设备GPS</Text></View>
           <View style={{marginTop:10}}>
         <Text style={styles.textStyle}>请输入资产编码或者设备编号、设备名称等关键信息,然后点击上传按钮</Text>
         </View>
@@ -307,13 +310,32 @@ confirmBoxAssetNo =() =>{
 
        <View>
         {  
-            BoxConsRelateConfirm.map( function(RelateConfirm){
+            this.state.sBoxConsRelateConfirm.map( function(RelateConfirm){
                return (
-                 <View>
-                 <Text key={RelateConfirm.id}>表号：{RelateConfirm.AssetNo} 地址：{RelateConfirm.elecAddr}  {RelateConfirm.Confirm}</Text>
+                 <View key={RelateConfirm.id}>
+                      <Text>表号：{RelateConfirm.AssetNo} 地址：{RelateConfirm.elecAddr}  {RelateConfirm.Confirm}</Text>
+                      <View style={{marginBottom:10,height:45,width:w*0.3,flexDirection: 'row', justifyContent: 'flex-end',}}>
+                          <View style={{flex:1,width:w*0.1}}>
+                          <Button                           
+                          onPress={this.confirmOk}
+                          title="在表箱里"
+                          color="#ff9a00"
+                          accessibilityLabel=""
+                          />
+                          </View>
+                          <View style={{marginLeft:5,flex:1,width:w*0.1}}>
+                          <Button
+                           
+                          onPress={this.confirmOk}
+                          title="不在表箱里"
+                          color="#ff9a00"
+                          accessibilityLabel=""
+                          />
+                          </View>
+                      </View>
                  </View>
                )
-               
+               //
                } )
          
 }
