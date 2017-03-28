@@ -188,7 +188,7 @@ confirmBoxAssetNo =() =>{
                  BoxConsRelateConfirm[i]['Confirm']="未确认"
                  BoxConsRelateConfirm[i]['AssetNo']=data['JustInsertRecord'][i]['AssetInfo']
                  BoxConsRelateConfirm[i]['elecAddr']=data['JustInsertRecord'][i]['elecAddr']
-                 BoxConsRelateConfirm[i]['id']=i
+                 BoxConsRelateConfirm[i]['id']=i+1
                  //this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
               }
               this.setState({sBoxConsRelateConfirm:BoxConsRelateConfirm})  
@@ -307,15 +307,17 @@ confirmBoxAssetNo =() =>{
     </View>
      </View>
 
-
+ 
        <View>
         {  
-            this.state.sBoxConsRelateConfirm.map( function(RelateConfirm){
+            
+            this.state.sBoxConsRelateConfirm.map(               
+               (RelateConfirm)=>{              
                return (
-                 <View key={RelateConfirm.id}>
-                      <Text>表号：{RelateConfirm.AssetNo} 地址：{RelateConfirm.elecAddr}  {RelateConfirm.Confirm}</Text>
-                      <View style={{marginBottom:10,height:45,width:w*0.3,flexDirection: 'row', justifyContent: 'flex-end',}}>
-                          <View style={{flex:1,width:w*0.1}}>
+                 <View key={RelateConfirm.id} style={{backgroundColor:"white",marginBottom:2}}>
+                      <Text style={{fontSize: 15,marginBottom:5,}}>({RelateConfirm.id})表号：{RelateConfirm.AssetNo}{'\n'}   地址：{RelateConfirm.elecAddr}  {RelateConfirm.Confirm}</Text>
+                      <View style={{flexDirection:"row",marginBottom:5,height:35,width:w,}}>
+                          <View style={{marginLeft:15,width:w*0.3}}>
                           <Button                           
                           onPress={this.confirmOk}
                           title="在表箱里"
@@ -323,9 +325,8 @@ confirmBoxAssetNo =() =>{
                           accessibilityLabel=""
                           />
                           </View>
-                          <View style={{marginLeft:5,flex:1,width:w*0.1}}>
-                          <Button
-                           
+                          <View style={{marginLeft:50,marginRight:50,width:w*0.3}}>
+                          <Button                           
                           onPress={this.confirmOk}
                           title="不在表箱里"
                           color="#ff9a00"
