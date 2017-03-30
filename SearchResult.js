@@ -43,6 +43,8 @@ export default class SearchResult extends Component {
      url:"http://map.baidu.com/",
      RecordMan:"",
      RecordTime:"",
+     GPSLat:"",
+     GPSLng:""
     }; 
   }  
   
@@ -59,7 +61,7 @@ export default class SearchResult extends Component {
                 addrArray=data;
                 addrCount=data.length+1; 
                 CurrentAddrIndex=0;
-                this.setState({currentAssetNo:addrArray[CurrentAddrIndex]['AssetInfo'],currentElecAddr:addrArray[CurrentAddrIndex]['elecAddr'],currentDataSource:addrArray[CurrentAddrIndex]['数据来源'],RecordMan:addrArray[CurrentAddrIndex]['RecordMan'],RecordTime:addrArray[CurrentAddrIndex]['RecordTime']}) 
+                this.setState({GPSLng:addrArray[CurrentAddrIndex]['BaiduLongitude'],GPSLat:addrArray[CurrentAddrIndex]['BaiduLatitude'],currentAssetNo:addrArray[CurrentAddrIndex]['AssetInfo'],currentElecAddr:addrArray[CurrentAddrIndex]['elecAddr'],currentDataSource:addrArray[CurrentAddrIndex]['数据来源'],RecordMan:addrArray[CurrentAddrIndex]['RecordMan'],RecordTime:addrArray[CurrentAddrIndex]['RecordTime']}) 
                 this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+addrArray[CurrentAddrIndex]['BaiduLatitude']+','+addrArray[CurrentAddrIndex]['BaiduLongitude']+'&mode=driving&region=厦门&output=html'})
             })    //加1是因为处理数据库里面app上传的地址，还有1个根据用电地址反推的定位信息
             .catch(e => console.log("Oops, error", e))
@@ -75,6 +77,8 @@ export default class SearchResult extends Component {
      this.setState({currentDataSource:addrArray[CurrentAddrIndex]['数据来源']}) ;
      this.setState({RecordMan:addrArray[CurrentAddrIndex]['RecordMan']}) ;
      this.setState({RecordTime:addrArray[CurrentAddrIndex]['RecordTime']}) ;
+     this.setState({GPSLng:addrArray[CurrentAddrIndex]['BaiduLongitude']}) ;
+    this.setState({ GPSLat:addrArray[CurrentAddrIndex]['BaiduLatitude']}) ;
      this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+addrArray[CurrentAddrIndex]['BaiduLatitude']+','+addrArray[CurrentAddrIndex]['BaiduLongitude']+'&mode=driving&region=厦门&output=html'})
             
      }  
@@ -89,6 +93,8 @@ export default class SearchResult extends Component {
             this.setState({currentDataSource:"根据用电地址自动生成"}) ;
             this.setState({RecordMan:""});
             this.setState({RecordTime:""});
+            this.setState({GPSLng:""}) ;
+            this.setState({ GPSLat:""}) ;
             //根据用电地址返回百度经纬度（利用百度API）
             let url="http://api.map.baidu.com/geocoder/v2/?address="+addrArray[CurrentAddrIndex-1]['elecAddr']+"&output=json&ak=hAYszgjy50mrlSDBIusNfSc4"
             let lng=0;
@@ -110,6 +116,8 @@ export default class SearchResult extends Component {
             this.setState({currentDataSource:addrArray[CurrentAddrIndex]['数据来源']}) ;
             this.setState({RecordMan:addrArray[CurrentAddrIndex]['RecordMan']}) ;
             this.setState({RecordTime:addrArray[CurrentAddrIndex]['RecordTime']}) ;
+            this.setState({GPSLng:addrArray[CurrentAddrIndex]['BaiduLongitude']}) ;
+            this.setState({ GPSLat:addrArray[CurrentAddrIndex]['BaiduLatitude']}) ;
             this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+addrArray[CurrentAddrIndex]['BaiduLatitude']+','+addrArray[CurrentAddrIndex]['BaiduLongitude']+'&mode=driving&region=厦门&output=html'})
        }
      }     
@@ -129,6 +137,7 @@ export default class SearchResult extends Component {
         数据来源：{this.state.currentDataSource}{'\n'}
         GPS上传人员：{this.state.RecordMan}{'\n'}
         GPS上传时间：{this.state.RecordTime}{'\n'}
+        经纬度：{this.state.GPSLat},{this.state.GPSLng}{'\n'}
       </Text>      
 
       <TouchableOpacity onPress={this.nextAddr}>

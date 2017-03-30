@@ -13,9 +13,11 @@ import SearchResult from './SearchResult';
 import ScanSearch from './ScanSearch'; 
 
   
-const {width, height} = Dimensions.get('window');  
+var w=Dimensions.get('window').width;
+var h=Dimensions.get('window').height;  //获得屏幕的宽高
   
-var url='http://api.map.baidu.com/direction?origin=latlng:34.264642646862,108.95108518068|name:我家&destination=大雁塔&mode=driving&region=西安&output=html'
+var url='http://api.map.baidu.com/direction?origin=latlng:34.264642646862,108.95108518068|name:我家&destination=大雁塔&mode=driving&region=西安&output=html';
+ 
 
 export default class Search extends Component {  
   
@@ -52,34 +54,42 @@ export default class Search extends Component {
   render() {  
     return (  
       <View style={styles.container}>  
-      <Text>请输入你想要定位导航的设备信息（如户号、表号、表箱号等）{'\n'}</Text>
-      <TextInput
-        style={{height: 40,width:200, borderColor: 'gray', borderWidth: 1}}
-        onChangeText={(text) =>   this.setState({toSearchAssetNo:text})  }
-         />
-          <Button
-        onPress={this.ShowMap}
-        title="查找"
-        color="#841584"
-        accessibilityLabel=""
-        />
-        <Text> {'\n'}</Text>
-         <Button
-        onPress={this.gotoScanSearch}
-        title="扫描条码批量定位"
-        color="#FF00FF"
-        accessibilityLabel=""
-        />
-      </View>
+              <View  style={{height:40,width:w,backgroundColor:'#ff9a00',justifyContent: 'center',}} ><Text style={{fontSize:20,textAlign:'center'}}>查找和定位</Text></View> 
+            <View style={{backgroundColor:'white',borderRadius:5,marginBottom:10}}>
+            
+            <View  style={{width:w*0.98,marginTop:10,height:40,flexDirection: 'row',alignItems:'flex-start',marginBottom:10}} >
+                <TextInput
+                style={{marginLeft:w*0.02,marginBottom:10,height:40,width:w*0.75, borderColor: 'gray', borderWidth:1,borderRadius:5}}
+                underlineColorAndroid="transparent"
+                placeholder="输入要查找和导航的表(箱)号，户号等"
+                onChangeText={(text) =>   this.setState({toSearchAssetNo:text})  }
+                  />
+                <View style={{marginLeft:w*0.02,marginBottom:10,height:45,width:w*0.15}}>
+                    <Button    
+                        sytle={styles.BottonStyle}              
+                        onPress={this.ShowMap}
+                        title="查找"                
+                        color="#ff9a00"                        
+                        accessibilityLabel=""
+                        />
+                </View>
+            </View>
+         </View>
+  </View>
+ 
+    
     )
   }  
 }  
   
 const styles = StyleSheet.create({  
   container: {  
-    flex: 1,  
-    backgroundColor: '#f2f2f2',  
-    paddingTop:20,  
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: '#f4f6f6',
+    marginBottom: 0,
   },  
   webView: {
     //backgroundColor: BGWASH,

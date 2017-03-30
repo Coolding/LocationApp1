@@ -90,51 +90,53 @@ export default class UploadGps extends Component {
 // }
 
 //表计在这个表箱里
-confirmOk= () =>{
-    let tmpText=''  
-    BoxConsRelateConfirm[this.state.currentComfirmIndex]="在这个表箱里面";
-    for (var i = 0 ; i < this.state.JustInsertRecord.length ; i++){
-              // this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
-            tmpText=tmpText+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'
-          }
+confirmOk= (i) =>{
+  //   let tmpText=''  
+  //   BoxConsRelateConfirm[this.state.currentComfirmIndex]="在这个表箱里面";
+  //   for (var i = 0 ; i < this.state.JustInsertRecord.length ; i++){
+  //             // this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
+  //           tmpText=tmpText+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'
+  //         }
 
-   
-    let formData=new FormData();             
-    formData.append("AssetInfo",this.state.JustInsertRecord[this.state.currentComfirmIndex]['AssetInfo']);  
-    formData.append("BoxAssetNo",this.state.JustInsertRecord[this.state.currentComfirmIndex]['boxAssetNo']);  
-    formData.append("confirmContent","在这个表箱里")
-    let url="http://1.loactionapp.applinzi.com/confirmConsBoxRelate";
-    fetch(url,{method:"POST",headers:{},body:formData}).then(response => response)
-    .then(data => console.log(data))
-   .catch(e => console.log("Oops, error", e))
+            BoxConsRelateConfirm[i]['Confirm']="在表箱里"
+            this.setState({sBoxConsRelateConfirm:BoxConsRelateConfirm})
 
-    this.setState({AssetSerial:tmpText})
-    this.setState({currentComfirmIndex:this.state.currentComfirmIndex+1})
-    
-
+ 
+            let formData=new FormData();             
+            formData.append("AssetInfo",BoxConsRelateConfirm[i]['AssetNo']);  
+            formData.append("BoxAssetNo",this.state.boxAssetNo);  
+            formData.append("confirmContent","在这个表箱里")
+            let url="http://1.loactionapp.applinzi.com/confirmConsBoxRelate";
+            fetch(url,{method:"POST",headers:{},body:formData}).then(response => response)
+            .then(data => console.log(data))
+          .catch(e => console.log("Oops, error", e))
+ 
  }
 
 //表计不在这个表箱
-confirmNo =() =>{
-    let tmpText=''  
-    BoxConsRelateConfirm[this.state.currentComfirmIndex]="不属于该表箱";
-    for (var i = 0 ; i < this.state.JustInsertRecord.length ; i++){
-              // this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
-            tmpText=tmpText+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'
-          }
+confirmNo =(i) =>{
+  //   let tmpText=''  
+  //   BoxConsRelateConfirm[this.state.currentComfirmIndex]="不属于该表箱";
+  //   for (var i = 0 ; i < this.state.JustInsertRecord.length ; i++){
+  //             // this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
+  //           tmpText=tmpText+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'
+  //         }
 
-    let formData=new FormData();             
-    formData.append("AssetInfo",this.state.JustInsertRecord[this.state.currentComfirmIndex]['AssetInfo']);  
-    formData.append("BoxAssetNo",this.state.JustInsertRecord[this.state.currentComfirmIndex]['boxAssetNo']);  
-    formData.append("confirmContent","不在这个表箱里")
-    let url="http://1.loactionapp.applinzi.com/confirmConsBoxRelate";
-    fetch(url,{method:"POST",headers:{},body:formData}).then(response => response)
-    .then(data => console.log(data))
-   .catch(e => console.log("Oops, error", e))
+ 
 
 
-    this.setState({AssetSerial:tmpText})
-    this.setState({currentComfirmIndex:this.state.currentComfirmIndex+1})
+  //   this.setState({AssetSerial:tmpText})
+  //   this.setState({currentComfirmIndex:this.state.currentComfirmIndex+1})
+            BoxConsRelateConfirm[i]['Confirm']="不在表箱里"
+            this.setState({sBoxConsRelateConfirm:BoxConsRelateConfirm})
+            let formData=new FormData();             
+            formData.append("AssetInfo",BoxConsRelateConfirm[i]['AssetNo']);  
+            formData.append("BoxAssetNo",this.state.boxAssetNo);  
+            formData.append("confirmContent","不在这个表箱里")
+            let url="http://1.loactionapp.applinzi.com/confirmConsBoxRelate";
+            fetch(url,{method:"POST",headers:{},body:formData}).then(response => response)
+            .then(data => console.log(data))
+          .catch(e => console.log("Oops, error", e))
  }
 
 //所属表箱号不正确，上传现场的表箱号
@@ -230,33 +232,35 @@ confirmBoxAssetNo =() =>{
     return (
       
       <View  style={styles.container} >   
-      <View  style={{height:40,width:w,backgroundColor:'#46A3FF',justifyContent: 'center',}} ><Text style={{fontSize:20,textAlign:'center'}}>上传设备GPS</Text></View> 
+      <View  style={{height:40,width:w,backgroundColor:'#ff9a00',justifyContent: 'center',}} ><Text style={{fontSize:20,textAlign:'center'}}>上传设备GPS</Text></View> 
       <ScrollView> 
         {/*<Text style={styles.textStyle}>LastGPS:{this.state.Lastlatitude},{this.state.Lastlongitude}{'\n'}
          CurrentGPS:{this.state.Currentlatitude},{this.state.Currentlongitude}</Text>*/}
-          <View style={{marginTop:10}}>
-        <Text style={styles.textStyle}>请输入资产编码或者设备编号、设备名称等关键信息,然后点击上传按钮</Text>
-        </View>
-        
-        <View  style={{height:40,flexDirection: 'row',alignItems:'flex-start',marginBottom:10}} >
 
-            <TextInput
-            style={{marginLeft:w*0.02,marginBottom:10,height:40,width:w*0.75, borderColor: 'gray', borderWidth:1,borderRadius:5}}
-            underlineColorAndroid="transparent"
-            placeholder="请输入表号，表箱号，户号或者设备名称"
-            onChangeText={(text) =>   this.setState({AssetInfo:text})  }
-              />
-            <View style={{marginLeft:w*0.02,marginBottom:10,height:45,width:w*0.15}}>
-            <Button    
-                sytle={styles.BottonStyle}              
-                onPress={this.GetAndUploadGps}
-                title="上传"                
-                color="#ff9a00"
-                disabled={this.state.boxDisable}
-                accessibilityLabel="Learn more about this purple button"
-                />
+        <View style={{backgroundColor:'white',borderRadius:5,marginBottom:10}}>
+            <View style={{marginTop:10}}>
+                <Text style={styles.textStyle}>请输入资产编码或者设备编号、设备名称等关键信息,然后点击上传按钮</Text>
             </View>
-       </View>
+            
+            <View  style={{height:40,flexDirection: 'row',alignItems:'flex-start',marginBottom:10}} >
+                <TextInput
+                style={{marginLeft:w*0.02,marginBottom:10,height:40,width:w*0.75, borderColor: 'gray', borderWidth:1,borderRadius:5}}
+                underlineColorAndroid="transparent"
+                placeholder="请输入表号，表箱号，户号或者设备名称"
+                onChangeText={(text) =>   this.setState({AssetInfo:text})  }
+                  />
+                <View style={{marginLeft:w*0.02,marginBottom:10,height:45,width:w*0.15}}>
+                    <Button    
+                        sytle={styles.BottonStyle}              
+                        onPress={this.GetAndUploadGps}
+                        title="上传"                
+                        color="#ff9a00"
+                        disabled={this.state.boxDisable}
+                        accessibilityLabel="Learn more about this purple button"
+                        />
+                </View>
+            </View>
+         </View>
 
     <View style={styles.textViewStyle}>
         <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}{'\n'}</Text>
@@ -318,16 +322,16 @@ confirmBoxAssetNo =() =>{
                       <Text style={{fontSize: 15,marginBottom:5,}}>({RelateConfirm.id})表号：{RelateConfirm.AssetNo}{'\n'}   地址：{RelateConfirm.elecAddr}  {RelateConfirm.Confirm}</Text>
                       <View style={{flexDirection:"row",marginBottom:5,height:35,width:w,}}>
                           <View style={{marginLeft:15,width:w*0.3}}>
-                          <Button                           
-                          onPress={this.confirmOk}
+                          <Button                   
+                          onPress={()=>this.confirmOk(RelateConfirm.id-1)}
                           title="在表箱里"
                           color="#ff9a00"
                           accessibilityLabel=""
                           />
                           </View>
                           <View style={{marginLeft:50,marginRight:50,width:w*0.3}}>
-                          <Button                           
-                          onPress={this.confirmOk}
+                          <Button                        
+                          onPress={()=>this.confirmNo(RelateConfirm.id-1)}
                           title="不在表箱里"
                           color="#ff9a00"
                           accessibilityLabel=""
