@@ -54,7 +54,7 @@ export default class Search extends Component {
   render() {  
     return (  
       <View style={styles.container}>  
-              <View  style={{height:40,width:w,backgroundColor:'#ff9a00',justifyContent: 'center',}} ><Text style={{fontSize:20,textAlign:'center'}}>查找和定位</Text></View> 
+              <View  style={{height:40,width:w,backgroundColor:'#ff9a00',justifyContent: 'center',marginBottom:1}} ><Text style={{fontSize:20,textAlign:'center'}}>查找和定位</Text></View> 
             <View style={{backgroundColor:'white',borderRadius:5,marginBottom:10}}>
             
             <View  style={{width:w*0.98,marginTop:10,height:40,flexDirection: 'row',alignItems:'flex-start',marginBottom:10}} >
@@ -83,14 +83,14 @@ export default class Search extends Component {
 }  
   
 const styles = StyleSheet.create({  
-  container: {  
+  container: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#f4f6f6',
-    marginBottom: 0,
-  },  
+    //marginBottom: 100,
+  },
   webView: {
     //backgroundColor: BGWASH,
     height: 350,

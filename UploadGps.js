@@ -233,7 +233,7 @@ confirmBoxAssetNo =() =>{
       
       <View  style={styles.container} >   
       <View  style={{height:40,width:w,backgroundColor:'#ff9a00',justifyContent: 'center',}} ><Text style={{fontSize:20,textAlign:'center'}}>上传设备GPS</Text></View> 
-      <ScrollView> 
+      <ScrollView style={{width:w,}}>
         {/*<Text style={styles.textStyle}>LastGPS:{this.state.Lastlatitude},{this.state.Lastlongitude}{'\n'}
          CurrentGPS:{this.state.Currentlatitude},{this.state.Currentlongitude}</Text>*/}
 
@@ -344,6 +344,8 @@ confirmBoxAssetNo =() =>{
                } )
          
 }
+
+
         </View>
 {/*
          <Text style={styles.textStyle}>  {AssetArray[this.state.currentComfirmIndex]} </Text>

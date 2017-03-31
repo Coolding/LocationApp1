@@ -10,6 +10,7 @@ import {
   Button,
   ListView,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native'; 
 import Search from './Search'; 
 
@@ -23,9 +24,10 @@ import Search from './Search';
 //4.如果同一电表（设备）系统有很多个人上传的地址，是否限制只显示几个就可以了，显示太多反而让用户无从选择
 
 
-const {width, height} = Dimensions.get('window');   
+var w=Dimensions.get('window').width;
+var h=Dimensions.get('window').height;  //获得屏幕的宽高
 
-var addrCount=0,    //该assetNo共有几个地址信息
+var addrCount=" 获取中，请稍后……",    //该assetNo共有几个地址信息
      CurrentAddrIndex=0;
  var   addrArray=[];
 
@@ -128,38 +130,62 @@ export default class SearchResult extends Component {
   render() {  
     return (  
       <View style={styles.container}>  
-      <TouchableOpacity onPress={this.forwardAddr}>
-            <Text>上一个</Text>
-      </TouchableOpacity>
-      <Text>一共查找到个{addrCount}定位信息{'\n'}
-        ({CurrentAddrIndex+1})设备编号： {this.state.currentAssetNo}{'\n'}
-        用电地址{this.state.currentElecAddr}{'\n'}
-        数据来源：{this.state.currentDataSource}{'\n'}
-        GPS上传人员：{this.state.RecordMan}{'\n'}
-        GPS上传时间：{this.state.RecordTime}{'\n'}
-        经纬度：{this.state.GPSLat},{this.state.GPSLng}{'\n'}
-      </Text>      
+      <View  style={{height:40,width:w,backgroundColor:'#ff9a00',justifyContent: 'center',marginBottom:1}} ><Text style={{fontSize:20,textAlign:'center'}}>查找结果</Text></View>
 
-      <TouchableOpacity onPress={this.nextAddr}>
-            <Text>下一个</Text>
-      </TouchableOpacity>
-      <WebView
-          style={styles.webView}
-          source={{uri:this.state.url}}
-          javaScriptEnabled={true}
-          domStorageEnabled={true}
-      />
+      <ScrollView>
+          <View style={{width:w,backgroundColor:'white',justifyContent: 'center',marginBottom:5}}>
+              <Text>一共查找到{addrCount}个关于{this.state.toSearchAssetNo}的定位信息{'\n'}
+                  设备编号： {this.state.currentAssetNo}{'\n'}
+                  地址{this.state.currentElecAddr}{'\n'}
+              </Text>      
+          </View>
+            <View>
+        {  
+            //  addrArray=data;
+            //     addrCount=data.length+1; 
+            //     CurrentAddrIndex=0;
+            //     this.setState({GPSLng:addrArray[CurrentAddrIndex]['BaiduLongitude'],GPSLat:addrArray[CurrentAddrIndex]['BaiduLatitude'],currentAssetNo:addrArray[CurrentAddrIndex]['AssetInfo'],currentElecAddr:addrArray[CurrentAddrIndex]['elecAddr'],currentDataSource:addrArray[CurrentAddrIndex]['数据来源'],RecordMan:addrArray[CurrentAddrIndex]['RecordMan'],RecordTime:addrArray[CurrentAddrIndex]['RecordTime']}) 
+               
+
+            addrArray.map(               
+               (addrInfo)=>{              
+               return (
+                 <TouchableOpacity key={addrInfo.BaiduLongitude}>
+                 <View  style={{flexDirection:"row",backgroundColor:"white",marginBottom:2}}>
+                 
+                      <View style={{width:w*0.9,}}>
+                          <Text style={{fontSize: 15,marginBottom:5,}}>
+                          数据来源：{addrInfo.数据来源}{'\n'}
+                          GPS上传人员：{addrInfo.RecordMan}{'\n'}
+                          GPS上传时间：{addrInfo.RecordTime}{'\n'}
+                          经纬度：{addrInfo.BaiduLongitude},{addrInfo.BaiduLatitude} </Text> 
+                      </View>
+                      <View style={{width:w*0.1,marginRight:0,justifyContent: 'center',}}>
+                          <Text style={{marginRight:2,fontSize:20,textAlign:'center'}}>&gt;</Text>
+                      </View>
+                  
+                  </View>
+                  </TouchableOpacity>
+               )
+               } )
+         
+}
+  </View>
+      </ScrollView>
       </View>
     )
   }  
 }  
   
 const styles = StyleSheet.create({  
-  container: {  
-    flex: 1,  
-    backgroundColor: '#f2f2f2',  
-    paddingTop:20,  
-  },  
+ container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    backgroundColor: '#f4f6f6',
+    //marginBottom: 100,
+  },
   webView: {
     //backgroundColor: BGWASH,
     height: 350,

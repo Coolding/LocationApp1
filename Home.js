@@ -104,7 +104,7 @@ export default class Home extends Component {
   
     return (
       <View Style={styles.container} >
-      <View  style={{height:40,backgroundColor:'#ff9a00',justifyContent: 'center',}} ><Text style={{fontSize:20,textAlign:'center'}}>首页</Text></View>
+      <View  style={{height:40,backgroundColor:'#ff9a00',justifyContent: 'center',marginBottom:1}} ><Text style={{fontSize:20,textAlign:'center'}}>首页</Text></View>
       <View style={{width:w, marginBottom:3,}}><Image source={require('./assets/banner.png')} style={{height:h/6,width:w,resizeMode:"stretch"}}/></View>
       <View  style={styles.sbu_view}>
            

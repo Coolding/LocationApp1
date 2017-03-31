@@ -1,0 +1,21 @@
+     <TouchableOpacity onPress={this.forwardAddr}>
+                <Text>上一个</Text>
+          </TouchableOpacity>
+          <Text>一共查找到个{addrCount}定位信息{'\n'}
+            ({CurrentAddrIndex+1})设备编号： {this.state.currentAssetNo}{'\n'}
+            用电地址{this.state.currentElecAddr}{'\n'}
+            数据来源：{this.state.currentDataSource}{'\n'}
+            GPS上传人员：{this.state.RecordMan}{'\n'}
+            GPS上传时间：{this.state.RecordTime}{'\n'}
+            经纬度：{this.state.GPSLat},{this.state.GPSLng}{'\n'}
+          </Text>      
+
+          <TouchableOpacity onPress={this.nextAddr}>
+                <Text>下一个</Text>
+          </TouchableOpacity>
+          <WebView
+              style={styles.webView}
+              source={{uri:this.state.url}}
+              javaScriptEnabled={true}
+              domStorageEnabled={true}
+          />  
