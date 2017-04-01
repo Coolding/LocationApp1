@@ -74,6 +74,15 @@ export default class Search extends Component {
                         />
                 </View>
             </View>
+            <View style={{marginLeft:w*0.2,marginBottom:10,width:w*0.6}}>
+                    <Button    
+                        sytle={styles.BottonStyle}              
+                        onPress={this.gotoScanSearch}
+                        title="扫描二维码批量定位"                
+                        color="#ff9a00"                        
+                        accessibilityLabel=""
+                        />
+           </View>
          </View>
   </View>
  

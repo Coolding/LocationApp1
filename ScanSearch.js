@@ -8,7 +8,7 @@ import {
   Navigator,
 } from 'react-native';
 import Camera from 'react-native-camera';
-//import ScanUploadResult from './ScanUploadResult';
+import scanSearchResult from './scanSearchResult';
 
 var Dimensions = require('Dimensions');
 var w=Dimensions.get('window').width;
@@ -103,6 +103,7 @@ export default class ScanSearch extends React.Component {
     }
   }
 
+  
   switchType() {
     let newType;
     const { back, front } = Camera.constants.Type;
@@ -170,22 +171,17 @@ export default class ScanSearch extends React.Component {
   }
 
 //扫描到条形码
-//   onBarCodeRead=(e)=>{
-//     const { navigator } = this.props;
-//     navigator.replace({
-//                 name: 'ScanUploadResult',
-//                 component: ScanUploadResult,
-//               params: {
-//                 ScanedAssetNo: e.data
-//               }});
-//     console.log(e.data);  
-// }
-
-onBarCodeRead=(e)=>{
-alert(e.data);
-
-
+  onBarCodeRead=(e)=>{
+    const { navigator } = this.props;
+    navigator.replace({
+                name: 'scanSearchResult',
+                component: scanSearchResult,
+              params: {
+                AllScanedAssetNo: e.data
+              }});
+    console.log(e.data);  
 }
+
 
   render() {
 

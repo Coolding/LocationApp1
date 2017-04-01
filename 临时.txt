@@ -13,9 +13,4 @@
           <TouchableOpacity onPress={this.nextAddr}>
                 <Text>下一个</Text>
           </TouchableOpacity>
-          <WebView
-              style={styles.webView}
-              source={{uri:this.state.url}}
-              javaScriptEnabled={true}
-              domStorageEnabled={true}
-          />  
+        

@@ -13,6 +13,7 @@ import {
   ScrollView,
 } from 'react-native'; 
 import Search from './Search'; 
+import AssetMapView from './AssetMapView'; 
 
  //改进： 
 //1.目前APP在搜索时，是从GpsInfo里面去查找有无相关GPS信息，但是这样的话如果GpsInfo里面还未有人上传，后续的操作“根据用电地址自动返回一个
@@ -22,12 +23,13 @@ import Search from './Search';
 //参考网址http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding
 //3.地址准不准评价：用点赞的图标
 //4.如果同一电表（设备）系统有很多个人上传的地址，是否限制只显示几个就可以了，显示太多反而让用户无从选择
+//提示当前系统有多少电表，表箱……位置信息可供查询定位
 
 
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
 
-var addrCount=" 获取中，请稍后……",    //该assetNo共有几个地址信息
+var addrCount=" 获取中，请稍候……",    //该assetNo共有几个地址信息
      CurrentAddrIndex=0;
  var   addrArray=[];
 
@@ -70,6 +72,19 @@ export default class SearchResult extends Component {
         } 
         );        
  }
+
+//点击某一条查找结果时，根据其对应的经纬度，跳转显示当前位置到此设备的路线地图，以便导航
+ ShowAssetMap=(lng,lat)=>{
+     const { navigator } = this.props;
+     navigator.replace({
+        name: 'AssetMapView',
+        component: AssetMapView,
+        params: {
+        BaiduLng: lng,
+        BaiduLat:lat
+        }});
+ }
+
 
  forwardAddr =() =>{
      if(CurrentAddrIndex==0)
@@ -136,7 +151,7 @@ export default class SearchResult extends Component {
           <View style={{width:w,backgroundColor:'white',justifyContent: 'center',marginBottom:5}}>
               <Text>一共查找到{addrCount}个关于{this.state.toSearchAssetNo}的定位信息{'\n'}
                   设备编号： {this.state.currentAssetNo}{'\n'}
-                  地址{this.state.currentElecAddr}{'\n'}
+                  地址：{this.state.currentElecAddr}{'\n'}
               </Text>      
           </View>
             <View>
@@ -148,13 +163,13 @@ export default class SearchResult extends Component {
                
 
             addrArray.map(               
-               (addrInfo)=>{              
+               (addrInfo)=>{                        
                return (
-                 <TouchableOpacity key={addrInfo.BaiduLongitude}>
-                 <View  style={{flexDirection:"row",backgroundColor:"white",marginBottom:2}}>
-                 
+                 <TouchableOpacity key={addrInfo.BaiduLongitude}
+                 onPress={()=>this.ShowAssetMap(addrInfo.BaiduLongitude,addrInfo.BaiduLatitude)}>
+                 <View  style={{flexDirection:"row",backgroundColor:"white",marginBottom:2}}>                 
                       <View style={{width:w*0.9,}}>
-                          <Text style={{fontSize: 15,marginBottom:5,}}>
+                          <Text style={{fontSize: 15,marginBottom:5,lineHeight:25}}>
                           数据来源：{addrInfo.数据来源}{'\n'}
                           GPS上传人员：{addrInfo.RecordMan}{'\n'}
                           GPS上传时间：{addrInfo.RecordTime}{'\n'}
