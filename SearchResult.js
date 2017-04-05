@@ -173,7 +173,8 @@ export default class SearchResult extends Component {
                           数据来源：{addrInfo.数据来源}{'\n'}
                           GPS上传人员：{addrInfo.RecordMan}{'\n'}
                           GPS上传时间：{addrInfo.RecordTime}{'\n'}
-                          经纬度：{addrInfo.BaiduLongitude},{addrInfo.BaiduLatitude} </Text> 
+                          经纬度：{addrInfo.BaiduLongitude},{addrInfo.BaiduLatitude}{'\n'}
+                          距离你当前位置：…………米 </Text> 
                       </View>
                       <View style={{width:w*0.1,marginRight:0,justifyContent: 'center',}}>
                           <Text style={{marginRight:2,fontSize:20,textAlign:'center'}}>&gt;</Text>

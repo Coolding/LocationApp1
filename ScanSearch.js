@@ -170,14 +170,32 @@ export default class ScanSearch extends React.Component {
     return icon;
   }
 
+ 
 //扫描到条形码
   onBarCodeRead=(e)=>{
     const { navigator } = this.props;
+    a=e.data
+    a=a.replace(","," ")
+    a=a.replace("."," ")
+    a=a.replace("/"," ")
+    a=a.replace(""," ")
+    a=a.replace("，"," ")
+    a=a.replace(";"," ")
+    //a=a.replace("\\n"," ")
+    //a=a.replace("\\r"," ")
+    a=a.replace(/\r\n/g," ")
+    //a=a.replace(/\n/g," ")
+    
+    while(a.indexOf("  ")>=0)
+      a=a.replace("  "," ")
+    a=a.split(" ")
+   
+    //return (e.data.split(" "))
     navigator.replace({
                 name: 'scanSearchResult',
                 component: scanSearchResult,
               params: {
-                AllScanedAssetNo: e.data
+                AllScanedAssetNo: a
               }});
     console.log(e.data);  
 }

@@ -21,6 +21,8 @@ import ScanSearch from './ScanSearch';
 
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
+var a=[]
+var b=""
 
  
 
@@ -39,7 +41,9 @@ export default class SearchResult extends Component {
 
   componentWillMount() {
         //这里获取从Search传递过来的参数: SearchAssetNo
-        this.setState({AllScanedAssetNo: this.props.AllScanedAssetNo},function(){
+        this.setState({AllScanedAssetNo: this.props.AllScanedAssetNo},function(){      
+          // b=this.state.AllScanedAssetNo
+          // a=b.split(" ")
             //查找SearchAssetNo在数据库里面是否已有人上传过的GPS地址
             // let url="http://1.loactionapp.applinzi.com/GetGPSInfo/"+this.props.SearchAssetNo;
             // fetch(url,{method:"GET"}).then(response => response.json())
@@ -53,7 +57,6 @@ export default class SearchResult extends Component {
             // })    //加1是因为处理数据库里面app上传的地址，还有1个根据用电地址反推的定位信息
             // .catch(e => console.log("Oops, error", e))
             console.log(this.state.AllScanedAssetNo)
-            alert(this.state.AllScanedAssetNo)
      } 
         );        
  }
@@ -65,7 +68,9 @@ export default class SearchResult extends Component {
     return (  
       <View style={styles.container}>  
       <View  style={{height:40,width:w,backgroundColor:'#ff9a00',justifyContent: 'center',marginBottom:1}} ><Text style={{fontSize:20,textAlign:'center'}}>查找结果</Text></View>
-
+       <Text>{this.state.AllScanedAssetNo[0]}{'\n'}{'\n'}
+         
+       </Text>
       </View>
     )
   }  
