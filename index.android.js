@@ -23,6 +23,8 @@ import ScanUploadResult from './ScanUploadResult';
 import Search from './Search';
 import Storage from 'react-native-storage';
 import { AsyncStorage } from 'react-native';
+import Login from './Login';
+
 
 
 
@@ -69,6 +71,10 @@ export default class LoactionApp1 extends Component {
   render() {
     let defaultName = 'ScanUpload';
     let defaultComponent = ScanUpload;
+    let i=-1
+    if(i==-1)
+    return (<Login/>);
+    if(i==0)
     return (       
      <View style={{flex: 1}}>
         <TabNavigator   Style={styles.tab} >
@@ -140,6 +146,9 @@ export default class LoactionApp1 extends Component {
           </TabNavigator>
       </View>
     );
+
+
+
   }
 }
 
