@@ -1,4 +1,4 @@
-     <TouchableOpacity onPress={this.forwardAddr}>
+﻿     <TouchableOpacity onPress={this.forwardAddr}>
                 <Text>上一个</Text>
           </TouchableOpacity>
           <Text>一共查找到个{addrCount}定位信息{'\n'}
@@ -14,3 +14,5 @@
                 <Text>下一个</Text>
           </TouchableOpacity>
         
+
+凡是用map生成组件视图的，都要检查里面的key有没有可能重复

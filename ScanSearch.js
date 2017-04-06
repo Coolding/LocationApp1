@@ -170,10 +170,20 @@ export default class ScanSearch extends React.Component {
     return icon;
   }
 
- 
+ split1=(sourceString,splitString)=> {
+    let returnArrar=[]
+    let i=0
+    let start=sourceString.indexOf(splitString)
+    if(start<0)
+      return sourceString
+    let end=0
+    while(sourceString.indexOf(splitString)>=0)
+      a=a.replace("  "," ")
+ }
 //扫描到条形码
   onBarCodeRead=(e)=>{
     const { navigator } = this.props;
+    let b=[]
     a=e.data
     a=a.replace(","," ")
     a=a.replace("."," ")
@@ -187,15 +197,22 @@ export default class ScanSearch extends React.Component {
     //a=a.replace(/\n/g," ")
     
     while(a.indexOf("  ")>=0)
-      a=a.replace("  "," ")
-    a=a.split(" ")
+      a=a.replace("  "," ")  
+    
+    while(a.indexOf(" ")==0)  //去除左边的空格
+      a=a.slice(1,a.length-1)
+    while(a.lastIndexOf(" ")==0)  //去除右边的空格
+      a=a.slice(0,a.length-2)
+   
+    b=a.split(" ")
+    
    
     //return (e.data.split(" "))
     navigator.replace({
                 name: 'scanSearchResult',
                 component: scanSearchResult,
               params: {
-                AllScanedAssetNo: a
+                AllScanedAssetNo: b
               }});
     console.log(e.data);  
 }

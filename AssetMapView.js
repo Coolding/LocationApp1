@@ -25,7 +25,7 @@ export default class AssetMapView extends Component {
      this.state = {
          BaiduLng:"",
          BaiduLat:"",
-         url:"map.baidu.com"
+         url:""
     }; 
   }  
   
@@ -40,13 +40,16 @@ export default class AssetMapView extends Component {
 
     render() {  
     return ( 
+      <View style={styles.container}>
+         <Text>地图加载中，请稍候</Text>
           <WebView
-              //source={{uri:this.state.url}}
-              source={{uri:"this.state.url"}}              
+              style={{height:h,width:w}}
+              source={{uri:this.state.url}}              
               scalesPageToFit ={true}
               javaScriptEnabled={true}
               domStorageEnabled={true}
           />  
+      </View>
          )
     }
 }

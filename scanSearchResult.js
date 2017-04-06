@@ -13,6 +13,7 @@ import {
   ScrollView,
 } from 'react-native'; 
 import ScanSearch from './ScanSearch'; 
+import SearchResult from './SearchResult'; 
 
 
 
@@ -21,18 +22,19 @@ import ScanSearch from './ScanSearch';
 
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
-var a=[]
 var b=""
+var a=[]
 
  
 
 
-export default class SearchResult extends Component {  
+export default class scanSearchResult extends Component {  
   
   constructor(props) {  
     super(props);  
      this.state = {
-         AllScanedAssetNo:""
+         AllScanedAssetNo:"",
+         AssetNoArray:[],
  
     }; 
   }  
@@ -41,9 +43,15 @@ export default class SearchResult extends Component {
 
   componentWillMount() {
         //这里获取从Search传递过来的参数: SearchAssetNo
-        this.setState({AllScanedAssetNo: this.props.AllScanedAssetNo},function(){      
-          // b=this.state.AllScanedAssetNo
-          // a=b.split(" ")
+        this.setState({AllScanedAssetNo: this.props.AllScanedAssetNo},function(){  
+              let i=0
+              while(i<this.state.AllScanedAssetNo.length){                 
+                a[i]={}
+                a[i]['index']=i
+                a[i]['assetNo']=this.state.AllScanedAssetNo[i]                 
+                i=i+1
+              }
+              this.setState({AssetNoArray:a})
             //查找SearchAssetNo在数据库里面是否已有人上传过的GPS地址
             // let url="http://1.loactionapp.applinzi.com/GetGPSInfo/"+this.props.SearchAssetNo;
             // fetch(url,{method:"GET"}).then(response => response.json())
@@ -62,15 +70,46 @@ export default class SearchResult extends Component {
  }
 
  
+  //点击某一架表后，跳转到其对应的信息和地图显示页面
+ ShowMap=(assetNo)=>{
+     const { navigator } = this.props;
+     navigator.replace({
+        name: 'SearchResult',
+        component: SearchResult,
+        params: {
+        SearchAssetNo: assetNo
+        }});
+ }
 
-
+ 
   render() {  
     return (  
       <View style={styles.container}>  
       <View  style={{height:40,width:w,backgroundColor:'#ff9a00',justifyContent: 'center',marginBottom:1}} ><Text style={{fontSize:20,textAlign:'center'}}>查找结果</Text></View>
-       <Text>{this.state.AllScanedAssetNo[0]}{'\n'}{'\n'}
+       <View>{
+
+         this.state.AssetNoArray.map(               
+               (assetNoArray)=>{                        
+               return (
+                 <TouchableOpacity key={assetNoArray.index}
+                 onPress={()=>this.ShowMap(assetNoArray.assetNo)}>
+                 <View  style={{flexDirection:"row",backgroundColor:"white",marginBottom:2}}>                 
+                      <View style={{width:w*0.9,}}>
+                          <Text style={{fontSize: 15,marginBottom:5,lineHeight:25}}>
+                          {assetNoArray.assetNo}</Text> 
+                      </View>
+                      <View style={{width:w*0.1,marginRight:0,justifyContent: 'center',}}>
+                          <Text style={{marginRight:2,fontSize:20,textAlign:'center'}}>&gt;</Text>
+                      </View>
+                  
+                  </View>
+                  </TouchableOpacity>
+               )
+               } )
+       
+       }
          
-       </Text>
+       </View>
       </View>
     )
   }  
