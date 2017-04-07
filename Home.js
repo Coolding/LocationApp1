@@ -42,8 +42,9 @@ export default class Home extends Component {
       selectedTab:'home'
     };
  }
+
   writeStor = () => {   
-        storage.save({
+    storage.save({
     key: 'loginState',  // 注意:请不要在key中使用_下划线符号!
     rawData: { 
       from: 'some other site',
@@ -57,8 +58,9 @@ export default class Home extends Component {
     expires: null
   }); 
 }
+
   readStor =() => {   
-      storage.load({
+    storage.load({
     key: 'loginState',
     // autoSync(默认为true)意味着在没有找到数据或数据过期时自动调用相应的sync方法
     autoSync: true,
@@ -80,9 +82,7 @@ export default class Home extends Component {
     // 而不能在then以外处理
     // 也没有办法“变成”同步返回
     // 你也可以使用“看似”同步的async/await语法
-    //console.log(ret.readPara);
     alert(ret.currentUserName);
-    //this.setState({ user: ret });
     return ret
   }).catch(err => {
     //如果没有找到数据且没有sync方法，
@@ -98,6 +98,8 @@ export default class Home extends Component {
     }
   })
 }
+
+
 
  
   render() {
