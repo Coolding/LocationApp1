@@ -25,27 +25,28 @@ export default class Login extends React.Component {
      name:"",
      department:"",
     }; 
+
+    this.readStor=this.readStor.bind(this)
   }  
 
 writeStor = () => {   
     storage.save({
-    key: 'loginState',  // 注意:请不要在key中使用_下划线符号!
+    key: 'userData',  // 注意:请不要在key中使用_下划线符号!
     rawData: { 
-      from: 'some other site',
-      userid: 'some userid',
-      token: 'some token',
-      currentUserName:"王丁盛",
+      username: this.state.name,
+      tel: this.state.tel,
+      department:this.state.department,
     },
-
     // 如果不指定过期时间，则会使用defaultExpires参数
     // 如果设为null，则永不过期
     expires: null
   }); 
 }
 
-readStor =() => {   
+readStor =() => {  
+   
     storage.load({
-    key: 'loginState',
+    key: 'userData',
     // autoSync(默认为true)意味着在没有找到数据或数据过期时自动调用相应的sync方法
     autoSync: true,
     // syncInBackground(默认为true)意味着如果数据过期，
@@ -66,12 +67,14 @@ readStor =() => {
     // 而不能在then以外处理
     // 也没有办法“变成”同步返回
     // 你也可以使用“看似”同步的async/await语法
-    alert(ret.currentUserName);
+    alert(ret.username);
+    alert("读取成功")
     return ret
   }).catch(err => {
     //如果没有找到数据且没有sync方法，
     //或者有其他异常，则在catch中返回
     console.warn(err.message);
+    alert("读取失败")
     switch (err.name) {
         case 'NotFoundError':
             // TODO;
@@ -84,7 +87,42 @@ readStor =() => {
 }
 
 regf=()=>{
-    alert(this.state.name)
+    readStor
+    let reg=/^[0-9]{11}$/   
+    if(this.state.name==""){
+            alert ("请输入名字")
+            return 0
+    }
+    if(this.state.department==""){
+            alert ("请输入部门")
+            return 0
+    }
+    if(this.state.tel==""){
+            alert ("请输入手机号")
+            return 0
+    }
+   
+	if(reg.test(this.state.tel)==false )
+    {
+        alert("手机号输入有误，请重输")
+        return 0
+    }
+
+    // let url="http://1.loactionapp.applinzi.com/GetGPSInfo/"+this.props.SearchAssetNo;
+    //         fetch(url,{method:"GET"}).then(response => response.json())
+    //         .then(data => {
+    //             //this.setState({}) 
+    //             addrArray=data;
+    //             addrCount=data.length+1; 
+    //             CurrentAddrIndex=0;
+    //             this.setState({GPSLng:addrArray[CurrentAddrIndex]['BaiduLongitude'],GPSLat:addrArray[CurrentAddrIndex]['BaiduLatitude'],currentAssetNo:addrArray[CurrentAddrIndex]['AssetInfo'],currentElecAddr:addrArray[CurrentAddrIndex]['elecAddr'],currentDataSource:addrArray[CurrentAddrIndex]['数据来源'],RecordMan:addrArray[CurrentAddrIndex]['RecordMan'],RecordTime:addrArray[CurrentAddrIndex]['RecordTime']}) 
+    //             this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+addrArray[CurrentAddrIndex]['BaiduLatitude']+','+addrArray[CurrentAddrIndex]['BaiduLongitude']+'&mode=driving&region=厦门&output=html'})
+    //         })    //加1是因为处理数据库里面app上传的地址，还有1个根据用电地址反推的定位信息
+    //         .catch(e => console.log("Oops, error", e)) 
+
+   
+    //alert("注册成功，请等待后台人工审核，大约需要1天时间")
+
 }
 
 render() { 

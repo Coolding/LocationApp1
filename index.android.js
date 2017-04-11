@@ -24,6 +24,7 @@ import Search from './Search';
 import Storage from 'react-native-storage';
 import { AsyncStorage } from 'react-native';
 import Login from './Login';
+import Regist from './regist';
 
 
 
@@ -65,16 +66,61 @@ export default class LoactionApp1 extends Component {
  constructor(props){
         super(props);
         this.state = {
-        selectedTab:'home'
+        selectedTab:'home',
+        RegStatus:0,
+        test:""
         };
     }
+
+
+componentWillMount() {
+     
+        
+         
+}
+
+get readRegStatus(){
+      //检查注册信息，以便判断用户打开APP之后是跳转到注册，登录还是系统界面
+      let ReadStatus;
+    storage.load({
+    key: 'userData',
+    autoSync: true,
+    syncInBackground: true,
+    // 你还可以给sync方法传递额外的参数
+    syncParams: {
+      extraFetchOptions: {
+        // 各种参数
+      },
+      someFlag: true,
+    },
+  }).then(ret => { 
+    ReadStatus=0
+    //alert(ReadStatus)
+    return ReadStatus      //已注册
+  }).catch(err => {
+    ReadStatus=-1
+    //alert(ReadStatus)
+    return ReadStatus   //还未注册，读取不到注册信息
+ 
+  })
+  }
+
   render() {
     let defaultName = 'ScanUpload';
     let defaultComponent = ScanUpload;
-    let i=-1
-    if(i==-1)
-    return (<Login/>);
-    if(i==0)
+   // this.setState({AllScanedAssetNo: this.props.AllScanedAssetNo},function(){
+     let x=this.readRegStatus
+     
+// alert(this.readRegStatus)
+    this.setState({test:this.readRegStatus},function(){
+      if(this.state.RegStatus==-1)  
+        return (<Regist/>);
+      if(this.state.RegStatus==0)  
+        return (<Login/>);
+    })
+    
+    
+    if(this.state.RegStatus==1)
     return (       
      <View style={{flex: 1}}>
         <TabNavigator   Style={styles.tab} >

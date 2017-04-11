@@ -2,207 +2,207 @@
 <items version="2" >
 
     <item
-        jar="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\libs\internal_impl-23.4.0.jar"
+        jar="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\libs\internal_impl-23.4.0.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\internal_impl-23.4.0-554348a24a41acdfe0b3c2ff53baa9867db9c51d.jar" />
-    </item>
-    <item
-        jar="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-base\0.11.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="ca63c521b5745ae9a09629d7ca67ff6bc2a967fe">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\classes-51891e804450bb5424bc1259d44547a31eb761ea.jar" />
-    </item>
-    <item
-        jar="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.41.2\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="b49a04a3016689b372ecbb77f0c33e486e768cca">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\classes-59c2f0dfe409e7dd62575508ef2863569e84c20f.jar" />
-    </item>
-    <item
-        jar="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\exploded-aar\com.facebook.soloader\soloader\0.1.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="8f615bca00639150c9eb6175d4b5471193f70794">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\classes-67ae86d9b843663666dcbca5110d94fe39dcdfb1.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.adobe.xmp\xmpcore\5.1.2\55615fa2582424e38705487d1d3969af8554f637\xmpcore-5.1.2.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="55615fa2582424e38705487d1d3969af8554f637">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\xmpcore-5.1.2-a2e4bb2925bf376c8a4a8312f65cd55e1f662b00.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\javax.inject\javax.inject\1\6975da39a7040257bd51d21a231b76c915872d38\javax.inject-1.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="6975da39a7040257bd51d21a231b76c915872d38">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\javax.inject-1-273da2ba53aedc2691b5c6c4485ebe7b12b6e634.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.drewnoakes\metadata-extractor\2.9.1\53fdf22be10c9d426ec63431c7342895bc642261\metadata-extractor-2.9.1.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="53fdf22be10c9d426ec63431c7342895bc642261">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\metadata-extractor-2.9.1-c6cca8d053136e2f8e3f4cebcda203ea8ae940bc.jar" />
-    </item>
-    <item
-        jar="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-okhttp3\0.11.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="2b8a01ad9da5d26d0067894c22e87597bca2c500">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\classes-30173be328107e759be39347e1f7c4a16178bc69.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-tasks\1.4.0\d85884acf6810a3bbbecb587f239005cbc846dc4\bolts-tasks-1.4.0.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\bolts-tasks-1.4.0-c64325f78a24c085b700c554244dc03fa6bc6a89.jar" />
-    </item>
-    <item
-        jar="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\exploded-aar\com.facebook.fresco\drawee\0.11.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="1137942adeb03984c1311b662363dd38fc238fd3">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\classes-31ca9a0e170a8b6435dfb61b5f6d12cd7515cbfb.jar" />
-    </item>
-    <item
-        jar="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline\0.11.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="3341b66c54367e777a0647e2db96c045329bfeab">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\classes-886fa59452850770e4c2d2aaed6f42afe07545cb.jar" />
-    </item>
-    <item
-        jar="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\classes-cd3aaaf9097ff9c9d3f66c9e2a3d8378280082c9.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.google.zxing\core\3.2.1\2287494d4f5f9f3a9a2bb6980e3f32053721b315\core-3.2.1.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="2287494d4f5f9f3a9a2bb6980e3f32053721b315">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\core-3.2.1-3f96f72d8bc40481fc852122e0314b3485c288eb.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\support-annotations-23.4.0-c9fae43cda2e1c04b2ab0de43a8f148b5b1a92fa.jar" />
-    </item>
-    <item
-        jar="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\classes-a52c40ae814178a635c2e90e9b665ccf43e169dd.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.9.0\f824591a0016efbaeddb8300bee54832a1398cfa\okio-1.9.0.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="f824591a0016efbaeddb8300bee54832a1398cfa">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\okio-1.9.0-db0545b090bbd931e1cf6e43202e038727277a7d.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.google.code.findbugs\jsr305\3.0.0\5871fb60dc68d67da54a663c3fd636a10a532948\jsr305-3.0.0.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\jsr305-3.0.0-a971f67c50848f35eab062a5cec0856f32aa537b.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp-urlconnection\3.4.1\63994437f62bc861bc20c605d12962f7246116d1\okhttp-urlconnection-3.4.1.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="63994437f62bc861bc20c605d12962f7246116d1">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\okhttp-urlconnection-3.4.1-8c53f11782c30ceeab64a97cd78f9c7aa80afcf8.jar" />
-    </item>
-    <item
-        jar="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fbcore\0.11.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="98786c1770b531b9194fb6448b2a2692c64074b6">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\classes-e8a5453a65af9985a731854805aa5379cd5dff41.jar" />
-    </item>
-    <item
-        jar="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.4.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\classes-407de6b7f80bc331d6c5880a86ceb61fae30bbd6.jar" />
-    </item>
-    <item
-        jar="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\exploded-aar\com.facebook.fbui.textlayoutbuilder\textlayoutbuilder\1.0.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="f90b593491e4044903f0bbf68dc3fa2790b151b9">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\classes-d98df8a1bf106af57d6f1802fddea673bb997264.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.facebook.fbui.textlayoutbuilder\staticlayout-proxy\1.0\f162442a19fff13995fbd51ba414d9ee05579080\staticlayout-proxy-1.0.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="f162442a19fff13995fbd51ba414d9ee05579080">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\staticlayout-proxy-1.0-0283216b9bf7dad1d31c87f4be8f1ed4e4500cc6.jar" />
-    </item>
-    <item
-        jar="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.41.2\jars\libs\infer-annotations-1.5.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="dcac634e137395f79693ec760f081a86eb2bd84e">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\infer-annotations-1.5-9d5803dbb37c45e8a64830d578736e286caca79e.jar" />
-    </item>
-    <item
-        jar="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\exploded-aar\LoactionApp1\react-native-camera\unspecified\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="6f2b4431f9c775d86caa0150b56f68b0fb5fb6a0">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\classes-325774853053dfaa2a0df4e64d3f6d66a94a2b85.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp\3.4.1\c7c4f9e35c2fd5900da24f9872e3971801f08ce0\okhttp-3.4.1.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="c7c4f9e35c2fd5900da24f9872e3971801f08ce0">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\okhttp-3.4.1-a3a718343956c6e4d917a53a4fdd4a4dc134cda5.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp-ws\3.4.1\8ace66ef7002d98f633377c9e67daeeb196d8c3b\okhttp-ws-3.4.1.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="8ace66ef7002d98f633377c9e67daeeb196d8c3b">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\okhttp-ws-3.4.1-fe83462a5d206d9870f1dd3ec3f8349b06d7cb1f.jar" />
-    </item>
-    <item
-        jar="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\exploded-aar\org.webkit\android-jsc\r174650\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="12b885b3ed1fc74a51f671ad40867aa91271843d">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\classes-69cdfe38cd4568fd1f049f1d6a26288df5486d94.jar" />
-    </item>
-    <item
-        jar="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fresco\0.11.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="d31aadf33187c37a7cd63dc1b769f8c6e33f78c3">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\classes-2bd48d4aac20af6dc171bea3ee49b7069e4d6fa1.jar" />
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\internal_impl-23.4.0-18721d3736b5da3cf08fe77c031278f3d18a705c.jar" />
     </item>
     <item
         jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
-        <dex dex="E:\个人\React Native\LoactionApp\LoactionApp1\android\app\build\intermediates\pre-dexed\debug\library-2.4.0-dd460f45d27a359687729c3c169358b1eda3100b.jar" />
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\library-2.4.0-dd460f45d27a359687729c3c169358b1eda3100b.jar" />
+    </item>
+    <item
+        jar="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\exploded-aar\com.facebook.fbui.textlayoutbuilder\textlayoutbuilder\1.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="f90b593491e4044903f0bbf68dc3fa2790b151b9">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\classes-017016f441dcdc592dc56f5f381af0eb8474e0fd.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp\3.4.1\c7c4f9e35c2fd5900da24f9872e3971801f08ce0\okhttp-3.4.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c7c4f9e35c2fd5900da24f9872e3971801f08ce0">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\okhttp-3.4.1-a3a718343956c6e4d917a53a4fdd4a4dc134cda5.jar" />
+    </item>
+    <item
+        jar="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-okhttp3\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="2b8a01ad9da5d26d0067894c22e87597bca2c500">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\classes-e41bd95353fb946a9d14cd3c22a199f62a901878.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\support-annotations-23.4.0-c9fae43cda2e1c04b2ab0de43a8f148b5b1a92fa.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.google.zxing\core\3.2.1\2287494d4f5f9f3a9a2bb6980e3f32053721b315\core-3.2.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="2287494d4f5f9f3a9a2bb6980e3f32053721b315">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\core-3.2.1-3f96f72d8bc40481fc852122e0314b3485c288eb.jar" />
+    </item>
+    <item
+        jar="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.41.2\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="b49a04a3016689b372ecbb77f0c33e486e768cca">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\classes-fce0a0ee1bb7be7b6d1b83041173565c150731a5.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.google.code.findbugs\jsr305\3.0.0\5871fb60dc68d67da54a663c3fd636a10a532948\jsr305-3.0.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\jsr305-3.0.0-a971f67c50848f35eab062a5cec0856f32aa537b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-tasks\1.4.0\d85884acf6810a3bbbecb587f239005cbc846dc4\bolts-tasks-1.4.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\bolts-tasks-1.4.0-c64325f78a24c085b700c554244dc03fa6bc6a89.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.adobe.xmp\xmpcore\5.1.2\55615fa2582424e38705487d1d3969af8554f637\xmpcore-5.1.2.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="55615fa2582424e38705487d1d3969af8554f637">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\xmpcore-5.1.2-a2e4bb2925bf376c8a4a8312f65cd55e1f662b00.jar" />
+    </item>
+    <item
+        jar="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\exploded-aar\com.facebook.fresco\drawee\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1137942adeb03984c1311b662363dd38fc238fd3">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\classes-b56af3bbe8cffcc61d545c371a07909ca3073b17.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.9.0\f824591a0016efbaeddb8300bee54832a1398cfa\okio-1.9.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="f824591a0016efbaeddb8300bee54832a1398cfa">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\okio-1.9.0-db0545b090bbd931e1cf6e43202e038727277a7d.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp-urlconnection\3.4.1\63994437f62bc861bc20c605d12962f7246116d1\okhttp-urlconnection-3.4.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="63994437f62bc861bc20c605d12962f7246116d1">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\okhttp-urlconnection-3.4.1-8c53f11782c30ceeab64a97cd78f9c7aa80afcf8.jar" />
+    </item>
+    <item
+        jar="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\exploded-aar\LoactionApp1\react-native-camera\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="15d14a4304d034fd8909108d8970240a85cb1495">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\classes-5819edbb8c4e33b5e67e7b6d7d354d6074bf320c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\javax.inject\javax.inject\1\6975da39a7040257bd51d21a231b76c915872d38\javax.inject-1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="6975da39a7040257bd51d21a231b76c915872d38">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\javax.inject-1-273da2ba53aedc2691b5c6c4485ebe7b12b6e634.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.drewnoakes\metadata-extractor\2.9.1\53fdf22be10c9d426ec63431c7342895bc642261\metadata-extractor-2.9.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="53fdf22be10c9d426ec63431c7342895bc642261">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\metadata-extractor-2.9.1-c6cca8d053136e2f8e3f4cebcda203ea8ae940bc.jar" />
+    </item>
+    <item
+        jar="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fresco\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d31aadf33187c37a7cd63dc1b769f8c6e33f78c3">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\classes-c636cc557f8e0683ca5ccec9379490d84df66b4d.jar" />
+    </item>
+    <item
+        jar="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\exploded-aar\org.webkit\android-jsc\r174650\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="12b885b3ed1fc74a51f671ad40867aa91271843d">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\classes-afccd6b5c47a155459ee31e67e98ab85ae654939.jar" />
+    </item>
+    <item
+        jar="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\classes-3d2b01a08cf4ee52a1e8122eaa5df8a3a118bbb7.jar" />
+    </item>
+    <item
+        jar="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="3341b66c54367e777a0647e2db96c045329bfeab">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\classes-9a55676377b72e34356cd1ac9e9af96bc0861f43.jar" />
+    </item>
+    <item
+        jar="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fbcore\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="98786c1770b531b9194fb6448b2a2692c64074b6">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\classes-4078b3eb9c1003bf295b76ef53da3139b691fc01.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.facebook.fbui.textlayoutbuilder\staticlayout-proxy\1.0\f162442a19fff13995fbd51ba414d9ee05579080\staticlayout-proxy-1.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="f162442a19fff13995fbd51ba414d9ee05579080">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\staticlayout-proxy-1.0-0283216b9bf7dad1d31c87f4be8f1ed4e4500cc6.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp-ws\3.4.1\8ace66ef7002d98f633377c9e67daeeb196d8c3b\okhttp-ws-3.4.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8ace66ef7002d98f633377c9e67daeeb196d8c3b">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\okhttp-ws-3.4.1-fe83462a5d206d9870f1dd3ec3f8349b06d7cb1f.jar" />
+    </item>
+    <item
+        jar="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-base\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ca63c521b5745ae9a09629d7ca67ff6bc2a967fe">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\classes-b8ee29a9ed7d44436c5de0bdc2479e85c46e293a.jar" />
+    </item>
+    <item
+        jar="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\classes-8bdf497b839833b57c1a59340885987e08809813.jar" />
+    </item>
+    <item
+        jar="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\exploded-aar\com.facebook.soloader\soloader\0.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8f615bca00639150c9eb6175d4b5471193f70794">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\classes-ca2159460da80b299e3678b5453d2cec2464ae34.jar" />
+    </item>
+    <item
+        jar="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.41.2\jars\libs\infer-annotations-1.5.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="dcac634e137395f79693ec760f081a86eb2bd84e">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\infer-annotations-1.5-220455073854fcca383c0494edf2b1d7c7a4e65f.jar" />
+    </item>
+    <item
+        jar="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="D:\React Native\LocationApp\LocationApp1\android\app\build\intermediates\pre-dexed\debug\classes-9254e91c1d035b43dad13c3b5baa523707021593.jar" />
     </item>
 
 </items>
