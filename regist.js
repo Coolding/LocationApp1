@@ -107,45 +107,32 @@ regf=()=>{
         alert("手机号输入有误，请重输")
         return 0
     }
+  
 
-    // let url="http://1.loactionapp.applinzi.com/GetGPSInfo/"+this.props.SearchAssetNo;
-    //         fetch(url,{method:"GET"}).then(response => response.json())
-    //         .then(data => {
-    //             //this.setState({}) 
-    //             addrArray=data;
-    //             addrCount=data.length+1; 
-    //             CurrentAddrIndex=0;
-    //             this.setState({GPSLng:addrArray[CurrentAddrIndex]['BaiduLongitude'],GPSLat:addrArray[CurrentAddrIndex]['BaiduLatitude'],currentAssetNo:addrArray[CurrentAddrIndex]['AssetInfo'],currentElecAddr:addrArray[CurrentAddrIndex]['elecAddr'],currentDataSource:addrArray[CurrentAddrIndex]['数据来源'],RecordMan:addrArray[CurrentAddrIndex]['RecordMan'],RecordTime:addrArray[CurrentAddrIndex]['RecordTime']}) 
-    //             this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+addrArray[CurrentAddrIndex]['BaiduLatitude']+','+addrArray[CurrentAddrIndex]['BaiduLongitude']+'&mode=driving&region=厦门&output=html'})
-    //         })    //加1是因为处理数据库里面app上传的地址，还有1个根据用电地址反推的定位信息
-    //         .catch(e => console.log("Oops, error", e)) 
-
-   storage.load({
-    key: 'userData',
-    autoSync: true,
-    syncInBackground: true,
-    syncParams: {
-      extraFetchOptions: {
-      },
-      someFlag: true,
+    let url="http://1.loactionapp.applinzi.com/Regist";
+    let formData=new FormData();        
+    formData.append("UserName",this.state.name);        
+    formData.append("UserTel",this.state.tel);        
+    formData.append("UserDept",this.state.department);
+    fetch(url,{method:"POST",headers:{},body:formData}).then(response => response.json())  
+    .then(data => {
+        storage.save({   //将注册信息写入本机
+        key: 'userData',  // 注意:请不要在key中使用_下划线符号!
+        rawData: { 
+        username: this.state.name,
+        tel: this.state.tel,
+        department:this.state.department,
+        userID:data
     },
-  }).then(ret => {    // 注意：这是异步返回的结果（不了解异步请自行搜索学习）
-    alert(ret.username);
-    alert("读取成功")
-    return ret
-  }).catch(err => {
-    console.warn(err.message);
-    alert("读取失败")
-    switch (err.name) {
-        case 'NotFoundError':
-            // TODO;
-            break;
-        case 'ExpiredError':
-            // TODO
-            break;
-    }
-  })
-    //alert("注册成功，请等待后台人工审核，大约需要1天时间")
+    // 如果不指定过期时间，则会使用defaultExpires参数
+    // 如果设为null，则永不过期
+    expires: null
+  }); 
+    } )
+    .catch(e => console.log("Oops,error", e))
+    
+
+    alert("注册成功，请等待后台人工审核，大约需要1天时间")
 
 }
 
@@ -183,6 +170,9 @@ return (
                             color="#1DBAF1"                        
                             accessibilityLabel=""
                             />
+    </View> 
+    <View style={styles.bottomleftbtnview}> 
+        <Text style={styles.bottombtn}>我有账号，直接登录</Text> 
     </View> 
     <View style={styles.bottomrightbtnview}> 
         <Text style={styles.bottombtn}>忘记密码？</Text> 
@@ -262,14 +252,14 @@ flexDirection: 'row',
 }, 
 bottomleftbtnview: { 
 flex: 1, 
-height: 50, 
+//height: 50, 
 paddingLeft: 10, 
 alignItems: 'flex-start', 
 justifyContent: 'center', 
 }, 
 bottomrightbtnview: { 
 flex: 1, 
-height: 50, 
+//height: 50, 
 paddingRight: 10, 
 alignItems: 'flex-end', 
 justifyContent: 'center', 

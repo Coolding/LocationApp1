@@ -25,6 +25,8 @@ import Storage from 'react-native-storage';
 import { AsyncStorage } from 'react-native';
 import Login from './Login';
 import Regist from './regist';
+import Loading from './Loading';
+
 
 
 
@@ -70,17 +72,11 @@ export default class LoactionApp1 extends Component {
         RegStatus:0,
         test:""
         };
-    }
 
+    };
 
 componentWillMount() {
-     
-        
-         
-}
-
-get readRegStatus(){
-      //检查注册信息，以便判断用户打开APP之后是跳转到注册，登录还是系统界面
+//检查注册信息，以便判断用户打开APP之后是跳转到注册，登录还是系统界面
       let ReadStatus;
     storage.load({
     key: 'userData',
@@ -94,34 +90,40 @@ get readRegStatus(){
       someFlag: true,
     },
   }).then(ret => { 
-    ReadStatus=0
-    //alert(ReadStatus)
-    return ReadStatus      //已注册
+    alert(ret.username)
+    //alert(ret.department)
+    let url="http://1.loactionapp.applinzi.com/GetUserStatus/"+ret.UserID;
+    fetch(url,{method:"GET"}).then(response => response.json())
+    .then(data => {
+      if(data==1) this.setState({RegStatus:1})   //已审批通过
+      else if (data==0) this.setState({RegStatus:0})   //还未审批 
+      else if(data==-1) this.setState({RegStatus:-1})   //审批不通过
+      else if(data==-2) this.setState({RegStatus:-2})   //没找到该ID
+      //alert(this.state.RegStatus)
+     })    //加1是因为处理数据库里面app上传的地址，还有1个根据用电地址反推的定位信息
+    .catch(e => console.log("Oops, error", e))
+    
   }).catch(err => {
-    ReadStatus=-1
-    //alert(ReadStatus)
-    return ReadStatus   //还未注册，读取不到注册信息
+     this.setState({RegStatus:-1})    //还没注册过
  
   })
-  }
+
+    }
+
+ 
+
 
   render() {
     let defaultName = 'ScanUpload';
     let defaultComponent = ScanUpload;
-   // this.setState({AllScanedAssetNo: this.props.AllScanedAssetNo},function(){
-     let x=this.readRegStatus
-     
-// alert(this.readRegStatus)
-    this.setState({test:this.readRegStatus},function(){
-      if(this.state.RegStatus==-1)  
+
+    if(this.state.RegStatus==0)  //默认先打开加载等待页面
+        return (<Loading/>);
+     if(this.state.RegStatus==-1)  //还没注册过，显示注册页面
         return (<Regist/>);
-      if(this.state.RegStatus==0)  
-        return (<Login/>);
-    })
-    
-    
-    if(this.state.RegStatus==1)
-    return (       
+      
+      if(this.state.RegStatus==1)   //已注册，显示程序主界面    
+        return (       
      <View style={{flex: 1}}>
         <TabNavigator   Style={styles.tab} >
             <TabNavigator.Item
@@ -192,7 +194,8 @@ get readRegStatus(){
           </TabNavigator>
       </View>
     );
-
+ 
+ 
 
 
   }
