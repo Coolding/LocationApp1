@@ -10,6 +10,7 @@ Dimensions,
 TextInput,
 Button,
 } from 'react-native'; 
+//发送注册信息时，要判断手机号是否唯一
 
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
@@ -44,7 +45,7 @@ writeStor = () => {
 }
 
 readStor =() => {  
-   
+    
     storage.load({
     key: 'userData',
     // autoSync(默认为true)意味着在没有找到数据或数据过期时自动调用相应的sync方法

@@ -118,7 +118,7 @@ componentWillMount() {
     let defaultComponent = ScanUpload;
 
     if(this.state.RegStatus==0)  //默认先打开加载等待页面
-        return (<Loading/>);
+        return (<Login/>);
      if(this.state.RegStatus==-1)  //还没注册过，显示注册页面
         return (<Regist/>);
       

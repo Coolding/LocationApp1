@@ -11,6 +11,9 @@ TextInput,
 Button,
 } from 'react-native'; 
 
+//换新手机，直接登录，要下载账号信息并存储到本机
+
+
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
 
@@ -22,8 +25,7 @@ export default class Login extends React.Component {
     super(props); 
      this.state = {
      tel:"",
-     name:"",
-     department:"",
+     pass:""
     }; 
 
     this.readStor=this.readStor.bind(this)
@@ -86,67 +88,42 @@ readStor =() => {
   })
 }
 
-regf=()=>{
-    readStor
+startLogin=()=>{
     let reg=/^[0-9]{11}$/   
-    if(this.state.name==""){
-            alert ("请输入名字")
-            return 0
-    }
-    if(this.state.department==""){
-            alert ("请输入部门")
+    if(this.state.pass==""){
+            alert ("请输入密码")
             return 0
     }
     if(this.state.tel==""){
             alert ("请输入手机号")
             return 0
-    }
-   
+    }   
 	if(reg.test(this.state.tel)==false )
     {
         alert("手机号输入有误，请重输")
         return 0
     }
 
-    // let url="http://1.loactionapp.applinzi.com/GetGPSInfo/"+this.props.SearchAssetNo;
-    //         fetch(url,{method:"GET"}).then(response => response.json())
-    //         .then(data => {
-    //             //this.setState({}) 
-    //             addrArray=data;
-    //             addrCount=data.length+1; 
-    //             CurrentAddrIndex=0;
-    //             this.setState({GPSLng:addrArray[CurrentAddrIndex]['BaiduLongitude'],GPSLat:addrArray[CurrentAddrIndex]['BaiduLatitude'],currentAssetNo:addrArray[CurrentAddrIndex]['AssetInfo'],currentElecAddr:addrArray[CurrentAddrIndex]['elecAddr'],currentDataSource:addrArray[CurrentAddrIndex]['数据来源'],RecordMan:addrArray[CurrentAddrIndex]['RecordMan'],RecordTime:addrArray[CurrentAddrIndex]['RecordTime']}) 
-    //             this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+addrArray[CurrentAddrIndex]['BaiduLatitude']+','+addrArray[CurrentAddrIndex]['BaiduLongitude']+'&mode=driving&region=厦门&output=html'})
-    //         })    //加1是因为处理数据库里面app上传的地址，还有1个根据用电地址反推的定位信息
-    //         .catch(e => console.log("Oops, error", e)) 
-
-   
-    //alert("注册成功，请等待后台人工审核，大约需要1天时间")
-
+ 
 }
 
 render() { 
 return ( 
 <View style={styles.container}> 
     <View style={styles.header}> 
-        <Text style={styles.headtitle}>添加账号</Text> 
+        <Text style={styles.headtitle}>登录</Text> 
     </View> 
 
     <View style={styles.marginTopview}/>
 
     <View style={styles.inputview}> 
-        <TextInput underlineColorAndroid='transparent' style={styles.textinput} placeholder='请输入手机号'
+        <TextInput underlineColorAndroid='transparent' style={styles.textinput} placeholder='请输入登录手机号'
             onChangeText={(text) => this.setState({tel:text})} />
         <View style={styles.dividerview}> 
             <Text style={styles.divider}></Text> 
-        </View> 
-        <TextInput underlineColorAndroid='transparent' style={styles.textinput} placeholder='请输入部门和班组'
-            onChangeText={(text) => this.setState({department:text})} />
-        <View style={styles.dividerview}> 
-            <Text style={styles.divider}></Text> 
-        </View> 
-        <TextInput underlineColorAndroid='transparent' style={styles.textinput} placeholder='请输入真实姓名'
-            onChangeText={(text) => this.setState({name:text})} />
+        </View>        
+        <TextInput underlineColorAndroid='transparent' style={styles.textinput} placeholder='密码'
+        secureTextEntry={true} onChangeText={(text) => this.setState({pass:text})} />
         <View style={styles.dividerview}> 
             <Text style={styles.divider}></Text> 
         </View> 
@@ -154,12 +131,20 @@ return (
     <View style={{marginLeft:w*0.1,marginTop:10,width:w*0.8,height:80,borderRadius:6,}}>
                         <Button    
                             sytle={{borderRadius:6,fontSize:20}}   
-                            onPress={this.regf}
-                            title="注册"                
+                            onPress={this.startLogin}
+                            title="登录"                
                             color="#1DBAF1"                        
                             accessibilityLabel=""
                             />
     </View> 
+    <View style={styles.bottombtnsview}> 
+<View style={styles.bottomleftbtnview}> 
+<Text style={styles.bottombtn} onPress={()=>alert("请发送你的登录手机号码、部门和姓名到18959298867，注明：需重置密码")}>忘记密码？</Text> 
+</View> 
+<View style={styles.bottomrightbtnview}> 
+<Text style={styles.bottombtn} onPress={()=>{  storage.remove({key: 'userData'});  alert("删除完成")}}>删除本机存储的注册信息</Text> 
+</View> 
+</View> 
 
 </View> 
 ); 
@@ -195,7 +180,7 @@ height: 3,
 backgroundColor: '#F7F7F9'
 }, 
 inputview: { 
-height: 150, 
+height: 100, 
 }, 
 textinput: { 
 flex: 1, 
