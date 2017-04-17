@@ -35,41 +35,14 @@ import Loading from './Loading';
 var Dimensions = require('Dimensions');
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
-var storage = new Storage({
-  // 最大容量，默认值1000条数据循环存储
-  size: 1000,
-  // 存储引擎：对于RN使用AsyncStorage，对于web使用window.localStorage
-  // 如果不指定则数据只会保存在内存中，重启后即丢失
-  storageBackend: AsyncStorage,
-  // 数据过期时间，默认一整天（1000 * 3600 * 24 毫秒），设为null则永不过期
-  defaultExpires: null,
-  // 读写时在内存中缓存数据。默认启用。
-    enableCache: true,
-  // 如果storage中没有相应数据，或数据已过期，
-  // 则会调用相应的sync方法，无缝返回最新数据。
-  // sync方法的具体说明会在后文提到
-  // 你可以在构造函数这里就写好sync的方法
-  // 或是写到另一个文件里，这里require引入
-  // 或是在任何时候，直接对storage.sync进行赋值修改
-  //sync: require('./sync')
-})  
 
-// 最好在全局范围内创建一个（且只有一个）storage实例，方便直接调用
-// 对于web
-// window.storage = storage;
-// 对于react native
- global.storage = storage;
-// 这样，在此**之后**的任意位置即可以直接调用storage
-// 注意：全局变量一定是先声明，后使用
-// 如果你在某处调用storage报错未定义
-// 请检查global.storage = storage语句是否确实已经执行过了
 
 export default class LoactionApp1 extends Component {
  constructor(props){
         super(props);
         this.state = {
         selectedTab:'home',
-        RegStatus:0,
+        RegStatus:0,   //默认先显示Loading页面
         test:""
         };
 
@@ -77,36 +50,49 @@ export default class LoactionApp1 extends Component {
 
 componentWillMount() {
 //检查注册信息，以便判断用户打开APP之后是跳转到注册，登录还是系统界面
-      let ReadStatus;
-    storage.load({
-    key: 'userData',
-    autoSync: true,
-    syncInBackground: true,
-    // 你还可以给sync方法传递额外的参数
-    syncParams: {
-      extraFetchOptions: {
-        // 各种参数
-      },
-      someFlag: true,
-    },
-  }).then(ret => { 
-    alert(ret.username)
-    //alert(ret.department)
-    let url="http://1.loactionapp.applinzi.com/GetUserStatus/"+ret.UserID;
-    fetch(url,{method:"GET"}).then(response => response.json())
-    .then(data => {
-      if(data==1) this.setState({RegStatus:1})   //已审批通过
-      else if (data==0) this.setState({RegStatus:0})   //还未审批 
-      else if(data==-1) this.setState({RegStatus:-1})   //审批不通过
-      else if(data==-2) this.setState({RegStatus:-2})   //没找到该ID
-      //alert(this.state.RegStatus)
-     })    //加1是因为处理数据库里面app上传的地址，还有1个根据用电地址反推的定位信息
-    .catch(e => console.log("Oops, error", e))
-    
-  }).catch(err => {
-     this.setState({RegStatus:-1})    //还没注册过
- 
-  })
+    let ReadStatus;
+    try{    //如果还没有注册或者是新手机，则变量storage还未定义（在注册时或者换了新手机，首次登录才会定义）
+                    storage.load({  
+                    key: 'userData',
+                    autoSync: true,
+                    syncInBackground: true,
+                    // 你还可以给sync方法传递额外的参数
+                    syncParams: {
+                      extraFetchOptions: {
+                        // 各种参数
+                      },
+                      someFlag: true,
+                    },
+                    }).then(ret => { 
+                              alert('审批状态:' + ret.RegStatus)
+                              if(ret.RegStatus==2)  //已登录
+                                  {  this.setState({RegStatus:3})  } 
+                              else{  //还没登录，获取审批状态
+                                        //alert(ret.department)
+                                        let url="http://1.loactionapp.applinzi.com/GetUserStatus/"+ret.UserID;
+                                        fetch(url,{method:"GET"}).then(response => response.json())
+                                        .then(data => {
+                                                    if(data==1) this.setState({RegStatus:2})   //已审批通过，显示登录页面，同时显示审批情况
+                                                    else if (data==0) this.setState({RegStatus:1})   //还未审批，显示登录页面，同时显示审批情况
+                                                    else if(data==-1) this.setState({RegStatus:-2})   //审批不通过，显示注册页面（重新注册）
+                                                    else if(data==-2) this.setState({RegStatus:-3})   //没找到该ID，一般是不会发生，显示注册页面
+                                                    //alert(this.state.RegStatus)
+                                        })    //加1是因为处理数据库里面app上传的地址，还有1个根据用电地址反推的定位信息
+                                        .catch(e => console.log("Oops, error", e))
+                              }
+                   }).catch(err => {
+                          alert("没读取到账号信息")
+                          this.setState({RegStatus:-1})    //还没注册过                
+                  })
+
+    }
+    catch (e) {
+        alert("没找到storage")
+        this.setState({RegStatus:-1})  //还没注册（或者换新手机），显示注册页面
+    } finally {
+        console.log('finally');
+    }
+
 
     }
 
@@ -117,12 +103,20 @@ componentWillMount() {
     let defaultName = 'ScanUpload';
     let defaultComponent = ScanUpload;
 
+    if(this.state.RegStatus==-3)  //没找到该ID，一般是不会发生，显示注册页面
+      return (<Regist RegStatus='没找到该注册ID，请重新注册' />);
+    if(this.state.RegStatus==-2)  //审批不通过（可能一些信息没填完整），显示注册页面（重新注册）
+      return (<Regist RegStatus='审批不通过，请重新注册，注意信息填写要完整，准确' />);
+    if(this.state.RegStatus==-1)  //还没注册过，显示注册页面
+      return (<Regist RegStatus='' />);
     if(this.state.RegStatus==0)  //默认先打开加载等待页面
-        return (<Login/>);
-     if(this.state.RegStatus==-1)  //还没注册过，显示注册页面
-        return (<Regist/>);
+      return (<Loading/>);
+    if(this.state.RegStatus==1)  //还未审批，显示登录页面，同时显示审批情况
+      return (<Login RegStatus='还未审批，请耐心等待' />);
+    if(this.state.RegStatus==2)  //已审批通过，显示登录页面，同时显示审批情况
+      return (<Login RegStatus='已审批通过' />);
       
-      if(this.state.RegStatus==1)   //已注册，显示程序主界面    
+      if(this.state.RegStatus==3)   //已注册且已登录，显示程序主界面    
         return (       
      <View style={{flex: 1}}>
         <TabNavigator   Style={styles.tab} >

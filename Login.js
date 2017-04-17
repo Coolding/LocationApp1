@@ -138,11 +138,15 @@ return (
                             />
     </View> 
     <View style={styles.bottombtnsview}> 
+          
 <View style={styles.bottomleftbtnview}> 
-<Text style={styles.bottombtn} onPress={()=>alert("请发送你的登录手机号码、部门和姓名到18959298867，注明：需重置密码")}>忘记密码？</Text> 
+         <Text>{this.props.RegStatus}</Text>
+</View> 
+<View style={styles.bottomleftbtnview}> 
+        <Text style={styles.bottombtn} onPress={()=>alert("请发送你的登录手机号码、部门和姓名到18959298867，注明：需重置密码")}>忘记密码？</Text> 
 </View> 
 <View style={styles.bottomrightbtnview}> 
-<Text style={styles.bottombtn} onPress={()=>{  storage.remove({key: 'userData'});  alert("删除完成")}}>删除本机存储的注册信息</Text> 
+        <Text style={styles.bottombtn} onPress={()=>{  storage.remove({key: 'userData'});  alert("删除完成")}}>删除本机存储的注册信息</Text> 
 </View> 
 </View> 
 

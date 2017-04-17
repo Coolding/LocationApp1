@@ -108,7 +108,7 @@ regf=()=>{
         alert("手机号输入有误，请重输")
         return 0
     }
-  
+    
 
     let url="http://1.loactionapp.applinzi.com/Regist";
     let formData=new FormData();        
@@ -117,21 +117,50 @@ regf=()=>{
     formData.append("UserDept",this.state.department);
     fetch(url,{method:"POST",headers:{},body:formData}).then(response => response.json())  
     .then(data => {
-        storage.save({   //将注册信息写入本机
-        key: 'userData',  // 注意:请不要在key中使用_下划线符号!
-        rawData: { 
-        username: this.state.name,
-        tel: this.state.tel,
-        department:this.state.department,
-        userID:data
-    },
-    // 如果不指定过期时间，则会使用defaultExpires参数
-    // 如果设为null，则永不过期
-    expires: null
-  }); 
+                var storage = new Storage({
+                // 最大容量，默认值1000条数据循环存储
+                size: 1000,
+                // 存储引擎：对于RN使用AsyncStorage，对于web使用window.localStorage
+                // 如果不指定则数据只会保存在内存中，重启后即丢失
+                storageBackend: AsyncStorage,
+                // 数据过期时间，默认一整天（1000 * 3600 * 24 毫秒），设为null则永不过期
+                defaultExpires: null,
+                // 读写时在内存中缓存数据。默认启用。
+                    enableCache: true,
+                // 如果storage中没有相应数据，或数据已过期，
+                // 则会调用相应的sync方法，无缝返回最新数据。
+                // sync方法的具体说明会在后文提到
+                // 你可以在构造函数这里就写好sync的方法
+                // 或是写到另一个文件里，这里require引入
+                // 或是在任何时候，直接对storage.sync进行赋值修改
+                //sync: require('./sync')
+                })  
+
+                // 最好在全局范围内创建一个（且只有一个）storage实例，方便直接调用
+                // 对于web
+                // window.storage = storage;
+                // 对于react native
+                //global.storage = storage;
+                // 这样，在此**之后**的任意位置即可以直接调用storage
+                // 注意：全局变量一定是先声明，后使用
+                // 如果你在某处调用storage报错未定义
+                // 请检查global.storage = storage语句是否确实已经执行过了
+                storage.save({   //将注册信息写入本机
+                key: 'userData',  // 注意:请不要在key中使用_下划线符号!
+                rawData: { 
+                username: this.state.name,
+                tel: this.state.tel,
+                department:this.state.department,
+                userID:data,
+                RegStatus:0,  //已注册还未审批
+                    },
+                // 如果不指定过期时间，则会使用defaultExpires参数
+                // 如果设为null，则永不过期
+                expires: null
+            }); 
+            return storage
     } )
-    .catch(e => console.log("Oops,error", e))
-    
+    .catch(e => console.log("Oops,error", e))    
 
     alert("注册成功，请等待后台人工审核，大约需要1天时间")
 
@@ -166,11 +195,14 @@ return (
     <View style={{marginLeft:w*0.1,marginTop:10,width:w*0.8,height:80,borderRadius:6,}}>
                         <Button    
                             sytle={{borderRadius:6,fontSize:20}}   
-                            onPress={this.regf}
+                            onPress={global.storage=this.regf}
                             title="注册"                
                             color="#1DBAF1"                        
                             accessibilityLabel=""
                             />
+    </View> 
+    <View style={styles.bottomleftbtnview}> 
+         <Text>{this.props.RegStatus}</Text>
     </View> 
     <View style={styles.bottomleftbtnview}> 
         <Text style={styles.bottombtn}>我有账号，直接登录</Text> 
