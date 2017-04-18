@@ -51,25 +51,18 @@ export default class LoactionApp1 extends Component {
 componentWillMount() {
 //检查注册信息，以便判断用户打开APP之后是跳转到注册，登录还是系统界面
     let ReadStatus;
+    AsyncStorage.getItem('tel').then((value) => {alert(value);}  )     
     try{    //如果还没有注册或者是新手机，则变量storage还未定义（在注册时或者换了新手机，首次登录才会定义）
-                    storage.load({  
-                    key: 'userData',
-                    autoSync: true,
-                    syncInBackground: true,
-                    // 你还可以给sync方法传递额外的参数
-                    syncParams: {
-                      extraFetchOptions: {
-                        // 各种参数
-                      },
-                      someFlag: true,
-                    },
-                    }).then(ret => { 
-                              alert('审批状态:' + ret.RegStatus)
+                    tel=AsyncStorage.getItem('tel') 
+                    userID=AsyncStorage.getItem('userID')
+                     AsyncStorage.getItem('RegStatus').then((value) => {
+                       const jsonValue = JSON.parse(value);
+                        alert('审批状态:' + ret.RegStatus)
                               if(ret.RegStatus==2)  //已登录
                                   {  this.setState({RegStatus:3})  } 
                               else{  //还没登录，获取审批状态
                                         //alert(ret.department)
-                                        let url="http://1.loactionapp.applinzi.com/GetUserStatus/"+ret.UserID;
+                                        let url="http://1.loactionapp.applinzi.com/GetUserStatus/"+userID;
                                         fetch(url,{method:"GET"}).then(response => response.json())
                                         .then(data => {
                                                     if(data==1) this.setState({RegStatus:2})   //已审批通过，显示登录页面，同时显示审批情况
@@ -80,14 +73,11 @@ componentWillMount() {
                                         })    //加1是因为处理数据库里面app上传的地址，还有1个根据用电地址反推的定位信息
                                         .catch(e => console.log("Oops, error", e))
                               }
-                   }).catch(err => {
-                          alert("没读取到账号信息")
-                          this.setState({RegStatus:-1})    //还没注册过                
-                  })
-
+                    });
+                    
     }
     catch (e) {
-        alert("没找到storage")
+        //alert("没找到storage")
         this.setState({RegStatus:-1})  //还没注册（或者换新手机），显示注册页面
     } finally {
         console.log('finally');
