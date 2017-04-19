@@ -51,14 +51,16 @@ export default class LoactionApp1 extends Component {
 componentWillMount() {
 //检查注册信息，以便判断用户打开APP之后是跳转到注册，登录还是系统界面
     let ReadStatus;
-    AsyncStorage.getItem('tel').then((value) => {alert(value);}  )     
+    let userID;
+    let tel;
+    // AsyncStorage.getItem('tel').then((value) => {alert('注册的手机号是：'+value);}  )     
     try{    //如果还没有注册或者是新手机，则变量storage还未定义（在注册时或者换了新手机，首次登录才会定义）
-                    tel=AsyncStorage.getItem('tel') 
-                    userID=AsyncStorage.getItem('userID')
-                     AsyncStorage.getItem('RegStatus').then((value) => {
-                       const jsonValue = JSON.parse(value);
-                        alert('审批状态:' + ret.RegStatus)
-                              if(ret.RegStatus==2)  //已登录
+                    AsyncStorage.getItem('tel').then((value) => tel=value  )      
+                     AsyncStorage.getItem('userID').then((value) => {userID=value;alert('userID是'+value+"tel是"+tel); } )     
+                    
+                    
+                     AsyncStorage.getItem('RegStatus').then((value) => { 
+                              if(value==2)  //已登录
                                   {  this.setState({RegStatus:3})  } 
                               else{  //还没登录，获取审批状态
                                         //alert(ret.department)
@@ -101,6 +103,7 @@ componentWillMount() {
       return (<Regist RegStatus='' />);
     if(this.state.RegStatus==0)  //默认先打开加载等待页面
       return (<Loading/>);
+      //return (<Login RegStatus='测试' />);
     if(this.state.RegStatus==1)  //还未审批，显示登录页面，同时显示审批情况
       return (<Login RegStatus='还未审批，请耐心等待' />);
     if(this.state.RegStatus==2)  //已审批通过，显示登录页面，同时显示审批情况

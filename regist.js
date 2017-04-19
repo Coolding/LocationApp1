@@ -28,68 +28,10 @@ export default class Regist extends React.Component {
      department:"",
     }; 
 
-    this.readStor=this.readStor.bind(this)
+   
   }  
 
-
  
-
-writeStor = () => {   
-    storage.save({
-    key: 'userData',  // 注意:请不要在key中使用_下划线符号!
-    rawData: { 
-      username: this.state.name,
-      tel: this.state.tel,
-      department:this.state.department,
-    },
-    // 如果不指定过期时间，则会使用defaultExpires参数
-    // 如果设为null，则永不过期
-    expires: null
-  }); 
-}
-
-readStor =() => {  
-    
-    storage.load({
-    key: 'userData',
-    // autoSync(默认为true)意味着在没有找到数据或数据过期时自动调用相应的sync方法
-    autoSync: true,
-    // syncInBackground(默认为true)意味着如果数据过期，
-    // 在调用sync方法的同时先返回已经过期的数据。
-    // 设置为false的话，则始终强制返回sync方法提供的最新数据(当然会需要更多等待时间)。
-    syncInBackground: true,
-    // 你还可以给sync方法传递额外的参数
-    syncParams: {
-      extraFetchOptions: {
-        // 各种参数
-      },
-      someFlag: true,
-    },
-  }).then(ret => {
-    // 如果找到数据，则在then方法中返回
-    // 注意：这是异步返回的结果（不了解异步请自行搜索学习）
-    // 你只能在then这个方法内继续处理ret数据
-    // 而不能在then以外处理
-    // 也没有办法“变成”同步返回
-    // 你也可以使用“看似”同步的async/await语法
-    alert(ret.username);
-    alert("读取成功")
-    return ret
-  }).catch(err => {
-    //如果没有找到数据且没有sync方法，
-    //或者有其他异常，则在catch中返回
-    console.warn(err.message);
-    alert("读取失败")
-    switch (err.name) {
-        case 'NotFoundError':
-            // TODO;
-            break;
-        case 'ExpiredError':
-            // TODO
-            break;
-    }
-  })
-}
 
 regf=()=>{
    
@@ -119,18 +61,19 @@ regf=()=>{
     formData.append("UserDept",this.state.department);
     fetch(url,{method:"POST",headers:{},body:formData}).then(response => response.json())  
     .then(data => {        
+                //alert(data)
                 AsyncStorage.setItem('username',this.state.name); 
                 AsyncStorage.setItem('tel',  this.state.tel); 
                 AsyncStorage.setItem('department', this.state.department); 
-                AsyncStorage.setItem('userID', data); 
+                AsyncStorage.setItem('userID', data+''); 
                 AsyncStorage.setItem('RegStatus', '0'); 
-                //AsyncStorage.getItem('tel').then((value) => {alert(value);}  )     
-                //alert(AsyncStorage.getItem('tel'))
+ 
+                alert("注册成功，请等待后台人工审核，大约需要1天时间")
             
     } )
     .catch(e => console.log("Oops,error", e))    
 
-   // alert("注册成功，请等待后台人工审核，大约需要1天时间")
+    
 
 }
 
@@ -138,7 +81,7 @@ render() {
 return ( 
 <View style={styles.container}> 
     <View style={styles.header}> 
-        <Text style={styles.headtitle}>添加账号</Text> 
+        <Text style={styles.headtitle}>注册</Text> 
     </View> 
 
     <View style={styles.marginTopview}/>
