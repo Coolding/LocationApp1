@@ -66,6 +66,39 @@ startLogin=()=>{
         return 0
     }
 
+
+let ReadStatus;
+    let userID;
+ 
+     
+    try{    //如果还没有注册或者是新手机，则变量storage还未定义（在注册时或者换了新手机，首次登录才会定义）
+                    AsyncStorage.getItem('tel').then((value) => tel=value)      
+                     AsyncStorage.getItem('userID').then((value) => {userID=value;alert('userID是'+value+"tel是"+tel); } )     
+                    if(userID==null) { this.setState({RegStatus:-1}); return  }
+                    
+                     AsyncStorage.getItem('RegStatus').then((value) => { 
+                              if(value==2)  //已登录
+                                  {  this.setState({RegStatus:3})  } 
+                              else{  //还没登录，获取审批状态
+                                        //alert(ret.department)
+                                        let url="http://1.loactionapp.applinzi.com/GetUserStatus/"+userID;
+                                        fetch(url,{method:"GET"}).then(response => response.json())
+                                        .then(data => {
+                                                    if(data==1) this.setState({RegStatus:2})   //已审批通过，显示登录页面，同时显示审批情况
+                                                    else if (data==0) this.setState({RegStatus:1})   //还未审批，显示登录页面，同时显示审批情况
+                                                    else if(data==-1) this.setState({RegStatus:-2})   //审批不通过，显示注册页面（重新注册）
+                                                    else if(data==-2) this.setState({RegStatus:-3})   //没找到该ID，一般是不会发生，显示注册页面
+                                                    //alert(this.state.RegStatus)
+                                        })    //加1是因为处理数据库里面app上传的地址，还有1个根据用电地址反推的定位信息
+                                        .catch(e => console.log("Oops, error", e))
+                              }
+                    });
+                    
+    }
+    catch (e) {
+        //alert("没找到storage")
+        this.setState({RegStatus:-1})  //还没注册（或者换新手机），显示注册页面
+    }
  
 }
 

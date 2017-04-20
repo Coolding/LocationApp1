@@ -26,6 +26,8 @@ import { AsyncStorage } from 'react-native';
 import Login from './Login';
 import Regist from './regist';
 import Loading from './Loading';
+import NavRegist from './NavRegist';
+
 
 
 
@@ -57,7 +59,7 @@ componentWillMount() {
     try{    //如果还没有注册或者是新手机，则变量storage还未定义（在注册时或者换了新手机，首次登录才会定义）
                     AsyncStorage.getItem('tel').then((value) => tel=value  )      
                      AsyncStorage.getItem('userID').then((value) => {userID=value;alert('userID是'+value+"tel是"+tel); } )     
-                    
+                    if(userID==null) { this.setState({RegStatus:-1}); return  }
                     
                      AsyncStorage.getItem('RegStatus').then((value) => { 
                               if(value==2)  //已登录
@@ -96,11 +98,13 @@ componentWillMount() {
     let defaultComponent = ScanUpload;
 
     if(this.state.RegStatus==-3)  //没找到该ID，一般是不会发生，显示注册页面
-      return (<Regist RegStatus='没找到该注册ID，请重新注册' />);
+      //return (<Regist RegStatus='没找到该注册ID，请重新注册' />);
+       return (<NavRegist />);
     if(this.state.RegStatus==-2)  //审批不通过（可能一些信息没填完整），显示注册页面（重新注册）
       return (<Regist RegStatus='审批不通过，请重新注册，注意信息填写要完整，准确' />);
     if(this.state.RegStatus==-1)  //还没注册过，显示注册页面
-      return (<Regist RegStatus='' />);
+      return <NavRegist />;
+      //return (<Regist RegStatus='' />);
     if(this.state.RegStatus==0)  //默认先打开加载等待页面
       return (<Loading/>);
       //return (<Login RegStatus='测试' />);

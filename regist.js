@@ -11,6 +11,7 @@ TextInput,
 Button,
 AsyncStorage,
 } from 'react-native'; 
+import Login from './Login';
 //发送注册信息时，要判断手机号是否唯一
 
 var w=Dimensions.get('window').width;
@@ -26,12 +27,23 @@ export default class Regist extends React.Component {
      tel:"",
      name:"",
      department:"",
+     regDisable:false
     }; 
 
    
   }  
 
  
+gotoLogin=()=>{
+const { navigator } = this.props;
+                navigator.replace({
+                    name: 'Login',
+                    component: Login,
+                    params: {
+                   // SearchAssetNo: assetNo
+                }});
+    
+}
 
 regf=()=>{
    
@@ -54,6 +66,7 @@ regf=()=>{
         alert("手机号输入有误，请重输")
         return 0
     }
+    this.setState({regDisable:true})
     let url="http://1.loactionapp.applinzi.com/Regist";
     let formData=new FormData();        
     formData.append("UserName",this.state.name);        
@@ -67,7 +80,14 @@ regf=()=>{
                 AsyncStorage.setItem('department', this.state.department); 
                 AsyncStorage.setItem('userID', data+''); 
                 AsyncStorage.setItem('RegStatus', '0'); 
- 
+                const { navigator } = this.props;
+                navigator.replace({
+                    name: 'Login',
+                    component: Login,
+                    params: {
+                   // SearchAssetNo: assetNo
+                }});
+
                 alert("注册成功，请等待后台人工审核，大约需要1天时间")
             
     } )
@@ -110,13 +130,15 @@ return (
                             title="注册"                
                             color="#1DBAF1"                        
                             accessibilityLabel=""
+                            disabled={this.state.regDisable}
                             />
     </View> 
     <View style={styles.bottomleftbtnview}> 
          <Text>{this.props.RegStatus}</Text>
     </View> 
     <View style={styles.bottomleftbtnview}> 
-        <Text style={styles.bottombtn}>我有账号，直接登录</Text> 
+        <Text style={styles.bottombtn}
+               onPress={this.gotoLogin}>我有账号，直接登录</Text> 
     </View> 
     <View style={styles.bottomrightbtnview}> 
         <Text style={styles.bottombtn}>忘记密码？</Text> 
