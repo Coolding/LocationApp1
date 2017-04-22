@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   Navigator,
+  Text,
 } from 'react-native';
 import Camera from 'react-native-camera';
 import ScanUploadResult from './ScanUploadResult';
@@ -17,7 +18,20 @@ var h=Dimensions.get('window').height;  //获得屏幕的宽高
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
   },
+    header: { 
+    height: 40, 
+    width:w,
+    backgroundColor: '#12B7F5', 
+    justifyContent: 'center', 
+}, 
+headtitle: { 
+    alignSelf: 'center', 
+    fontSize: 20, 
+    color: '#ffffff', 
+}, 
   preview: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -67,7 +81,7 @@ const styles = StyleSheet.create({
     rectangle: {
         height: w*0.6,
         width: w*0.6,
-        marginBottom:0,
+        marginBottom:80,
         marginLeft:0,
         borderWidth: 1,
         borderColor: '#FFFFFF',
@@ -207,84 +221,75 @@ export default class ScanUpload extends React.Component {
 
     return (
       <View style={styles.container}>
-        <StatusBar
-          animated
-          hidden
-        />
-        <Camera
-          ref={(cam) => {
-            this.camera = cam;
-          }}
-          style={styles.preview}
-          aspect={this.state.camera.aspect}
-          captureTarget={this.state.camera.captureTarget}
-          type={this.state.camera.type}
-          flashMode={this.state.camera.flashMode}
-          defaultTouchToFocus
-          mirrorImage={false}
-          onBarCodeRead={this.onBarCodeRead} >
-          <View style={styles.rectangleContainer}>               
-               <View style={styles.rectangle} />
-          </View>
-        </Camera>
-        <View style={[styles.overlay, styles.topOverlay]}>
-          <TouchableOpacity
-            style={styles.typeButton}
-            onPress={this.switchType}
-          >
-            <Image
-              source={this.typeIcon}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.flashButton}
-            onPress={this.switchFlash}
-          >
-            <Image
-              source={this.flashIcon}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={[styles.overlay, styles.bottomOverlay]}>
-          {
-            !this.state.isRecording
-            &&
-            <TouchableOpacity
-                style={styles.captureButton}
-                onPress={this.takePicture}
-            >
-              <Image
-                  source={require('./assets/ic_photo_camera_36pt.png')}
-        
-              />
-            </TouchableOpacity>
-            ||
-            null
-          }
-          <View style={styles.buttonsSpace} />
-          {
-              !this.state.isRecording
-              &&
-              <TouchableOpacity
-                  style={styles.captureButton}
-                  onPress={this.startRecording}
-              >
-                <Image
-                    source={require('./assets/ic_videocam_36pt.png')}
+          <View style={styles.header}> 
+              <Text style={styles.headtitle}>扫描上传</Text> 
+          </View>  
+     
+                <StatusBar
+                  animated
+                  hidden
                 />
-              </TouchableOpacity>
-              ||
-              <TouchableOpacity
-                  style={styles.captureButton}
-                  onPress={this.stopRecording}
-              >
-                <Image
-                    source={require('./assets/ic_stop_36pt.png')}
-                />
-              </TouchableOpacity>
-          }
-        </View>
+                <Camera
+                  ref={(cam) => {
+                    this.camera = cam;
+                  }}
+                  style={styles.preview}
+                  aspect={this.state.camera.aspect}
+                  captureTarget={this.state.camera.captureTarget}
+                  type={this.state.camera.type}
+                  flashMode={this.state.camera.flashMode}
+                  defaultTouchToFocus
+                  mirrorImage={false}
+                  onBarCodeRead={this.onBarCodeRead} >
+                  <View style={styles.rectangleContainer}>               
+                      <View style={styles.rectangle} />
+                  </View>
+                </Camera>
+            
+                <View style={[styles.overlay, styles.bottomOverlay]}>
+                  {
+                    !this.state.isRecording
+                    &&
+                    <TouchableOpacity
+                        style={styles.captureButton}
+                        onPress={this.takePicture}
+                    >
+                      <Image
+                          source={require('./assets/ic_photo_camera_36pt.png')}
+                
+                      />
+                    </TouchableOpacity>
+                    ||
+                    null
+                  }
+                  <View style={styles.buttonsSpace} />
+                  {
+                      !this.state.isRecording
+                      &&
+                      <TouchableOpacity
+                          style={styles.captureButton}
+                          onPress={this.startRecording}
+                      >
+                        <Image
+                            source={require('./assets/ic_videocam_36pt.png')}
+                        />
+                      </TouchableOpacity>
+                      ||
+                      <TouchableOpacity
+                          style={styles.captureButton}
+                          onPress={this.stopRecording}
+                      >
+                        <Image
+                            source={require('./assets/ic_stop_36pt.png')}
+                        />
+                      </TouchableOpacity>
+                  }
+                </View>
+   
       </View>
     );
   }
+ 
+
+
 }

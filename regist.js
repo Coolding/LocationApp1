@@ -12,6 +12,7 @@ Button,
 AsyncStorage,
 } from 'react-native'; 
 import Login from './Login';
+import AppMain from './AppMain';
 //发送注册信息时，要判断手机号是否唯一
 
 var w=Dimensions.get('window').width;
@@ -27,6 +28,7 @@ export default class Regist extends React.Component {
      tel:"",
      name:"",
      department:"",
+     pass:"",
      regDisable:false
     }; 
 
@@ -40,13 +42,12 @@ const { navigator } = this.props;
                     name: 'Login',
                     component: Login,
                     params: {
-                   // SearchAssetNo: assetNo
+                    
                 }});
     
 }
 
-regf=()=>{
-   
+startRegist=()=>{   
     let reg=/^[0-9]{11}$/   
     if(this.state.name==""){
             alert ("请输入名字")
@@ -58,6 +59,10 @@ regf=()=>{
     }
     if(this.state.tel==""){
             alert ("请输入手机号")
+            return 0
+    }
+    if(this.state.pass==""){
+            alert ("请输入密码")
             return 0
     }
    
@@ -72,23 +77,24 @@ regf=()=>{
     formData.append("UserName",this.state.name);        
     formData.append("UserTel",this.state.tel);        
     formData.append("UserDept",this.state.department);
+    formData.append("Pass",this.state.pass);
     fetch(url,{method:"POST",headers:{},body:formData}).then(response => response.json())  
     .then(data => {        
-                //alert(data)
-                AsyncStorage.setItem('username',this.state.name); 
-                AsyncStorage.setItem('tel',  this.state.tel); 
-                AsyncStorage.setItem('department', this.state.department); 
-                AsyncStorage.setItem('userID', data+''); 
-                AsyncStorage.setItem('RegStatus', '0'); 
-                const { navigator } = this.props;
-                navigator.replace({
-                    name: 'Login',
-                    component: Login,
-                    params: {
-                   // SearchAssetNo: assetNo
-                }});
-
-                alert("注册成功，请等待后台人工审核，大约需要1天时间")
+                if(data==1){
+                        const { navigator } = this.props;
+                        navigator.replace({
+                        name: 'Login',
+                        component: Login,
+                        params: {
+                            // SearchAssetNo: assetNo
+                        }});
+                alert("注册成功，请等待后台人工审核，审核通过会有短信通知")
+                }
+                else if(data==0){
+                         alert("该手机号已被注册，请直接登录或者换一个手机号")
+                         this.setState({regDisable:false})
+                }
+                
             
     } )
     .catch(e => console.log("Oops,error", e))    
@@ -122,11 +128,16 @@ return (
         <View style={styles.dividerview}> 
             <Text style={styles.divider}></Text> 
         </View> 
+        <TextInput underlineColorAndroid='transparent' style={styles.textinput} placeholder='请输入密码'
+        secureTextEntry={true} onChangeText={(text) => this.setState({pass:text})} />
+        <View style={styles.dividerview}> 
+            <Text style={styles.divider}></Text> 
+        </View> 
     </View> 
     <View style={{marginLeft:w*0.1,marginTop:10,width:w*0.8,height:80,borderRadius:6,}}>
                         <Button    
                             sytle={{borderRadius:6,fontSize:20}}   
-                            onPress={this.regf}
+                            onPress={this.startRegist}
                             title="注册"                
                             color="#1DBAF1"                        
                             accessibilityLabel=""
@@ -138,7 +149,7 @@ return (
     </View> 
     <View style={styles.bottomleftbtnview}> 
         <Text style={styles.bottombtn}
-               onPress={this.gotoLogin}>我有账号，直接登录</Text> 
+               onPress={this.gotoLogin}>我有账号，直接登录1</Text> 
     </View> 
     <View style={styles.bottomrightbtnview}> 
         <Text style={styles.bottombtn}>忘记密码？</Text> 
@@ -177,7 +188,7 @@ height: 3,
 backgroundColor: '#F7F7F9'
 }, 
 inputview: { 
-height: 150, 
+height: 200, 
 }, 
 textinput: { 
 flex: 1, 

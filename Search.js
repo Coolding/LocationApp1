@@ -54,7 +54,10 @@ export default class Search extends Component {
   render() {  
     return (  
       <View style={styles.container}>  
-              <View  style={{height:40,width:w,backgroundColor:'#ff9a00',justifyContent: 'center',marginBottom:1}} ><Text style={{fontSize:20,textAlign:'center'}}>查找和定位</Text></View> 
+       
+      <View style={styles.header}> 
+        <Text style={styles.headtitle}>查找和定位</Text> 
+    </View>      
             <View style={{backgroundColor:'white',borderRadius:5,marginBottom:10}}>
             
             <View  style={{width:w*0.98,marginTop:10,height:40,flexDirection: 'row',alignItems:'flex-start',marginBottom:10}} >
@@ -65,8 +68,7 @@ export default class Search extends Component {
                 onChangeText={(text) =>   this.setState({toSearchAssetNo:text})  }
                   />
                 <View style={{marginLeft:w*0.02,marginBottom:10,height:45,width:w*0.15}}>
-                    <Button    
-                        sytle={styles.BottonStyle}              
+                    <Button           
                         onPress={this.ShowMap}
                         title="查找"                
                         color="#ff9a00"                        
@@ -75,8 +77,7 @@ export default class Search extends Component {
                 </View>
             </View>
             <View style={{marginLeft:w*0.2,marginBottom:10,width:w*0.6}}>
-                    <Button    
-                        sytle={styles.BottonStyle}              
+                    <Button          
                         onPress={this.gotoScanSearch}
                         title="扫描二维码批量定位"                
                         color="#ff9a00"                        
@@ -100,6 +101,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#f4f6f6',
     //marginBottom: 100,
   },
+    header: { 
+    height: 40, 
+    width:w,
+    backgroundColor: '#12B7F5', 
+    justifyContent: 'center', 
+}, 
+headtitle: { 
+    alignSelf: 'center', 
+    fontSize: 20, 
+    color: '#ffffff', 
+}, 
   webView: {
     //backgroundColor: BGWASH,
     height: 350,

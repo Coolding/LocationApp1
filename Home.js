@@ -6,7 +6,8 @@ import {
   View,
   TouchableOpacity,
   Button,
-  Image
+  Image,
+  AsyncStorage,
 } from 'react-native';
 
 var currentUser
@@ -43,71 +44,30 @@ export default class Home extends Component {
     };
  }
 
-  writeStor = () => {   
-    storage.save({
-    key: 'loginState',  // 注意:请不要在key中使用_下划线符号!
-    rawData: { 
-      from: 'some other site',
-      userid: 'some userid',
-      token: 'some token',
-      currentUserName:"王丁盛",
-    },
+ removeKey=(key)=>{
+            try {
+                 AsyncStorage.removeItem(key)
+                         
+                }catch (error){
+                    alert(key+'失败',+error);
+                }
+} 
 
-    // 如果不指定过期时间，则会使用defaultExpires参数
-    // 如果设为null，则永不过期
-    expires: null
-  }); 
+removeRegistKey=()=>{
+    this.removeKey('LoginUserName')
+    this.removeKey('tel')
+    this.removeKey('department')
+    alert("删除成功")
 }
 
-  readStor =() => {   
-    storage.load({
-    key: 'loginState',
-    // autoSync(默认为true)意味着在没有找到数据或数据过期时自动调用相应的sync方法
-    autoSync: true,
-    // syncInBackground(默认为true)意味着如果数据过期，
-    // 在调用sync方法的同时先返回已经过期的数据。
-    // 设置为false的话，则始终强制返回sync方法提供的最新数据(当然会需要更多等待时间)。
-    syncInBackground: true,
-    // 你还可以给sync方法传递额外的参数
-    syncParams: {
-      extraFetchOptions: {
-        // 各种参数
-      },
-      someFlag: true,
-    },
-  }).then(ret => {
-    // 如果找到数据，则在then方法中返回
-    // 注意：这是异步返回的结果（不了解异步请自行搜索学习）
-    // 你只能在then这个方法内继续处理ret数据
-    // 而不能在then以外处理
-    // 也没有办法“变成”同步返回
-    // 你也可以使用“看似”同步的async/await语法
-    alert(ret.currentUserName);
-    return ret
-  }).catch(err => {
-    //如果没有找到数据且没有sync方法，
-    //或者有其他异常，则在catch中返回
-    console.warn(err.message);
-    switch (err.name) {
-        case 'NotFoundError':
-            // TODO;
-            break;
-        case 'ExpiredError':
-            // TODO
-            break;
-    }
-  })
-}
-
-
-
- 
   render() {
   
     return (
       <View Style={styles.container} >
-      <View  style={{height:40,backgroundColor:'#ff9a00',justifyContent: 'center',marginBottom:1}} ><Text style={{fontSize:20,textAlign:'center'}}>首页</Text></View>
-      <View style={{width:w, marginBottom:3,}}><Image source={require('./assets/banner.png')} style={{height:h/6,width:w,resizeMode:"stretch"}}/></View>
+      <View style={styles.header}> 
+        <Text style={styles.headtitle}>首页</Text> 
+    </View> 
+       <View style={{width:w, marginBottom:3,}}><Image source={require('./assets/banner.png')} style={{height:h/6,width:w,resizeMode:"stretch"}}/></View>
       <View  style={styles.sbu_view}>
            
         <TouchableOpacity style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}>
@@ -128,15 +88,10 @@ export default class Home extends Component {
         </TouchableOpacity>
       
      </View> 
-     <Button
-        onPress={this.writeStor}
-        title="写入"
-    />
-      <Button
-        onPress={this.readStor}
-        title="读取"
-    />
    
+   
+        <Text   onPress={()=>this.removeRegistKey()  }>删除本机存储的登录信息</Text> 
+ 
    <Tbb />
    <Greeting name='Valeera' />
       </View>
@@ -156,6 +111,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#f4f6f6',
     //marginBottom: 100,
   },
+  header: { 
+    height: 40, 
+    backgroundColor: '#12B7F5', 
+    justifyContent: 'center', 
+}, 
+headtitle: { 
+    alignSelf: 'center', 
+    fontSize: 20, 
+    color: '#ffffff', 
+}, 
   textStyle:{
     fontSize: 40,
     textAlign: 'center',

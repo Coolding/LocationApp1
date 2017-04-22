@@ -60,10 +60,10 @@ export default class UploadGps extends Component {
       uploadResult:"",
       currentAddr:"",
       currentTgName:"",
-      watchID:"",
-      lastPosition:"",
-      Lastlatitude:"",
-      Lastlongitude:"",
+      // watchID:"",
+      // lastPosition:"",
+      // Lastlatitude:"",
+      // Lastlongitude:"",
       Currentlatitude:"",
       Currentlongitude:"",
       boxRelateCount:"",
@@ -121,10 +121,7 @@ confirmNo =(i) =>{
   //             // this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
   //           tmpText=tmpText+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'
   //         }
-
  
-
-
   //   this.setState({AssetSerial:tmpText})
   //   this.setState({currentComfirmIndex:this.state.currentComfirmIndex+1})
             BoxConsRelateConfirm[i]['Confirm']="不在表箱里"
@@ -152,11 +149,13 @@ confirmBoxAssetNo =() =>{
    .catch(e => console.log("Oops, error", e))
 }
 
-
+//上传GPS信息
  GetAndUploadGps= () => {
+   this.setState({Currentlatitude:""})
+   this.setState({Currentlongitude:""})
    this.setState({relateCount:0,assetInfo:0,currentAddr:"",currentTgName:""}); 
    this.setState({boxDisable:true})
-    navigator.geolocation.getCurrentPosition(
+   navigator.geolocation.getCurrentPosition(
       (initialPosition) => {
           this.setState({Currentlatitude:initialPosition.coords.latitude})
           this.setState({Currentlongitude:initialPosition.coords.longitude})
@@ -170,122 +169,122 @@ confirmBoxAssetNo =() =>{
           let url="http://1.loactionapp.applinzi.com/upload";
           fetch(url,{method:"POST",headers:{},body:formData}).then(response => response.json())
           .then(data => {
-            this.setState({boxRelateCount:data['boxRelateCount']});  
-            this.setState({addrRelateCount:data['addrRelateCount']});  
-            this.setState({uploadResult:data['uploadResult']})
-            this.setState({currentAddr:data['addr']})
-            this.setState({currentTgName:data['currentTgName']})  
-            this.setState({boxAssetNo:data['boxAssetNo']}) 
-            this.setState({InsertSerial:data['InsertSerial']}) 
-            this.setState({JustInsertRecord:data['JustInsertRecord']})     
-            this.setState({boxDisable:false})
-            //获取刚刚插入的记录（用于核对箱户关系）     
-            this.setState({AssetSerial:""})  
-            this.setState({currentComfirmIndex:0})   
-            BoxConsRelateConfirm=[]; 
-            //AssetArray=[];
-            //elecAddrArray=[]
-            for (var i = 0 ; i < data['JustInsertRecord'].length ; i++){
-                 BoxConsRelateConfirm[i]={}
-                 BoxConsRelateConfirm[i]['Confirm']="未确认"
-                 BoxConsRelateConfirm[i]['AssetNo']=data['JustInsertRecord'][i]['AssetInfo']
-                 BoxConsRelateConfirm[i]['elecAddr']=data['JustInsertRecord'][i]['elecAddr']
-                 BoxConsRelateConfirm[i]['id']=i+1
-                 //this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
-              }
-              this.setState({sBoxConsRelateConfirm:BoxConsRelateConfirm})  
-              
-            
-          })
+                        this.setState({boxRelateCount:data['boxRelateCount']});  
+                        this.setState({addrRelateCount:data['addrRelateCount']});  
+                        this.setState({uploadResult:data['uploadResult']})
+                        this.setState({currentAddr:data['addr']})
+                        this.setState({currentTgName:data['currentTgName']})  
+                        this.setState({boxAssetNo:data['boxAssetNo']}) 
+                        alert(this.state.boxAssetNo)
+                        this.setState({InsertSerial:data['InsertSerial']}) 
+                        //alert(this.state.InsertSerial)
+                        this.setState({JustInsertRecord:data['JustInsertRecord']})     
+                        this.setState({boxDisable:false})
+                        //获取刚刚插入的记录（用于核对箱户关系）     
+                        this.setState({AssetSerial:""})  
+                        this.setState({currentComfirmIndex:0})   
+                        BoxConsRelateConfirm=[]; 
+                        //AssetArray=[];
+                        //elecAddrArray=[]
+                        for (var i = 0 ; i < data['JustInsertRecord'].length ; i++){
+                            BoxConsRelateConfirm[i]={}
+                            BoxConsRelateConfirm[i]['Confirm']="未确认"
+                            BoxConsRelateConfirm[i]['AssetNo']=data['JustInsertRecord'][i]['AssetInfo']
+                            BoxConsRelateConfirm[i]['elecAddr']=data['JustInsertRecord'][i]['elecAddr']
+                            BoxConsRelateConfirm[i]['id']=i+1
+                            //this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
+                          }
+                          this.setState({sBoxConsRelateConfirm:BoxConsRelateConfirm})  
+
+                })
           .catch(e => this.setState({uploadResult:e}));                     
-
       },
-      (error) => console.error(error)
+      (error) =>  alert("获取GPS信息失败："+error)
     );
-    this.watchID = navigator.geolocation.watchPosition((lastPosition) => {
-      this.setState({lastPosition});
-      this.setState({Lastlatitude:lastPosition.coords.latitude})
-      this.setState({Lastlongitude:lastPosition.coords.longitude})
 
-    });
- 
   }
-   componentDidMount= () => {
-    navigator.geolocation.getCurrentPosition(
-      (initialPosition) =>{ 
-          this.setState({Currentlatitude:initialPosition.coords.latitude})
-          this.setState({Currentlongitude:initialPosition.coords.longitude})},
-      (error) => console.error(error)
-    );
-    this.watchID = navigator.geolocation.watchPosition((lastPosition) => {
-      this.setState({lastPosition});
-      this.setState({Lastlatitude:lastPosition.coords.latitude})
-      this.setState({Lastlongitude:lastPosition.coords.longitude})
-    });
-  }
-  componentWillUnmount= () => {
-    navigator.geolocation.clearWatch(this.watchID);
-  }
+
+
+// componentDidMount= () => {
+//     navigator.geolocation.getCurrentPosition(
+//       (initialPosition) =>{ 
+//           this.setState({Currentlatitude:initialPosition.coords.latitude})
+//           this.setState({Currentlongitude:initialPosition.coords.longitude})},
+//       (error) => console.error(error)
+//     );
+//     this.watchID = navigator.geolocation.watchPosition((lastPosition) => {
+//       this.setState({lastPosition});
+//       this.setState({Lastlatitude:lastPosition.coords.latitude})
+//       this.setState({Lastlongitude:lastPosition.coords.longitude})
+//     });
+//   }
+
+  // componentWillUnmount= () => {
+  //   navigator.geolocation.clearWatch(this.watchID);
+  // }
 
 
   render() {
     return (
       
-      <View  style={styles.container} >   
-      <View  style={{height:40,width:w,backgroundColor:'#ff9a00',justifyContent: 'center',}} ><Text style={{fontSize:20,textAlign:'center'}}>上传设备GPS</Text></View> 
-      <ScrollView style={{width:w,}}>
+    <View  style={styles.container} >   
+     <View style={styles.header}> 
+        <Text style={styles.headtitle}>上传设备GPS</Text> 
+    </View>   
+
+     <ScrollView style={{width:w,}}>
         {/*<Text style={styles.textStyle}>LastGPS:{this.state.Lastlatitude},{this.state.Lastlongitude}{'\n'}
          CurrentGPS:{this.state.Currentlatitude},{this.state.Currentlongitude}</Text>*/}
 
         <View style={{backgroundColor:'white',borderRadius:5,marginBottom:10}}>
-            <View style={{marginTop:10}}>
-                <Text style={styles.textStyle}>请输入资产编码或者设备编号、设备名称等关键信息,然后点击上传按钮</Text>
-            </View>
-            
-            <View  style={{height:40,flexDirection: 'row',alignItems:'flex-start',marginBottom:10}} >
-                <TextInput
-                style={{marginLeft:w*0.02,marginBottom:10,height:40,width:w*0.75, borderColor: 'gray', borderWidth:1,borderRadius:5}}
-                underlineColorAndroid="transparent"
-                placeholder="请输入表号，表箱号，户号或者设备名称"
-                onChangeText={(text) =>   this.setState({AssetInfo:text})  }
-                  />
-                <View style={{marginLeft:w*0.02,marginBottom:10,height:45,width:w*0.15}}>
-                    <Button    
-                        sytle={styles.BottonStyle}              
-                        onPress={this.GetAndUploadGps}
-                        title="上传"                
-                        color="#ff9a00"
-                        disabled={this.state.boxDisable}
-                        accessibilityLabel="Learn more about this purple button"
-                        />
+                <View style={{marginTop:10}}>
+                    <Text style={styles.textStyle}>请输入资产编码或者设备编号、设备名称等关键信息,然后点击上传按钮</Text>
                 </View>
-            </View>
+                
+                <View  style={{height:40,flexDirection: 'row',alignItems:'flex-start',marginBottom:10}} >
+                    <TextInput
+                    style={{marginLeft:w*0.02,marginBottom:10,height:40,width:w*0.75, borderColor: 'gray', borderWidth:1,borderRadius:5}}
+                    underlineColorAndroid="transparent"
+                    placeholder="请输入表号，表箱号，户号或者设备名称"
+                    onChangeText={(text) =>   this.setState({AssetInfo:text})  }
+                      />
+                    <View style={{marginLeft:w*0.02,marginBottom:10,height:45,width:w*0.15}}>
+                        <Button    
+                            sytle={styles.BottonStyle}              
+                            onPress={this.GetAndUploadGps}
+                            title="上传"                
+                            color="#ff9a00"
+                            disabled={this.state.boxDisable}
+                            accessibilityLabel="Learn more about this purple button"
+                            />
+                    </View>
+                </View>
          </View>
 
-    <View style={styles.textViewStyle}>
-        <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}{'\n'}</Text>
-    </View>
-    <View style={styles.textViewStyle}>
-        <Text style={styles.textStyle}>这是系统收到的第{this.state.InsertSerial}个GPS信息{'\n'}</Text>
-    </View>
-    <View style={styles.textViewStyle}>
-        <Text style={styles.textStyle}>上传的设备信息为：{this.state.AssetInfo}{'\n'}</Text>
-    </View>
-    <View style={styles.textViewStyle}>
-        <Text style={styles.textStyle}>当前表箱关联设备数：{this.state.boxRelateCount}{'\n'}</Text>
-    </View>
-    <View style={styles.textViewStyle}>
-        <Text style={styles.textStyle}>当前地址关联设备数：{this.state.addrRelateCount}{'\n'}</Text>
-    </View>
-    <View style={styles.textViewStyle}>
-        <Text style={styles.textStyle}>上传的经纬度为：{this.state.Currentlatitude},{this.state.Currentlongitude}{'\n'}</Text>
-    </View>
-    <View style={styles.textViewStyle}>
-        <Text style={styles.textStyle}>你在“ {this.state.currentAddr} ”附近{'\n'}</Text>
-    </View>
-    <View style={styles.textViewStyle}>
-        <Text style={styles.textStyle}>所在台区为：{this.state.currentTgName}{'\n'}</Text>
-    </View>
+        <View style={styles.textViewStyle}>
+            <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}{'\n'}</Text>
+        </View>
+        <View style={styles.textViewStyle}>
+            <Text style={styles.textStyle}>这是系统收到的第{this.state.InsertSerial}个GPS信息{'\n'}</Text>
+        </View>
+        <View style={styles.textViewStyle}>
+            <Text style={styles.textStyle}>上传的设备信息为：{this.state.AssetInfo}{'\n'}</Text>
+        </View>
+        <View style={styles.textViewStyle}>
+            <Text style={styles.textStyle}>当前表箱关联设备数：{this.state.boxRelateCount}{'\n'}</Text>
+        </View>
+        <View style={styles.textViewStyle}>
+            <Text style={styles.textStyle}>当前地址关联设备数：{this.state.addrRelateCount}{'\n'}</Text>
+        </View>
+        <View style={styles.textViewStyle}>
+            <Text style={styles.textStyle}>上传的经纬度为：{this.state.Currentlatitude},{this.state.Currentlongitude}{'\n'}</Text>
+        </View>
+        <View style={styles.textViewStyle}>
+            <Text style={styles.textStyle}>你在“ {this.state.currentAddr} ”附近{'\n'}</Text>
+        </View>
+        <View style={styles.textViewStyle}>
+            <Text style={styles.textStyle}>所在台区为：{this.state.currentTgName}{'\n'}</Text>
+        </View>
 
  
      <View style={[styles.textViewStyle,{marginTop:10,height:100}]}>
@@ -347,25 +346,6 @@ confirmBoxAssetNo =() =>{
 
 
         </View>
-{/*
-         <Text style={styles.textStyle}>  {AssetArray[this.state.currentComfirmIndex]} </Text>
-          <View style={styles.BottonStyle}>
-         <Button
-        onPress={this.confirmOk}
-        title="在表箱里"
-        color="#ff9a00"
-        accessibilityLabel=""
-        />
-       </View>
-         <View style={styles.BottonStyle}>
-         <Button
-        onPress={this.confirmNo}
-        title="不在这个表箱里面"
-        color="#ff9a00"
-        accessibilityLabel=""
-        />
-        </View>
-        <Text style={styles.textStyle}>箱户对应关系：{'\n'}{this.state.AssetSerial}{'\n'}</Text>*/}
        
  </ScrollView>
       </View>
@@ -384,6 +364,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#f4f6f6',
     marginBottom: 0,
   },
+  header: { 
+    height: 40, 
+    backgroundColor: '#12B7F5', 
+    justifyContent: 'center', 
+    width:w
+}, 
+headtitle: { 
+    alignSelf: 'center', 
+    fontSize: 20, 
+    color: '#ffffff', 
+}, 
   textViewStyle:{
     flexDirection: 'column',
     justifyContent: 'center',

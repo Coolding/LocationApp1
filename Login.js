@@ -9,8 +9,13 @@ View,
 Dimensions,
 TextInput,
 Button,
-AsyncStorage
+AsyncStorage,
+Navigator,
 } from 'react-native'; 
+
+import Regist from './regist';
+import AppMain from './AppMain';
+
 
 //换新手机，直接登录，要下载账号信息并存储到本机
 
@@ -18,8 +23,7 @@ AsyncStorage
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
 
-
-
+ 
 export default class Login extends React.Component {
 
     constructor(props) {  
@@ -34,7 +38,7 @@ export default class Login extends React.Component {
 
 removeKey=(key)=>{
             try {
-                    AsyncStorage.removeItem(key)
+                 AsyncStorage.removeItem(key)
                          
                 }catch (error){
                     alert(key+'失败',+error);
@@ -42,11 +46,9 @@ removeKey=(key)=>{
 } 
  
 removeRegistKey=()=>{
-    this.removeKey('username')
+    this.removeKey('LoginUserName')
     this.removeKey('tel')
     this.removeKey('department')
-    this.removeKey('userID')
-    this.removeKey('RegStatus')
     alert("删除成功")
 }
 
@@ -66,39 +68,49 @@ startLogin=()=>{
         return 0
     }
 
-
-let ReadStatus;
-    let userID;
  
-     
-    try{    //如果还没有注册或者是新手机，则变量storage还未定义（在注册时或者换了新手机，首次登录才会定义）
-                    AsyncStorage.getItem('tel').then((value) => tel=value)      
-                     AsyncStorage.getItem('userID').then((value) => {userID=value;alert('userID是'+value+"tel是"+tel); } )     
-                    if(userID==null) { this.setState({RegStatus:-1}); return  }
-                    
-                     AsyncStorage.getItem('RegStatus').then((value) => { 
-                              if(value==2)  //已登录
-                                  {  this.setState({RegStatus:3})  } 
-                              else{  //还没登录，获取审批状态
-                                        //alert(ret.department)
-                                        let url="http://1.loactionapp.applinzi.com/GetUserStatus/"+userID;
-                                        fetch(url,{method:"GET"}).then(response => response.json())
-                                        .then(data => {
-                                                    if(data==1) this.setState({RegStatus:2})   //已审批通过，显示登录页面，同时显示审批情况
-                                                    else if (data==0) this.setState({RegStatus:1})   //还未审批，显示登录页面，同时显示审批情况
-                                                    else if(data==-1) this.setState({RegStatus:-2})   //审批不通过，显示注册页面（重新注册）
-                                                    else if(data==-2) this.setState({RegStatus:-3})   //没找到该ID，一般是不会发生，显示注册页面
-                                                    //alert(this.state.RegStatus)
-                                        })    //加1是因为处理数据库里面app上传的地址，还有1个根据用电地址反推的定位信息
-                                        .catch(e => console.log("Oops, error", e))
-                              }
-                    });
-                    
-    }
-    catch (e) {
-        //alert("没找到storage")
-        this.setState({RegStatus:-1})  //还没注册（或者换新手机），显示注册页面
-    }
+    let formData=new FormData();
+    formData.append("tel",this.state.tel);
+    formData.append("pass",this.state.pass);
+    let url="http://1.loactionapp.applinzi.com/Login";
+    fetch(url,{method:"POST",headers:{},body:formData}).then(response => response.json())
+    .then(data =>{
+            try{   //登录成功，写入登录信息   
+                     
+                if(typeof(data)=="string")  alert(data) //登录失败，显示从服务器返回的错误信息
+                else{
+                            
+                            AsyncStorage.setItem('LoginUserName',data.UserName); 
+                            AsyncStorage.setItem('tel', data.UserTel); 
+                            AsyncStorage.setItem('department', data.UserDept); 
+                            alert("欢迎你，"+data.UserDept+" "+data.UserName)
+                            const { navigator } = this.props;
+                                navigator.replace({
+                                name: 'AppMain',
+                                component: AppMain,
+                                params: {
+                                 // SearchAssetNo: assetNo
+                                }});
+                            
+                }
+            }
+            catch(e){
+                 alert("出错了"+JSON.stringify(data))
+            }
+
+    })
+    .catch(e => console.log("Oops,error", e))
+  
+}
+
+gotoRegist=()=>{
+const { navigator } = this.props;
+                navigator.replace({
+                    name: 'Regist',
+                    component: Regist,
+                    params: {
+                   // SearchAssetNo: assetNo
+                }});
  
 }
 
@@ -117,7 +129,7 @@ return (
         <View style={styles.dividerview}> 
             <Text style={styles.divider}></Text> 
         </View>        
-        <TextInput underlineColorAndroid='transparent' style={styles.textinput} placeholder='密码'
+        <TextInput underlineColorAndroid='transparent' style={styles.textinput} placeholder='请输入密码'
         secureTextEntry={true} onChangeText={(text) => this.setState({pass:text})} />
         <View style={styles.dividerview}> 
             <Text style={styles.divider}></Text> 
@@ -137,11 +149,17 @@ return (
 <View style={styles.bottomleftbtnview}> 
          <Text>{this.props.RegStatus}</Text>
 </View> 
+
+<View style={styles.bottomleftbtnview}> 
+        <Text style={styles.bottombtn}
+               onPress={this.gotoRegist}>注册新账号1</Text> 
+ </View> 
+
 <View style={styles.bottomleftbtnview}> 
         <Text style={styles.bottombtn} onPress={()=>alert("请发送你的登录手机号码、部门和姓名到18959298867，注明：需重置密码")}>忘记密码？</Text> 
 </View> 
 <View style={styles.bottomrightbtnview}> 
-        <Text style={styles.bottombtn} onPress={()=>this.removeRegistKey()  }>删除本机存储的注册信息</Text> 
+        <Text style={styles.bottombtn} onPress={()=>this.removeRegistKey()  }>删除本机存储的登录信息</Text> 
 </View> 
 </View> 
 
@@ -155,14 +173,14 @@ flex: 1,
 backgroundColor: '#FFFFFF'
 }, 
 header: { 
-height: 50, 
-backgroundColor: '#12B7F5', 
-justifyContent: 'center', 
+    height: 50, 
+    backgroundColor: '#12B7F5', 
+    justifyContent: 'center', 
 }, 
 headtitle: { 
-alignSelf: 'center', 
-fontSize: 20, 
-color: '#ffffff', 
+    alignSelf: 'center', 
+    fontSize: 20, 
+    color: '#ffffff', 
 }, 
 avatarview: { 
 height: 150, 
