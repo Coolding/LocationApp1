@@ -34,19 +34,17 @@ export default class AssetMapView extends Component {
         //这里获取从Search传递过来的参数: SearchAssetNo
         this.setState({BaiduLng: this.props.BaiduLng,BaiduLat:this.props.BaiduLat},function(){
          this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+this.state.BaiduLat+','+this.state.BaiduLng+'&mode=driving&region=厦门&output=html'})
-        
-        
       } 
         );        
  }
 
 openUrl=() =>{
-// var url = this.state.url
-//      Linking.openURL(url)  
-//      .catch((err)=>{  
-//        console.log('An error occurred', err);  
-//      });
-document.URL = 'http://www.google.com'
+var url = this.state.url
+     Linking.openURL(url)  
+     .catch((err)=>{  
+       console.log('An error occurred', err);  
+     });
+ 
 
 }
 

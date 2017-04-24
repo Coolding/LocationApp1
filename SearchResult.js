@@ -11,6 +11,7 @@ import {
   ListView,
   TouchableOpacity,
   ScrollView,
+  Linking,
 } from 'react-native'; 
 import Search from './Search'; 
 import AssetMapView from './AssetMapView'; 
@@ -85,6 +86,18 @@ export default class SearchResult extends Component {
         }});
  }
 
+//点击某一条查找结果时，根据其对应的经纬度，直接打开地图网页链接（调用手机的浏览器打开）
+openBaiduMap=(lng,lat)=>{
+ 
+var url = 'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+lat+','+lng+'&mode=driving&region=厦门&output=html'
+ Linking.openURL(url)  
+     .catch((err)=>{  
+       console.log('An error occurred', err);  
+     });
+
+
+
+}
 
  forwardAddr =() =>{
      if(CurrentAddrIndex==0)
@@ -145,9 +158,11 @@ export default class SearchResult extends Component {
   render() {  
     return (  
       <View style={styles.container}>  
-      <View  style={{height:40,width:w,backgroundColor:'#ff9a00',justifyContent: 'center',marginBottom:1}} ><Text style={{fontSize:20,textAlign:'center'}}>查找结果</Text></View>
-
+       <View style={styles.header}> 
+        <Text style={styles.headtitle}>查找结果</Text> 
+    </View>  
       <ScrollView>
+          
           <View style={{width:w,backgroundColor:'white',justifyContent: 'center',marginBottom:5}}>
               <Text>一共查找到{addrCount}个关于{this.state.toSearchAssetNo}的定位信息{'\n'}
                   设备编号： {this.state.currentAssetNo}{'\n'}
@@ -166,7 +181,7 @@ export default class SearchResult extends Component {
                (addrInfo)=>{                        
                return (
                  <TouchableOpacity key={addrInfo.BaiduLongitude}
-                 onPress={()=>this.ShowAssetMap(addrInfo.BaiduLongitude,addrInfo.BaiduLatitude)}>
+                 onPress={()=>this.openBaiduMap(addrInfo.BaiduLongitude,addrInfo.BaiduLatitude)}>
                  <View  style={{flexDirection:"row",backgroundColor:"white",marginBottom:2}}>                 
                       <View style={{width:w*0.9,}}>
                           <Text style={{fontSize: 15,marginBottom:5,lineHeight:25}}>
@@ -187,6 +202,10 @@ export default class SearchResult extends Component {
          
 }
   </View>
+  <View style={{marginTop:30,marginBottom:10,marginLeft:10}}> 
+        <Text style={{fontSize:18,color:'#1DBAF1'}}
+               onPress={()=>alert("点击上面的定位信息--打开的页面拉到最下方--点击导航（要先安装百度地图APP，注意不要使用其他地图）")}>导航使用帮助?</Text> 
+    </View> 
       </ScrollView>
       </View>
     )
@@ -202,6 +221,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#f4f6f6',
     //marginBottom: 100,
   },
+    header: { 
+    height: 40, 
+    backgroundColor: '#12B7F5', 
+    justifyContent: 'center', 
+    width:w
+}, 
+headtitle: { 
+    alignSelf: 'center', 
+    fontSize: 20, 
+    color: '#ffffff', 
+}, 
   webView: {
     //backgroundColor: BGWASH,
     height: 350,
