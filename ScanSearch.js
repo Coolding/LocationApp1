@@ -90,85 +90,15 @@ export default class ScanSearch extends React.Component {
  
     };
 
-    this.takePicture = this.takePicture.bind(this);
-    this.switchType = this.switchType.bind(this);
-    this.switchFlash = this.switchFlash.bind(this);
+   
   }
 
-  takePicture() {
-    if (this.camera) {
-      this.camera.capture()
-        .then((data) => console.log(data))
-        .catch(err => console.error(err));
-    }
-  }
-
+ 
   
-  switchType() {
-    let newType;
-    const { back, front } = Camera.constants.Type;
-
-    if (this.state.camera.type === back) {
-      newType = front;
-    } else if (this.state.camera.type === front) {
-      newType = back;
-    }
-
-    this.setState({
-      camera: {
-        ...this.state.camera,
-        type: newType,
-      },
-    });
-  }
-
-  get typeIcon() {
-    let icon;
-    const { back, front } = Camera.constants.Type;
-
-    if (this.state.camera.type === back) {
-      icon = require('./assets/ic_camera_rear_white.png');
-    } else if (this.state.camera.type === front) {
-      icon = require('./assets/ic_camera_front_white.png');
-    }
-
-    return icon;
-  }
-
-  switchFlash() {
-    let newFlashMode;
-    const { auto, on, off } = Camera.constants.FlashMode;
-
-    if (this.state.camera.flashMode === auto) {
-      newFlashMode = on;
-    } else if (this.state.camera.flashMode === on) {
-      newFlashMode = off;
-    } else if (this.state.camera.flashMode === off) {
-      newFlashMode = auto;
-    }
-
-    this.setState({
-      camera: {
-        ...this.state.camera,
-        flashMode: newFlashMode,
-      },
-    });
-  }
-
-  get flashIcon() {
-    let icon;
-    const { auto, on, off } = Camera.constants.FlashMode;
-
-    if (this.state.camera.flashMode === auto) {
-      icon = require('./assets/ic_flash_auto_white.png');
-    } else if (this.state.camera.flashMode === on) {
-      icon = require('./assets/ic_flash_on_white.png');
-    } else if (this.state.camera.flashMode === off) {
-      icon = require('./assets/ic_flash_off_white.png');
-    }
-
-    return icon;
-  }
+   
+ 
+ 
+ 
 
  split1=(sourceString,splitString)=> {
     let returnArrar=[]
@@ -242,24 +172,7 @@ export default class ScanSearch extends React.Component {
                <View style={styles.rectangle} />
           </View>
         </Camera>
-        <View style={[styles.overlay, styles.topOverlay]}>
-          <TouchableOpacity
-            style={styles.typeButton}
-            onPress={this.switchType}
-          >
-            <Image
-              source={this.typeIcon}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.flashButton}
-            onPress={this.switchFlash}
-          >
-            <Image
-              source={this.flashIcon}
-            />
-          </TouchableOpacity>
-        </View>
+    
     </View>
     );
   }

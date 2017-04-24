@@ -46,8 +46,7 @@ export default class Home extends Component {
 
  removeKey=(key)=>{
             try {
-                 AsyncStorage.removeItem(key)
-                         
+                 AsyncStorage.removeItem(key)                         
                 }catch (error){
                     alert(key+'失败',+error);
                 }
@@ -59,6 +58,24 @@ removeRegistKey=()=>{
     this.removeKey('department')
     alert("删除成功")
 }
+
+//登录的时候就要这样初始化，补充代码！！！！！！！！！！！！！！！
+initSearchHistory=()=>{
+    this.removeKey('SearchHistory')
+    try {
+           AsyncStorage.multiSet([['Search0',''],['Search1',''],['Search2',''],['Search3',''],['Search4','']] );   
+           AsyncStorage.setItem('SearchArrayCount','5')  //总共存储几个查找记录，与上面的设置要相符，否则会出错！
+           AsyncStorage.setItem('SearchStorageIndex','1')  //存储到第几个搜索记录
+           alert("初始化成功")       
+                 
+    }
+  catch (error){
+          alert('初始化失败'+error);
+   }
+     
+    
+}
+
 
   render() {
   
@@ -91,6 +108,11 @@ removeRegistKey=()=>{
    
    
         <Text   onPress={()=>this.removeRegistKey()  }>删除本机存储的登录信息</Text> 
+
+        <View style={{marginTop:30,marginBottom:10,marginLeft:10}}> 
+        <Text style={{fontSize:18,color:'#1DBAF1'}}
+               onPress={()=>this.initSearchHistory()}>查询历史记录初始化</Text> 
+        </View> 
  
    <Tbb />
    <Greeting name='Valeera' />

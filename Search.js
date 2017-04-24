@@ -8,6 +8,7 @@ import {
   Text,
   TextInput,
   Button,
+  AsyncStorage,
 } from 'react-native'; 
 import SearchResult from './SearchResult'; 
 import ScanSearch from './ScanSearch'; 
@@ -33,6 +34,13 @@ export default class Search extends Component {
 
   //点击查找之后，跳转到信息和地图显示页面
  ShowMap=()=>{
+ var SearchArrayCount
+ var SearchStorageIndex
+     AsyncStorage.getItem('SearchArrayCount').then((value) => SearchArrayCount=parseInt(value)  )  
+     AsyncStorage.getItem('SearchStorageIndex').then((value) => SearchStorageIndex=parseInt(value) )  
+     AsyncStorage.setItem('Search'+SearchStorageIndex,this.state.toSearchAssetNo) 
+     AsyncStorage.getItem('Search'+SearchStorageIndex).then((value) => alert(value)  )  
+
      const { navigator } = this.props;
      navigator.replace({
         name: 'SearchResult',

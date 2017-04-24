@@ -85,8 +85,10 @@ export default class scanSearchResult extends Component {
   render() {  
     return (  
       <View style={styles.container}>  
-      <View  style={{height:40,width:w,backgroundColor:'#ff9a00',justifyContent: 'center',marginBottom:1}} ><Text style={{fontSize:20,textAlign:'center'}}>查找结果</Text></View>
-       <View>{
+     <View style={styles.header}> 
+        <Text style={styles.headtitle}>查找结果</Text> 
+    </View>   
+      <View>{
 
          this.state.AssetNoArray.map(               
                (assetNoArray)=>{                        
@@ -94,9 +96,9 @@ export default class scanSearchResult extends Component {
                  <TouchableOpacity key={assetNoArray.index}
                  onPress={()=>this.ShowMap(assetNoArray.assetNo)}>
                  <View  style={{flexDirection:"row",backgroundColor:"white",marginBottom:2}}>                 
-                      <View style={{width:w*0.9,}}>
+                      <View style={{width:w*0.9,height:45,justifyContent: 'center',}}>
                           <Text style={{fontSize: 15,marginBottom:5,lineHeight:25}}>
-                          {assetNoArray.assetNo}</Text> 
+                         （{assetNoArray.index+1}）{assetNoArray.assetNo}</Text> 
                       </View>
                       <View style={{width:w*0.1,marginRight:0,justifyContent: 'center',}}>
                           <Text style={{marginRight:2,fontSize:20,textAlign:'center'}}>&gt;</Text>
@@ -123,7 +125,18 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     backgroundColor: '#f4f6f6',
     //marginBottom: 100,
-  },
+  }, 
+  header: { 
+    height: 40, 
+    backgroundColor: '#12B7F5', 
+    justifyContent: 'center', 
+    width:w
+}, 
+headtitle: { 
+    alignSelf: 'center', 
+    fontSize: 20, 
+    color: '#ffffff', 
+}, 
   webView: {
     //backgroundColor: BGWASH,
     height: 350,
