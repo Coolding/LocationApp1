@@ -61,11 +61,14 @@ removeRegistKey=()=>{
 
 //登录的时候就要这样初始化，补充代码！！！！！！！！！！！！！！！
 initSearchHistory=()=>{
-    this.removeKey('SearchHistory')
+    
     try {
-           AsyncStorage.multiSet([['Search0',''],['Search1',''],['Search2',''],['Search3',''],['Search4','']] );   
-           AsyncStorage.setItem('SearchArrayCount','5')  //总共存储几个查找记录，与上面的设置要相符，否则会出错！
-           AsyncStorage.setItem('SearchStorageIndex','1')  //存储到第几个搜索记录
+           this.removeKey('SearchHistory')
+           AsyncStorage.setItem('SearchHistory','5,4,3,2') 
+           AsyncStorage.setItem('SearchHistoryCount','10') 
+          //  AsyncStorage.multiSet([['Search1',''],['Search2',''],['Search3',''],['Search4',''],['Search5','']] );   
+          //  AsyncStorage.setItem('SearchArrayCount','5')  //总共存储几个查找记录，与上面的设置要相符，否则会出错！
+           //AsyncStorage.setItem('SearchStorageIndex','1')  //存储到第几个搜索记录
            alert("初始化成功")       
                  
     }

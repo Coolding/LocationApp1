@@ -9,6 +9,7 @@ import {
   TextInput,
   Button,
   AsyncStorage,
+  Math,
 } from 'react-native'; 
 import SearchResult from './SearchResult'; 
 import ScanSearch from './ScanSearch'; 
@@ -16,6 +17,8 @@ import ScanSearch from './ScanSearch';
   
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
+ 
+ 
   
 var url='http://api.map.baidu.com/direction?origin=latlng:34.264642646862,108.95108518068|name:我家&destination=大雁塔&mode=driving&region=西安&output=html';
  
@@ -25,7 +28,7 @@ export default class Search extends Component {
   constructor(props) {  
     super(props); 
      this.state = {
-     toSearchAssetNo:""
+     toSearchAssetNo:"",
     }; 
   }  
   
@@ -33,21 +36,76 @@ export default class Search extends Component {
 
 
   //点击查找之后，跳转到信息和地图显示页面
- ShowMap=()=>{
- var SearchArrayCount
- var SearchStorageIndex
-     AsyncStorage.getItem('SearchArrayCount').then((value) => SearchArrayCount=parseInt(value)  )  
-     AsyncStorage.getItem('SearchStorageIndex').then((value) => SearchStorageIndex=parseInt(value) )  
-     AsyncStorage.setItem('Search'+SearchStorageIndex,this.state.toSearchAssetNo) 
-     AsyncStorage.getItem('Search'+SearchStorageIndex).then((value) => alert(value)  )  
+ ShowMap=()=>{      
+     var SearchHistory:'';
+     var SearchHistoryArray:[];
+     
+     try {
+          AsyncStorage.getItem('SearchHistory').then((value) => { 
+                 SearchHistoryArray=[];
+                 SearchHistory=value  
+                 if(SearchHistory==null) {
+                   SearchHistoryArray[0]=this.state.toSearchAssetNo   //搜索历史为空
+                  // alert(SearchHistoryArray)
+                 }
+                 else {               //搜索历史非空，之前已有搜索过
+                      SearchHistoryArray=SearchHistory.split(",");
+                      AsyncStorage.getItem('SearchHistoryCount').then((SearchHistoryCount) => {
+                        if(SearchHistoryCount>SearchHistoryArray.length)
+                            SearchHistoryCount=SearchHistoryArray.length+1
+                        for (let i=SearchHistoryCount-1; i>=1; i--) {  
+                              SearchHistoryArray[i]= SearchHistoryArray[i-1]            
+                             }
+                        SearchHistoryArray[0]=this.state.toSearchAssetNo;
+                        //alert(SearchHistoryArray)
+                        SearchHistory=''
+                        for (let i=0; i<SearchHistoryArray.length; i++) {  
+                          if(i==SearchHistoryArray.length-1)
+                              SearchHistory= SearchHistory+SearchHistoryArray[i]
+                          else
+                              SearchHistory= SearchHistory+SearchHistoryArray[i]+','     
+                             }
+                        // while(SearchHistory.lastIndexOf(",")==0)  //去除右边,
+                        //       SearchHistory=SearchHistory.slice(0,SearchHistory.length-2)  //去除最后的，
+                         alert(SearchHistory)
+                        AsyncStorage.setItem('SearchHistory',SearchHistory) 
+                        
+                      })
+                 }
+                     
+           });
+         
+    }
+  catch (error){
+          alert('失败：'+error);
+   }
 
-     const { navigator } = this.props;
-     navigator.replace({
-        name: 'SearchResult',
-        component: SearchResult,
-        params: {
-        SearchAssetNo: this.state.toSearchAssetNo
-        }});
+
+     
+    
+    
+ 
+       
+    //  for (let i=SearchArrayCount; i>=2; i--) {
+    //       AsyncStorage.getItem('Search'+(i-1)).then((value) => AsyncStorage.setItem('Search'+i,value) )            
+    //   }
+    //   AsyncStorage.setItem('Search1',this.state.toSearchAssetNo)
+    //   //AsyncStorage.getItem('Search5').then((value) =>alert(value))   
+    //  // alert(SearchArrayCount)
+    //   for (let i=1; i<=5; i++) {
+    //    // alert(SearchArrayCount)
+    //       AsyncStorage.getItem('Search'+i).then((value) => storageResult=storageResult+value+',')     
+    //      // if(i==1) alert(storageResult)
+    //   }
+    //    // alert(storageResult)
+
+    //  const { navigator } = this.props;
+    //  navigator.replace({
+    //     name: 'SearchResult',
+    //     component: SearchResult,
+    //     params: {
+    //     SearchAssetNo: this.state.toSearchAssetNo
+    //     }});
  }
 
 //跳转到扫描（电能表二维码）批量定位页面
