@@ -39,7 +39,7 @@ export default class Search extends Component {
  ShowMap=()=>{      
      var SearchHistory:'';
      var SearchHistoryArray:[];
-     
+     //如果是扫描（查询结果是数组）查询，怎么整？？？？？？？？？？？？？？
      try {
           AsyncStorage.getItem('SearchHistory').then((value) => { 
                  SearchHistoryArray=[];

@@ -59,7 +59,7 @@ export default class UploadGps extends Component {
       assetInput:"",    //设备信息输入框的值
       uploadResult:"",
       currentAddr:"",
-      currentTgName:"",
+      //currentTgName:"",
       // watchID:"",
       // lastPosition:"",
       // Lastlatitude:"",
@@ -153,7 +153,7 @@ confirmBoxAssetNo =() =>{
  GetAndUploadGps= () => {
    this.setState({Currentlatitude:""})
    this.setState({Currentlongitude:""})
-   this.setState({relateCount:0,assetInfo:0,currentAddr:"",currentTgName:""}); 
+   this.setState({relateCount:0,assetInfo:0,currentAddr:""}); 
    this.setState({boxDisable:true})
    navigator.geolocation.getCurrentPosition(
       (initialPosition) => {
@@ -173,7 +173,7 @@ confirmBoxAssetNo =() =>{
                         this.setState({addrRelateCount:data['addrRelateCount']});  
                         this.setState({uploadResult:data['uploadResult']})
                         this.setState({currentAddr:data['addr']})
-                        this.setState({currentTgName:data['currentTgName']})  
+                        //this.setState({currentTgName:data['currentTgName']})  
                         this.setState({boxAssetNo:data['boxAssetNo']}) 
                         alert(this.state.boxAssetNo)
                         this.setState({InsertSerial:data['InsertSerial']}) 
@@ -281,9 +281,6 @@ confirmBoxAssetNo =() =>{
         </View>
         <View style={styles.textViewStyle}>
             <Text style={styles.textStyle}>你在“ {this.state.currentAddr} ”附近{'\n'}</Text>
-        </View>
-        <View style={styles.textViewStyle}>
-            <Text style={styles.textStyle}>所在台区为：{this.state.currentTgName}{'\n'}</Text>
         </View>
 
  
