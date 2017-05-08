@@ -68,11 +68,11 @@ export default class UploadGps extends Component {
       Currentlongitude:"",
       boxRelateCount:"",
       addrRelateCount:"",
-      boxIndex:"",
+      boxAssetNo:"",
       InsertSerial:0,
       AssetSerial:"",  //用于显示、核对箱户关系
       currentComfirmIndex:0,
-      factboxIndex:'',  //现场实际的表箱号
+      factBoxAssetNo:'',  //现场实际的表箱号
       boxDisable:false,
       sBoxConsRelateConfirm:[],
     };
@@ -84,7 +84,7 @@ export default class UploadGps extends Component {
 //       name: 'boxConsRelate',
 //       component: boxConsRelate,
 //       params: {
-//         boxIndex:this.state.boxIndex,
+//         boxAssetNo:this.state.boxAssetNo,
 //         InsertSerial:this.state.InsertSerial,
 //       }});
 // }
@@ -104,7 +104,7 @@ confirmOk= (i) =>{
  
             let formData=new FormData();             
             formData.append("AssetInfo",BoxConsRelateConfirm[i]['AssetNo']);  
-            formData.append("boxIndex",this.state.boxIndex);  
+            formData.append("BoxAssetNo",this.state.boxAssetNo);  
             formData.append("confirmContent","在这个表箱里")
             let url="http://1.loactionapp.applinzi.com/confirmConsBoxRelate";
             fetch(url,{method:"POST",headers:{},body:formData}).then(response => response)
@@ -128,7 +128,7 @@ confirmNo =(i) =>{
             this.setState({sBoxConsRelateConfirm:BoxConsRelateConfirm})
             let formData=new FormData();             
             formData.append("AssetInfo",BoxConsRelateConfirm[i]['AssetNo']);  
-            formData.append("boxIndex",this.state.boxIndex);  
+            formData.append("BoxAssetNo",this.state.boxAssetNo);  
             formData.append("confirmContent","不在这个表箱里")
             let url="http://1.loactionapp.applinzi.com/confirmConsBoxRelate";
             fetch(url,{method:"POST",headers:{},body:formData}).then(response => response)
@@ -137,11 +137,11 @@ confirmNo =(i) =>{
  }
 
 //所属表箱号不正确，上传现场的表箱号
-confirmboxIndex =() =>{
+confirmBoxAssetNo =() =>{
 
   let formData=new FormData();             
     formData.append("AssetInfo",this.state.AssetInfo);  
-    formData.append("boxIndex",this.state.factboxIndex);  
+    formData.append("BoxAssetNo",this.state.factBoxAssetNo);  
     formData.append("confirmContent","在这个表箱里")
     let url="http://1.loactionapp.applinzi.com/confirmConsBoxRelate";
     fetch(url,{method:"POST",headers:{},body:formData}).then(response => response)
@@ -173,27 +173,28 @@ confirmboxIndex =() =>{
                         this.setState({addrRelateCount:data['addrRelateCount']});  
                         this.setState({uploadResult:data['uploadResult']})
                         this.setState({currentAddr:data['addr']})
-                        //this.setState({currentTgName:data['currentTgName']})                           
+                        //this.setState({currentTgName:data['currentTgName']})  
+                        this.setState({boxAssetNo:data['boxAssetNo']}) 
+                        alert(this.state.boxAssetNo)
                         this.setState({InsertSerial:data['InsertSerial']}) 
+                        //alert(this.state.InsertSerial)
+                        this.setState({JustInsertRecord:data['JustInsertRecord']})     
                         this.setState({boxDisable:false})
-                        //下面几行是用于箱户核对的，先屏蔽！！！！！！！!!!!!!
-                        //this.setState({boxIndex:data['boxIndex']})
-                        //this.setState({JustInsertRecord:data['JustInsertRecord']})                            
                         //获取刚刚插入的记录（用于核对箱户关系）     
-                        // this.setState({AssetSerial:""})  
-                        // this.setState({currentComfirmIndex:0})   
-                        // BoxConsRelateConfirm=[]; 
-                        // //AssetArray=[];
-                        // //elecAddrArray=[]
-                        // for (var i = 0 ; i < data['JustInsertRecord'].length ; i++){
-                        //     BoxConsRelateConfirm[i]={}
-                        //     BoxConsRelateConfirm[i]['Confirm']="未确认"
-                        //     BoxConsRelateConfirm[i]['AssetNo']=data['JustInsertRecord'][i]['AssetInfo']
-                        //     BoxConsRelateConfirm[i]['elecAddr']=data['JustInsertRecord'][i]['elecAddr']
-                        //     BoxConsRelateConfirm[i]['id']=i+1
-                        //     //this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
-                        //   }
-                        //   this.setState({sBoxConsRelateConfirm:BoxConsRelateConfirm})  
+                        this.setState({AssetSerial:""})  
+                        this.setState({currentComfirmIndex:0})   
+                        BoxConsRelateConfirm=[]; 
+                        //AssetArray=[];
+                        //elecAddrArray=[]
+                        for (var i = 0 ; i < data['JustInsertRecord'].length ; i++){
+                            BoxConsRelateConfirm[i]={}
+                            BoxConsRelateConfirm[i]['Confirm']="未确认"
+                            BoxConsRelateConfirm[i]['AssetNo']=data['JustInsertRecord'][i]['AssetInfo']
+                            BoxConsRelateConfirm[i]['elecAddr']=data['JustInsertRecord'][i]['elecAddr']
+                            BoxConsRelateConfirm[i]['id']=i+1
+                            //this.setState({AssetSerial:this.state.AssetSerial+'('+(i+1)+') '+AssetArray[i]+'  '+elecAddrArray[i]+'  '+BoxConsRelateConfirm[i]+'\n'}) 
+                          }
+                          this.setState({sBoxConsRelateConfirm:BoxConsRelateConfirm})  
 
                 })
           .catch(e => this.setState({uploadResult:e}));                     
@@ -282,7 +283,29 @@ confirmboxIndex =() =>{
             <Text style={styles.textStyle}>你在“ {this.state.currentAddr} ”附近{'\n'}</Text>
         </View>
 
- 
+  
+        <View style={[styles.textViewStyle,{marginTop:10,height:100}]}>
+        <Text style={styles.textStyle}>
+       系统关联的表箱号是:{this.state.boxAssetNo}， 如果与现场不符，请输入现场的表箱号：{'\n'}</Text>
+    
+      <View  style={{height:40,flexDirection: 'row',alignItems:'flex-start',marginBottom:10}} >
+            <TextInput
+            style={{marginLeft:w*0.02,marginBottom:10,height:40,width:w*0.75, borderColor: 'gray', borderWidth:1,borderRadius:5}}
+                underlineColorAndroid="transparent"
+                placeholder ="请输入正确的表箱号"
+            onChangeText={(text) =>   this.setState({factBoxAssetNo:text})  }
+            />
+
+            <View style={{marginLeft:w*0.02,marginBottom:10,height:45,width:w*0.15}}>
+                <Button
+                onPress={this.confirmBoxAssetNo}
+                title="确认"
+                color="#ff9a00"
+                accessibilityLabel=""
+                />
+            </View>
+    </View>
+     </View>
     
 
  
