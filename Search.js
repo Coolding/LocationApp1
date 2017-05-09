@@ -29,16 +29,23 @@ export default class Search extends Component {
     super(props); 
      this.state = {
      toSearchAssetNo:"",
+     SearchHistoryDetail:"",
     }; 
   }  
   
- 
+ componentWillMount() {
+   AsyncStorage.getItem('SearchHistory').then((SearchHistory) => {
+      this.setState({SearchHistoryDetail:SearchHistory})
+   })
+   
+
+ }
 
 
   //点击查找之后，跳转到信息和地图显示页面
  ShowMap=()=>{      
-     var SearchHistory:'';
-     var SearchHistoryArray:[];
+     var SearchHistory='';
+     var SearchHistoryArray=[];
      //如果是扫描（查询结果是数组）查询，怎么整？？？？？？？？？？？？？？
      try {
           AsyncStorage.getItem('SearchHistory').then((value) => { 
@@ -65,9 +72,6 @@ export default class Search extends Component {
                           else
                               SearchHistory= SearchHistory+SearchHistoryArray[i]+','     
                              }
-                        // while(SearchHistory.lastIndexOf(",")==0)  //去除右边,
-                        //       SearchHistory=SearchHistory.slice(0,SearchHistory.length-2)  //去除最后的，
-                         alert(SearchHistory)
                         AsyncStorage.setItem('SearchHistory',SearchHistory) 
                         
                       })
@@ -80,32 +84,30 @@ export default class Search extends Component {
           alert('失败：'+error);
    }
 
-
-     
-    
-    
  
-       
-    //  for (let i=SearchArrayCount; i>=2; i--) {
-    //       AsyncStorage.getItem('Search'+(i-1)).then((value) => AsyncStorage.setItem('Search'+i,value) )            
-    //   }
-    //   AsyncStorage.setItem('Search1',this.state.toSearchAssetNo)
-    //   //AsyncStorage.getItem('Search5').then((value) =>alert(value))   
-    //  // alert(SearchArrayCount)
-    //   for (let i=1; i<=5; i++) {
-    //    // alert(SearchArrayCount)
-    //       AsyncStorage.getItem('Search'+i).then((value) => storageResult=storageResult+value+',')     
-    //      // if(i==1) alert(storageResult)
-    //   }
-    //    // alert(storageResult)
+     const { navigator } = this.props;
+     navigator.replace({
+        name: 'SearchResult',
+        component: SearchResult,
+        params: {
+        SearchAssetNo: this.state.toSearchAssetNo
+        }});
 
-    //  const { navigator } = this.props;
-    //  navigator.replace({
-    //     name: 'SearchResult',
-    //     component: SearchResult,
-    //     params: {
-    //     SearchAssetNo: this.state.toSearchAssetNo
-    //     }});
+    
+      // <View>
+      //  {              
+      //       this.state.sBoxConsRelateConfirm.map(               
+      //          (RelateConfirm)=>{              
+      //          return (
+      //            <View key={RelateConfirm.id} style={{backgroundColor:"white",marginBottom:2}}>
+      //                 <Text style={{fontSize: 15,marginBottom:5,}}>({RelateConfirm.id})表号：{RelateConfirm.AssetNo}{'\n'}   地址：{RelateConfirm.elecAddr}  {RelateConfirm.Confirm}</Text>
+                     
+      //            </View>
+      //          )
+      //          //
+      //          } )         
+      //  }
+      //  </View>
  }
 
 //跳转到扫描（电能表二维码）批量定位页面
@@ -151,6 +153,8 @@ export default class Search extends Component {
                         />
            </View>
          </View>
+
+         <Text style={{fontSize: 15,marginBottom:5,}}>查询历史：{this.state.SearchHistoryDetail}{'\n'} </Text>
   </View>
  
     

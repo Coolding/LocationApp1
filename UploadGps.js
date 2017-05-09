@@ -244,7 +244,8 @@ confirmboxIndex =() =>{
                     <TextInput
                     style={{marginLeft:w*0.02,marginBottom:10,height:40,width:w*0.75, borderColor: 'gray', borderWidth:1,borderRadius:5}}
                     underlineColorAndroid="transparent"
-                    placeholder="请输入表号，表箱号，户号或者设备名称"
+                    //selectTextOnFocus="true"
+                    placeholder="请输入表号，表箱号，户号或者设备名称"                    
                     onChangeText={(text) =>   this.setState({AssetInfo:text})  }
                       />
                     <View style={{marginLeft:w*0.02,marginBottom:10,height:45,width:w*0.15}}>

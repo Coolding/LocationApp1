@@ -90,19 +90,27 @@ initSearchHistory=()=>{
        <View style={{width:w, marginBottom:3,}}><Image source={require('./assets/banner.png')} style={{height:h/6,width:w,resizeMode:"stretch"}}/></View>
       <View  style={styles.sbu_view}>
            
-        <TouchableOpacity style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}>
+        <TouchableOpacity 
+        style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}
+        onPress={()=>alert('开发中，敬请期待')}>
             <Image source={require('./assets/home1.png')} style={styles.icon_img} />
             <Text>上传历史</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}>
+        <TouchableOpacity 
+        style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}
+        onPress={()=>alert('开发中，敬请期待')}>
             <Image source={require('./assets/home2.png')} style={styles.icon_img} />
             <Text>最近查询</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}>
+        <TouchableOpacity 
+        style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}
+        onPress={()=>alert('开发中，敬请期待')}>
             <Image source={require('./assets/home3.png')} style={styles.icon_img} />
             <Text>附近未上传</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}>
+        <TouchableOpacity 
+          style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}
+          onPress={()=>alert('开发中，敬请期待')}>
             <Image source={require('./assets/home1.png')} style={styles.icon_img} />
             <Text>上传排名</Text>
         </TouchableOpacity>

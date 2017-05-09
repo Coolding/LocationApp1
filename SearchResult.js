@@ -162,7 +162,8 @@ var url = 'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&d
         <Text style={styles.headtitle}>查找结果</Text> 
     </View>  
       <ScrollView>
-          
+           
+       
           <View style={{width:w,backgroundColor:'white',justifyContent: 'center',marginBottom:5}}>
               <Text>一共查找到{addrCount}个关于{this.state.toSearchAssetNo}的定位信息{'\n'}
                   设备编号： {this.state.currentAssetNo}{'\n'}
