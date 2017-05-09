@@ -30,8 +30,7 @@ import AssetMapView from './AssetMapView';
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
 
-var addrCount=" 获取中，请稍候……",    //该assetNo共有几个地址信息
-     CurrentAddrIndex=0;
+var    CurrentAddrIndex=0;
  var   addrArray=[];
 
 
@@ -49,7 +48,8 @@ export default class SearchResult extends Component {
      RecordMan:"",
      RecordTime:"",
      GPSLat:"",
-     GPSLng:""
+     GPSLng:"",
+     addrCount:" 获取中，请稍候……",
     }; 
   }  
   
@@ -62,13 +62,23 @@ export default class SearchResult extends Component {
             let url="http://1.loactionapp.applinzi.com/GetGPSInfo/"+this.props.SearchAssetNo;
             fetch(url,{method:"GET"}).then(response => response.json())
             .then(data => {
-                //this.setState({}) 
-                addrArray=data;
-                addrCount=data.length+1; 
-                CurrentAddrIndex=0;
-                this.setState({GPSLng:addrArray[CurrentAddrIndex]['BaiduLongitude'],GPSLat:addrArray[CurrentAddrIndex]['BaiduLatitude'],currentAssetNo:addrArray[CurrentAddrIndex]['AssetInfo'],currentElecAddr:addrArray[CurrentAddrIndex]['elecAddr'],currentDataSource:addrArray[CurrentAddrIndex]['数据来源'],RecordMan:addrArray[CurrentAddrIndex]['RecordMan'],RecordTime:addrArray[CurrentAddrIndex]['RecordTime']}) 
-                this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+addrArray[CurrentAddrIndex]['BaiduLatitude']+','+addrArray[CurrentAddrIndex]['BaiduLongitude']+'&mode=driving&region=厦门&output=html'})
-            })    //加1是因为处理数据库里面app上传的地址，还有1个根据用电地址反推的定位信息
+                //alert(data.length)
+                if(data.length==0){
+                    alert("不好意思，没找到该设备的信息")
+                    addrArray=data;
+                    this.setState({addrCount:0})
+                    CurrentAddrIndex=0;
+                }
+                else{
+                       //alert("找到了")
+                        addrArray=data;
+                        this.setState({addrCount:data.length+1})
+                        CurrentAddrIndex=0;
+                        this.setState({GPSLng:addrArray[CurrentAddrIndex]['BaiduLongitude'],GPSLat:addrArray[CurrentAddrIndex]['BaiduLatitude'],currentAssetNo:addrArray[CurrentAddrIndex]['AssetInfo'],currentElecAddr:addrArray[CurrentAddrIndex]['elecAddr'],currentDataSource:addrArray[CurrentAddrIndex]['数据来源'],RecordMan:addrArray[CurrentAddrIndex]['RecordMan'],RecordTime:addrArray[CurrentAddrIndex]['RecordTime']}) 
+                        this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+addrArray[CurrentAddrIndex]['BaiduLatitude']+','+addrArray[CurrentAddrIndex]['BaiduLongitude']+'&mode=driving&region=厦门&output=html'})
+      
+                }
+                      })    //加1是因为处理数据库里面app上传的地址，还有1个根据用电地址反推的定位信息
             .catch(e => console.log("Oops, error", e))
         } 
         );        
@@ -86,6 +96,14 @@ export default class SearchResult extends Component {
         }});
  }
 
+  ReturnToSearch=()=>{
+     const { navigator } = this.props;
+     navigator.replace({
+        name: 'Search',
+        component: Search,
+        });
+ }
+
 //点击某一条查找结果时，根据其对应的经纬度，直接打开地图网页链接（调用手机的浏览器打开）
 openBaiduMap=(lng,lat)=>{
  
@@ -99,75 +117,25 @@ var url = 'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&d
 
 }
 
- forwardAddr =() =>{
-     if(CurrentAddrIndex==0)
-        alert("已经是第一个了");
-     else{
-     CurrentAddrIndex=CurrentAddrIndex-1;
-     this.setState({currentDataSource:addrArray[CurrentAddrIndex]['数据来源']}) ;
-     this.setState({RecordMan:addrArray[CurrentAddrIndex]['RecordMan']}) ;
-     this.setState({RecordTime:addrArray[CurrentAddrIndex]['RecordTime']}) ;
-     this.setState({GPSLng:addrArray[CurrentAddrIndex]['BaiduLongitude']}) ;
-    this.setState({ GPSLat:addrArray[CurrentAddrIndex]['BaiduLatitude']}) ;
-     this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+addrArray[CurrentAddrIndex]['BaiduLatitude']+','+addrArray[CurrentAddrIndex]['BaiduLongitude']+'&mode=driving&region=厦门&output=html'})
-            
-     }  
- }
-
- nextAddr =() =>{
-     if(CurrentAddrIndex==(addrCount-1))
-        alert("已经是最后一个了");
-     else{ 
-       if(CurrentAddrIndex==(addrCount-2)){   //系统数据库里有的地址已经到最后一个了，现在根据用电地址自动判断经纬度，然后返回导航信息
-            CurrentAddrIndex=CurrentAddrIndex+1  ;   
-            this.setState({currentDataSource:"根据用电地址自动生成"}) ;
-            this.setState({RecordMan:""});
-            this.setState({RecordTime:""});
-            this.setState({GPSLng:""}) ;
-            this.setState({ GPSLat:""}) ;
-            //根据用电地址返回百度经纬度（利用百度API）
-            let url="http://api.map.baidu.com/geocoder/v2/?address="+addrArray[CurrentAddrIndex-1]['elecAddr']+"&output=json&ak=hAYszgjy50mrlSDBIusNfSc4"
-            let lng=0;
-            let lat=0;
-            fetch(url,{method:"GET"}).then(response => response.json())
-            .then(data => {
-                 lng=data['result']['location']['lng'] 
-                 lat=data['result']['location']['lat'] 
-                 this.setState({currentDataSource:"根据用电地址自动生成，可信度："+data['result']['confidence']}) ;
-                 //根据返回的经纬度生成导航路线url
-                 this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+lat+','+lng+'&mode=driving&region=厦门&output=html'})
-             })    
-            .catch(e => console.log("Oops, error", e))
-            
-            
-       }
-       else {
-            CurrentAddrIndex=CurrentAddrIndex+1  ;   
-            this.setState({currentDataSource:addrArray[CurrentAddrIndex]['数据来源']}) ;
-            this.setState({RecordMan:addrArray[CurrentAddrIndex]['RecordMan']}) ;
-            this.setState({RecordTime:addrArray[CurrentAddrIndex]['RecordTime']}) ;
-            this.setState({GPSLng:addrArray[CurrentAddrIndex]['BaiduLongitude']}) ;
-            this.setState({ GPSLat:addrArray[CurrentAddrIndex]['BaiduLatitude']}) ;
-            this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+addrArray[CurrentAddrIndex]['BaiduLatitude']+','+addrArray[CurrentAddrIndex]['BaiduLongitude']+'&mode=driving&region=厦门&output=html'})
-       }
-     }     
- }
-
-
+ 
 
   render() {  
     return (  
       <View style={styles.container}>  
        <View style={styles.header}> 
+            <TouchableOpacity   
+                style={{alignSelf:'center',}}            
+                onPress={this.ReturnToSearch}>
+                <Text style={styles.leftitle}>返回</Text> 
+            </TouchableOpacity>
         <Text style={styles.headtitle}>查找结果</Text> 
-    </View>  
+      </View>  
       <ScrollView>
            
        
           <View style={{width:w,backgroundColor:'white',justifyContent: 'center',marginBottom:5}}>
-              <Text>一共查找到{addrCount}个关于{this.state.toSearchAssetNo}的定位信息{'\n'}
+              <Text>一共查找到{this.state.addrCount}个关于{this.state.toSearchAssetNo}的定位信息{'\n'}
                   设备编号： {this.state.currentAssetNo}{'\n'}
-                  地址：{this.state.currentElecAddr}{'\n'}
               </Text>      
           </View>
             <View>
@@ -223,12 +191,19 @@ const styles = StyleSheet.create({
     //marginBottom: 100,
   },
     header: { 
+    flexDirection: 'row',
     height: 40, 
     backgroundColor: '#12B7F5', 
-    justifyContent: 'center', 
+    justifyContent: 'flex-start', 
     width:w
 }, 
+leftitle: { 
+    alignSelf: 'center', 
+    fontSize: 20, 
+    color: '#ffffff', 
+}, 
 headtitle: { 
+    marginLeft:90,
     alignSelf: 'center', 
     fontSize: 20, 
     color: '#ffffff', 
