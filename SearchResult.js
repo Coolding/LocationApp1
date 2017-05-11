@@ -63,16 +63,16 @@ export default class SearchResult extends Component {
             fetch(url,{method:"GET"}).then(response => response.json())
             .then(data => {
                 //alert(data.length)
-                if(data.length==0){
+                if(data[0]==0){
                     alert("不好意思，没找到该设备的信息")
                     addrArray=data;
                     this.setState({addrCount:0})
                     CurrentAddrIndex=0;
                 }
-                else{
+                else if(data[0]==2){
                        //alert("找到了")
-                        addrArray=data;
-                        this.setState({addrCount:data.length+1})
+                        addrArray=data[1];
+                        this.setState({addrCount:data[1].length+1})
                         CurrentAddrIndex=0;
                         this.setState({GPSLng:addrArray[CurrentAddrIndex]['BaiduLongitude'],GPSLat:addrArray[CurrentAddrIndex]['BaiduLatitude'],currentAssetNo:addrArray[CurrentAddrIndex]['AssetInfo'],currentElecAddr:addrArray[CurrentAddrIndex]['elecAddr'],currentDataSource:addrArray[CurrentAddrIndex]['数据来源'],RecordMan:addrArray[CurrentAddrIndex]['RecordMan'],RecordTime:addrArray[CurrentAddrIndex]['RecordTime']}) 
                         this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+addrArray[CurrentAddrIndex]['BaiduLatitude']+','+addrArray[CurrentAddrIndex]['BaiduLongitude']+'&mode=driving&region=厦门&output=html'})
