@@ -30,8 +30,9 @@ import AssetMapView from './AssetMapView';
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
 
-var    CurrentAddrIndex=0;
+//var    CurrentAddrIndex=0;
  var   addrArray=[];
+  var   addrArray1=[];
 
 
 
@@ -45,10 +46,10 @@ export default class SearchResult extends Component {
      currentElecAddr:"获取中",
      currentDataSource:"",
      url:"http://map.baidu.com/",
-     RecordMan:"",
-     RecordTime:"",
-     GPSLat:"",
-     GPSLng:"",
+     //RecordMan:"",
+     //RecordTime:"",
+     //GPSLat:"",
+     //GPSLng:"",
      addrCount:" 获取中，请稍候……",
     }; 
   }  
@@ -57,27 +58,59 @@ export default class SearchResult extends Component {
 
   componentWillMount() {
         //这里获取从Search传递过来的参数: SearchAssetNo
+        
+        addrArray=[]
+        this.setState({currentAssetNo:''})
         this.setState({toSearchAssetNo: this.props.SearchAssetNo},function(){
             //查找SearchAssetNo在数据库里面是否已有人上传过的GPS地址
             let url="http://1.loactionapp.applinzi.com/GetGPSInfo/"+this.props.SearchAssetNo;
             fetch(url,{method:"GET"}).then(response => response.json())
             .then(data => {
-                //alert(data.length)
+                //没找到任何信息
                 if(data[0]==0){
                     alert("不好意思，没找到该设备的信息")
-                    addrArray=data;
+                    addrArray=[];
                     this.setState({addrCount:0})
                     CurrentAddrIndex=0;
                 }
-                else if(data[0]==2){
+                //有找到上传的GPS信息
+                else if(data[0]==1){
                        //alert("找到了")
-                        addrArray=data[1];
-                        this.setState({addrCount:data[1].length+1})
-                        CurrentAddrIndex=0;
-                        this.setState({GPSLng:addrArray[CurrentAddrIndex]['BaiduLongitude'],GPSLat:addrArray[CurrentAddrIndex]['BaiduLatitude'],currentAssetNo:addrArray[CurrentAddrIndex]['AssetInfo'],currentElecAddr:addrArray[CurrentAddrIndex]['elecAddr'],currentDataSource:addrArray[CurrentAddrIndex]['数据来源'],RecordMan:addrArray[CurrentAddrIndex]['RecordMan'],RecordTime:addrArray[CurrentAddrIndex]['RecordTime']}) 
-                        this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+addrArray[CurrentAddrIndex]['BaiduLatitude']+','+addrArray[CurrentAddrIndex]['BaiduLongitude']+'&mode=driving&region=厦门&output=html'})
+                        addrArray1=data[1];
+                        this.setState({addrCount:data[1].length})
+                        for (var i = 0 ; i < addrArray1.length ; i++){
+                            addrArray[i]=addrArray1[i]
+                            addrArray[i]['id']=i+1
+                        }
+                        this.setState({currentAssetNo:addrArray[0]['AssetInfo']})
+                        // CurrentAddrIndex=0;
+                        // this.setState({GPSLng:addrArray[CurrentAddrIndex]['BaiduLongitude'],GPSLat:addrArray[CurrentAddrIndex]['BaiduLatitude'],currentAssetNo:addrArray[CurrentAddrIndex]['AssetInfo'],currentElecAddr:addrArray[CurrentAddrIndex]['elecAddr'],currentDataSource:addrArray[CurrentAddrIndex]['数据来源'],RecordMan:addrArray[CurrentAddrIndex]['RecordMan'],RecordTime:addrArray[CurrentAddrIndex]['RecordTime']}) 
+                        // this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+addrArray[CurrentAddrIndex]['BaiduLatitude']+','+addrArray[CurrentAddrIndex]['BaiduLongitude']+'&mode=driving&region=厦门&output=html'})
       
                 }
+                //没有找到上传的GPS信息，但是consLow有相应信息，采用consLow里面的gps地址
+                else if(data[0]==2){
+                        //alert("找到了")
+                        addrArray1=data[1];                        
+                        this.setState({addrCount:data[1].length})                        
+                        for (var i = 0 ; i < addrArray1.length ; i++){
+                            addrArray[i]={}
+                            addrArray[i]['数据来源']='智能生成'
+                            addrArray[i]['RecordMan']='王ds'
+                            addrArray[i]['RecordTime']='2017-1-1'
+                            addrArray[i]['BaiduLongitude']=addrArray1[i]['BaiduLon']                            
+                            addrArray[i]['BaiduLatitude']=addrArray1[i]['BaiduLat']
+                            addrArray[i]['id']=i+1
+                        }
+                        this.setState({currentAssetNo:addrArray1[0]['ASSET_NO']})
+                        // CurrentAddrIndex=0;
+                        // alert(addrArray[0]['BaiduLon'])
+                        // this.setState({GPSLng:addrArray[0]['BaiduLon'],GPSLat:addrArray[0]['BaiduLat'],currentAssetNo:addrArray[0]['ASSET_NO'],currentElecAddr:addrArray[0]['elecAddr'],currentDataSource:'智能生成',RecordMan:'王ds',RecordTime:'2017-1-1'}) 
+                        // this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+addrArray[0]['BaiduLat']+','+addrArray[0]['BaiduLon']+'&mode=driving&region=厦门&output=html'})
+                        //alert(JSON.stringify(addrArray))
+                        //alert(addrArray.length)
+                }
+
                       })    //加1是因为处理数据库里面app上传的地址，还有1个根据用电地址反推的定位信息
             .catch(e => console.log("Oops, error", e))
         } 
@@ -140,21 +173,15 @@ var url = 'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&d
           </View>
             <View>
         {  
-            //  addrArray=data;
-            //     addrCount=data.length+1; 
-            //     CurrentAddrIndex=0;
-            //     this.setState({GPSLng:addrArray[CurrentAddrIndex]['BaiduLongitude'],GPSLat:addrArray[CurrentAddrIndex]['BaiduLatitude'],currentAssetNo:addrArray[CurrentAddrIndex]['AssetInfo'],currentElecAddr:addrArray[CurrentAddrIndex]['elecAddr'],currentDataSource:addrArray[CurrentAddrIndex]['数据来源'],RecordMan:addrArray[CurrentAddrIndex]['RecordMan'],RecordTime:addrArray[CurrentAddrIndex]['RecordTime']}) 
-               
-
-            addrArray.map(               
+              addrArray.map(               
                (addrInfo)=>{                        
                return (
-                 <TouchableOpacity key={addrInfo.BaiduLongitude}
+                 <TouchableOpacity key={addrInfo.id}
                  onPress={()=>this.openBaiduMap(addrInfo.BaiduLongitude,addrInfo.BaiduLatitude)}>
                  <View  style={{flexDirection:"row",backgroundColor:"white",marginBottom:2}}>                 
                       <View style={{width:w*0.9,}}>
                           <Text style={{fontSize: 15,marginBottom:5,lineHeight:25}}>
-                          数据来源：{addrInfo.数据来源}{'\n'}
+                          ({addrInfo.id})数据来源：{addrInfo.数据来源}{'\n'}
                           GPS上传人员：{addrInfo.RecordMan}{'\n'}
                           GPS上传时间：{addrInfo.RecordTime}{'\n'}
                           经纬度：{addrInfo.BaiduLongitude},{addrInfo.BaiduLatitude}{'\n'}
