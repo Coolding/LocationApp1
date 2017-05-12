@@ -11,6 +11,7 @@ import {
   Picker,
   ScrollView,
   ListView,
+  AsyncStorage,
 } from 'react-native';
 import boxConsRelate from './boxConsRelate';
 import ScanUpload from './ScanUpload';
@@ -19,6 +20,7 @@ var Dimensions = require('Dimensions');
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
  var  BoxConsRelateConfirm=[];
+  var currentLoginUserName='';
  
 
  
@@ -70,6 +72,7 @@ export default class UploadGps extends Component {
       factboxIndex:'',  //现场实际的表箱号
       boxDisable:true,
       sBoxConsRelateConfirm:[],
+      AsyncStorage,
     };
  }
 
@@ -135,15 +138,17 @@ confirmboxIndex =() =>{
    .catch(e => console.log("Oops, error", e))
 }
 
- componentDidMount() {
-        //这里获取从ScanUpload传递过来的参数: ScanedAssetNo(即扫描的的条形码号码)
-        this.setState({
-            AssetInfo: this.props.ScanedAssetNo
-        });
 
-   this.setState({Currentlatitude:""})
-   this.setState({Currentlongitude:""})
-   this.setState({relateCount:0,currentAddr:""}); 
+
+componentDidMount() {
+        //这里获取从ScanUpload传递过来的参数: ScanedAssetNo(即扫描的的条形码号码)
+        this.setState({AssetInfo: this.props.ScanedAssetNo });
+        currentLoginUserName=this.props.currentLoginUserName 
+        this.setState({Currentlatitude:""})
+        this.setState({Currentlongitude:""})
+        this.setState({relateCount:0,currentAddr:""}); 
+
+   
    
    navigator.geolocation.getCurrentPosition(
       (initialPosition) => {
@@ -156,6 +161,8 @@ confirmboxIndex =() =>{
           formData.append("latitude",this.state.Currentlatitude);
           formData.append("RecordTime",getNowFormatDate());
           formData.append("AssetInfo",this.state.AssetInfo);
+          formData.append("RecordMan",currentLoginUserName);
+          
           let url="http://1.loactionapp.applinzi.com/upload";
           fetch(url,{method:"POST",headers:{},body:formData}).then(response => response.json())
           .then(data => {

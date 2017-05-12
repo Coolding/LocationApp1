@@ -11,6 +11,7 @@ import {
   Picker,
   ScrollView,
   ListView,
+  AsyncStorage,
 } from 'react-native';
 import boxConsRelate from './boxConsRelate';
 
@@ -21,6 +22,7 @@ var h=Dimensions.get('window').height;  //获得屏幕的宽高
 //       AssetArray=[], 
 //       elecAddrArray=[];
  var  BoxConsRelateConfirm=[];
+ 
  
 
 //改进：上传后自动清空输入的设备信息
@@ -44,6 +46,8 @@ function getNowFormatDate() {
             + seperator2 + date.getSeconds();
     return currentdate;
 }
+
+
 
 
 
@@ -78,6 +82,23 @@ export default class UploadGps extends Component {
     };
  }
 
+
+ componentWillMount= () => {
+   //获取当前登录用户的部门和姓名，用于上传GPS信息时记录上传人员
+     AsyncStorage.getItem('department').then((department) => { 
+            if(department!=null)  {
+                currentUserName=department
+                AsyncStorage.getItem('LoginUserName').then((LoginUserName) => {
+                    currentUserName=currentUserName+' '+LoginUserName
+                    
+                }) 
+              }
+            else currentUserName=''
+ });
+  }
+
+
+
 // boxConsRelateCheck= () =>{
 //   const { navigator } = this.props;
 //   navigator.replace({
@@ -106,6 +127,7 @@ confirmOk= (i) =>{
             formData.append("AssetInfo",BoxConsRelateConfirm[i]['AssetNo']);  
             formData.append("boxIndex",this.state.boxIndex);  
             formData.append("confirmContent","在这个表箱里")
+            
             let url="http://1.loactionapp.applinzi.com/confirmConsBoxRelate";
             fetch(url,{method:"POST",headers:{},body:formData}).then(response => response)
             .then(data => console.log(data))
@@ -166,6 +188,8 @@ confirmboxIndex =() =>{
           formData.append("latitude",this.state.Currentlatitude);
           formData.append("RecordTime",getNowFormatDate());
           formData.append("AssetInfo",this.state.AssetInfo);
+          formData.append("RecordMan",currentUserName);
+          
           let url="http://1.loactionapp.applinzi.com/upload";
           fetch(url,{method:"POST",headers:{},body:formData}).then(response => response.json())
           .then(data => {
@@ -244,8 +268,9 @@ confirmboxIndex =() =>{
                     <TextInput
                     style={{marginLeft:w*0.02,marginBottom:10,height:40,width:w*0.75, borderColor: 'gray', borderWidth:1,borderRadius:5}}
                     underlineColorAndroid="transparent"
-                    //selectTextOnFocus="true"
-                    placeholder="请输入表号，表箱号，户号或者设备名称"                    
+                    selectTextOnFocus={true} 
+                    placeholder="请输入表号，表箱号，户号或者设备名称"    
+                    clearTextOnFocus={true}                
                     onChangeText={(text) =>   this.setState({AssetInfo:text})  }
                       />
                     <View style={{marginLeft:w*0.02,marginBottom:10,height:45,width:w*0.15}}>

@@ -45,11 +45,6 @@ export default class SearchResult extends Component {
      currentAssetNo:"",
      currentElecAddr:"获取中",
      currentDataSource:"",
-     url:"http://map.baidu.com/",
-     //RecordMan:"",
-     //RecordTime:"",
-     //GPSLat:"",
-     //GPSLng:"",
      addrCount:" 获取中，请稍候……",
     }; 
   }  
@@ -83,10 +78,6 @@ export default class SearchResult extends Component {
                             addrArray[i]['id']=i+1
                         }
                         this.setState({currentAssetNo:addrArray[0]['AssetInfo']})
-                        // CurrentAddrIndex=0;
-                        // this.setState({GPSLng:addrArray[CurrentAddrIndex]['BaiduLongitude'],GPSLat:addrArray[CurrentAddrIndex]['BaiduLatitude'],currentAssetNo:addrArray[CurrentAddrIndex]['AssetInfo'],currentElecAddr:addrArray[CurrentAddrIndex]['elecAddr'],currentDataSource:addrArray[CurrentAddrIndex]['数据来源'],RecordMan:addrArray[CurrentAddrIndex]['RecordMan'],RecordTime:addrArray[CurrentAddrIndex]['RecordTime']}) 
-                        // this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+addrArray[CurrentAddrIndex]['BaiduLatitude']+','+addrArray[CurrentAddrIndex]['BaiduLongitude']+'&mode=driving&region=厦门&output=html'})
-      
                 }
                 //没有找到上传的GPS信息，但是consLow有相应信息，采用consLow里面的gps地址
                 else if(data[0]==2){
@@ -103,15 +94,9 @@ export default class SearchResult extends Component {
                             addrArray[i]['id']=i+1
                         }
                         this.setState({currentAssetNo:addrArray1[0]['ASSET_NO']})
-                        // CurrentAddrIndex=0;
-                        // alert(addrArray[0]['BaiduLon'])
-                        // this.setState({GPSLng:addrArray[0]['BaiduLon'],GPSLat:addrArray[0]['BaiduLat'],currentAssetNo:addrArray[0]['ASSET_NO'],currentElecAddr:addrArray[0]['elecAddr'],currentDataSource:'智能生成',RecordMan:'王ds',RecordTime:'2017-1-1'}) 
-                        // this.setState({url:'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+addrArray[0]['BaiduLat']+','+addrArray[0]['BaiduLon']+'&mode=driving&region=厦门&output=html'})
-                        //alert(JSON.stringify(addrArray))
-                        //alert(addrArray.length)
                 }
 
-                      })    //加1是因为处理数据库里面app上传的地址，还有1个根据用电地址反推的定位信息
+                      })  
             .catch(e => console.log("Oops, error", e))
         } 
         );        
@@ -129,7 +114,7 @@ export default class SearchResult extends Component {
         }});
  }
 
-  ReturnToSearch=()=>{
+ReturnToSearch=()=>{
      const { navigator } = this.props;
      navigator.replace({
         name: 'Search',
@@ -137,16 +122,38 @@ export default class SearchResult extends Component {
         });
  }
 
+getDistanceFromXtoY=(lat_a,lng_a,lat_b,lng_b)=>{
+    let pk = 180 / 3.14169
+    let a1 = float(lat_a)/pk
+    let a2 = float(lng_a)/pk
+    let b1 = float(lat_b)/pk
+    let b2 = float(lng_b)/pk
+    let t1 = Math.cos(a1) * Math.cos(a2) * Math.cos(b1) * Math.cos(b2)
+    let t2 = Math.cos(a1) * Math.sin(a2) * Math.cos(b1) * Math.sin(b2)
+    let t3 = Math.sin(a1) * Math.sin(b1)
+    let tt = Math.acos(t1 + t2 + t3)
+    console.log(float(6366000 * tt))
+    return float(6366000 * tt)
+}
+
 //点击某一条查找结果时，根据其对应的经纬度，直接打开地图网页链接（调用手机的浏览器打开）
 openBaiduMap=(lng,lat)=>{
- 
-var url = 'http://api.map.baidu.com/direction?origin=24.496860384,118.04624843&destination='+lat+','+lng+'&mode=driving&region=厦门&output=html'
- Linking.openURL(url)  
-     .catch((err)=>{  
-       console.log('An error occurred', err);  
-     });
+    navigator.geolocation.getCurrentPosition(
+      (initialPosition) => {
+            let openurl="http://api.map.baidu.com/geoconv/v1/?coords="+initialPosition.coords.longitude+','+initialPosition.coords.latitude+"&from=1&to=5&ak=hAYszgjy50mrlSDBIusNfSc4"
+            fetch(openurl,{method:"GET"}).then(response => response.json())
+                .then(data => {
+                        let BaiduGPS=data['result'][0] 
+                        let BaiduGPSLng=BaiduGPS['x']
+                        let BaiduGPSLat=BaiduGPS['y']
+                         var url = 'http://api.map.baidu.com/direction?origin=' + BaiduGPSLat+','+BaiduGPSLng + '&destination='+lat+','+lng+'&mode=driving&region=厦门&output=html'
+                            Linking.openURL(url)  
+                            .catch((err)=>{  
+                            console.log('An error occurred', err);  
+                            });
+                }) 
 
-
+      })
 
 }
 

@@ -32,6 +32,7 @@ import AppMain from './AppMain';
 var Dimensions = require('Dimensions');
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
+ 
 
 
 export default class LoactionApp1 extends Component {

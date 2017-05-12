@@ -7,6 +7,7 @@ import {
   View,
   Navigator,
   Text,
+  AsyncStorage,
 } from 'react-native';
 import Camera from 'react-native-camera';
 import ScanUploadResult from './ScanUploadResult';
@@ -14,6 +15,7 @@ import ScanUploadResult from './ScanUploadResult';
 var Dimensions = require('Dimensions');
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
+var currentLoginUserName='';
 
 const styles = StyleSheet.create({
   container: {
@@ -107,7 +109,20 @@ export default class ScanUpload extends React.Component {
    
   }
 
- 
+  componentWillMount= () => {
+   //获取当前登录用户的部门和姓名，用于上传GPS信息时记录上传人员
+     AsyncStorage.getItem('department').then((department) => { 
+            if(department!=null)  {
+                currentLoginUserName=department                
+                AsyncStorage.getItem('LoginUserName').then((LoginUserName) => {
+                            currentLoginUserName=currentLoginUserName+' '+LoginUserName
+                            
+                        }) 
+              }
+             else currentLoginUserName=''
+ });
+    
+  }
  
 
 //扫描到条形码
@@ -117,7 +132,8 @@ export default class ScanUpload extends React.Component {
                 name: 'ScanUploadResult',
                 component: ScanUploadResult,
               params: {
-                ScanedAssetNo: e.data
+                ScanedAssetNo: e.data,
+                currentLoginUserName:currentLoginUserName,
               }});
     console.log(e.data);  
 }
