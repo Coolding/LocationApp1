@@ -115,6 +115,7 @@ export default class ScanSearch extends React.Component {
     const { navigator } = this.props;
     let b=[]
     a=e.data
+    
     a=a.replace(","," ")
     a=a.replace("."," ")
     a=a.replace("/"," ")
@@ -125,19 +126,12 @@ export default class ScanSearch extends React.Component {
     //a=a.replace("\\r"," ")
     a=a.replace(/\r\n/g," ")
     //a=a.replace(/\n/g," ")
-    
+    //alert(a)
     while(a.indexOf("  ")>=0)
       a=a.replace("  "," ")  
-    
-    while(a.indexOf(" ")==0)  //去除左边的空格
-      a=a.slice(1,a.length-1)
-    while(a.lastIndexOf(" ")==0)  //去除右边的空格
-      a=a.slice(0,a.length-2)
-   
+
+    a=a.replace(/(^\s*)|(\s*$)/g, ""); //去除左右两边的空格   
     b=a.split(" ")
-    
-   
-    //return (e.data.split(" "))
     navigator.replace({
                 name: 'scanSearchResult',
                 component: scanSearchResult,

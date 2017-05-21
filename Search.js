@@ -86,7 +86,7 @@ export default class Search extends Component {
 
  
      const { navigator } = this.props;
-     navigator.replace({
+     navigator.push({
         name: 'SearchResult',
         component: SearchResult,
         params: {
@@ -133,6 +133,8 @@ export default class Search extends Component {
                 style={{marginLeft:w*0.02,marginBottom:10,height:40,width:w*0.75, borderColor: 'gray', borderWidth:1,borderRadius:5}}
                 underlineColorAndroid="transparent"
                 placeholder="输入要查找和导航的表(箱)号，户号等"
+                selectTextOnFocus={true}
+                clearTextOnFocus={true}
                 onChangeText={(text) =>   this.setState({toSearchAssetNo:text})  }
                   />
                 <View style={{marginLeft:w*0.02,marginBottom:10,height:45,width:w*0.15}}>

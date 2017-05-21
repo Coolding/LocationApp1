@@ -60,7 +60,19 @@ componentWillMount() {
       }
     catch (e) {
         this.setState({LoginStatus:-1})  //还没登录
-        } 
+      } 
+  
+      
+//从服务器端获取当前APP的最新版本，查看版本是否有更新
+   let url="http://1.loactionapp.applinzi.com/cdfasdfeerqwadfwrzvv/Version"
+   fetch(url,{method:"GET"}).then(response => response.json())
+   .then(data => {        
+        AsyncStorage.setItem('NewestVersion', data['CurrentVersion']); 
+        AsyncStorage.setItem('downAddr', data['downAddr']); 
+        AsyncStorage.setItem('updateInfo', data['updateInfo']); 
+    })
+   .catch(e => console.log("Oops,error", e))
+
 }
 
 render() {

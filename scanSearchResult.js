@@ -14,7 +14,7 @@ import {
 } from 'react-native'; 
 import ScanSearch from './ScanSearch'; 
 import SearchResult from './SearchResult'; 
-
+import Search from './Search'; 
 
 
  
@@ -43,8 +43,10 @@ export default class scanSearchResult extends Component {
 
   componentWillMount() {
         //这里获取从Search传递过来的参数: SearchAssetNo
+        this.setState({AssetNoArray:[]})
         this.setState({AllScanedAssetNo: this.props.AllScanedAssetNo},function(){  
               let i=0
+               
               while(i<this.state.AllScanedAssetNo.length){                 
                 a[i]={}
                 a[i]['index']=i
@@ -52,6 +54,7 @@ export default class scanSearchResult extends Component {
                 i=i+1
               }
               this.setState({AssetNoArray:a})
+              a=[]
             //查找SearchAssetNo在数据库里面是否已有人上传过的GPS地址
             // let url="http://1.loactionapp.applinzi.com/GetGPSInfo/"+this.props.SearchAssetNo;
             // fetch(url,{method:"GET"}).then(response => response.json())
@@ -73,7 +76,7 @@ export default class scanSearchResult extends Component {
   //点击某一架表后，跳转到其对应的信息和地图显示页面
  ShowMap=(assetNo)=>{
      const { navigator } = this.props;
-     navigator.replace({
+     navigator.push({
         name: 'SearchResult',
         component: SearchResult,
         params: {
@@ -81,13 +84,26 @@ export default class scanSearchResult extends Component {
         }});
  }
 
+ReturnToSearch=()=>{
+     const { navigator } = this.props;
+     navigator.replace({
+        name: 'Search',
+        component: Search,
+        });
+ }
+
  
   render() {  
     return (  
       <View style={styles.container}>  
-     <View style={styles.header}> 
+        <View style={styles.header}> 
+            <TouchableOpacity   
+                style={{alignSelf:'center',}}            
+                onPress={this.ReturnToSearch}>
+                <Text style={styles.leftitle}>返回</Text> 
+            </TouchableOpacity>
         <Text style={styles.headtitle}>查找结果</Text> 
-    </View>   
+      </View>    
       <View>{
 
          this.state.AssetNoArray.map(               
@@ -126,13 +142,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#f4f6f6',
     //marginBottom: 100,
   }, 
-  header: { 
+ header: { 
+    flexDirection: 'row',
     height: 40, 
     backgroundColor: '#12B7F5', 
-    justifyContent: 'center', 
+    justifyContent: 'flex-start', 
     width:w
 }, 
+leftitle: { 
+    alignSelf: 'center', 
+    fontSize: 20, 
+    color: '#ffffff', 
+}, 
 headtitle: { 
+    marginLeft:90,
     alignSelf: 'center', 
     fontSize: 20, 
     color: '#ffffff', 

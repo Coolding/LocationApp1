@@ -8,6 +8,7 @@ import {
   Button,
   Image,
   AsyncStorage,
+  Linking,
 } from 'react-native';
 
 var currentUser
@@ -40,9 +41,31 @@ export default class Home extends Component {
  constructor(props) {
  super(props);
  this.state = {
-      selectedTab:'home'
+      selectedTab:'home',
+      //当前APP版本信息，每次要发布新版本时注意来这里修改当前版本号！
+      currentVersion:'V 1.0',
+      NewestVersion:'',
+      updateDisabled:true,
     };
  }
+
+componentWillMount() {
+//检查登录信息，以便判断用户打开APP之后是跳转到登录页面还是系统主界面
+ 
+    try{   
+          AsyncStorage.getItem('NewestVersion').then((value) => { 
+             this.setState({NewestVersion:value})  //还没登录
+             if(this.state.NewestVersion!=this.state.currentVersion){
+               this.setState({updateDisabled:false})
+             }
+              });
+                    
+      }
+    catch (e) {
+        this.setState({NewestVersion:'V 1.0'})  //还没登录
+      } 
+
+}
 
  removeKey=(key)=>{
             try {
@@ -57,6 +80,30 @@ removeRegistKey=()=>{
     this.removeKey('tel')
     this.removeKey('department')
     alert("删除成功")
+}
+
+updateVersion=()=>{
+ 
+  AsyncStorage.getItem('downAddr').then((value) => { 
+     Linking.openURL(value)  
+        .catch((err)=>{  
+              alert("更新失败，没找到下载地址")
+              console.log('An error occurred', err);  
+                });
+   });
+ 
+}
+
+
+gotoHelp=()=>{ 
+   let url='http://1.loactionapp.applinzi.com/sdfjlajlkfjewou/help'
+Linking.openURL(url)  
+  .catch((err)=>{  
+      alert("失败")
+      console.log('An error occurred', err);  
+});
+   
+ 
 }
 
 //登录的时候就要这样初始化，补充代码！！！！！！！！！！！！！！！
@@ -117,7 +164,16 @@ initSearchHistory=()=>{
       
      </View> 
    
-   
+      <Text>当前App版本：{this.state.currentVersion}</Text> 
+      <Text>最新App版本：{this.state.NewestVersion}</Text> 
+      <Button disabled={this.state.updateDisabled}
+              onPress={this.updateVersion}
+              title="更新"
+              />
+        
+         <Button onPress={this.gotoHelp}
+              title="app使用帮助"
+              />
         <Text   onPress={()=>this.removeRegistKey()  }>删除本机存储的登录信息</Text> 
 
         <View style={{marginTop:30,marginBottom:10,marginLeft:10}}> 
