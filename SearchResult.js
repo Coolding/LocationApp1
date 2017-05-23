@@ -24,7 +24,7 @@ import scanSearchResult from './scanSearchResult';
 //2.nextAddr函数里面的操作：根据用电地址返回经纬度这一步可能遇到的问题有：
 //百度API对于address字段可能会出现中文或其它一些特殊字符（如：空格），对于类似的字符要进行编码处理，编码成 UTF-8 字符的二字符十六进制值
 //参考网址http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding
-//3.地址准不准评价：用点赞的图标
+ 
 //4.如果同一电表（设备）系统有很多个人上传的地址，是否限制只显示几个就可以了，显示太多反而让用户无从选择
 //提示当前系统有多少电表，表箱……位置信息可供查询定位
 
@@ -178,7 +178,6 @@ openBaiduMap=(lng,lat)=>{
        
           <View style={{width:w,backgroundColor:'white',justifyContent: 'center',marginBottom:5}}>
               <Text>一共查找到{this.state.addrCount}个关于{this.state.toSearchAssetNo}的定位信息{'\n'}
-                  设备编号： {this.state.currentAssetNo}{'\n'}
               </Text>      
           </View>
             <View>
@@ -191,7 +190,10 @@ openBaiduMap=(lng,lat)=>{
                  <View  style={{flexDirection:"row",backgroundColor:"white",marginBottom:2}}>                 
                       <View style={{width:w*0.9,}}>
                           <Text style={{fontSize: 15,marginBottom:5,lineHeight:25}}>
-                          ({addrInfo.id})数据来源：{addrInfo.数据来源}{'\n'}
+                          ({addrInfo.id})查找结果：{'\n'}
+                          AssetInfo：{addrInfo.AssetInfo}{'\n'}
+                          BarCode：{addrInfo.BarCode}{'\n'}
+                          数据来源：{addrInfo.数据来源}{'\n'}
                           GPS上传人员：{addrInfo.RecordMan}{'\n'}
                           GPS上传时间：{addrInfo.RecordTime}{'\n'}
                           经纬度：{addrInfo.BaiduLongitude},{addrInfo.BaiduLatitude}                        
