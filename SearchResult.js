@@ -171,7 +171,7 @@ openBaiduMap=(lng,lat)=>{
                 onPress={this.ReturnToSearch}>
                 <Text style={styles.leftitle}>返回</Text> 
             </TouchableOpacity>
-        <Text style={styles.headtitle}>查找结果</Text> 
+           <Text style={styles.headtitle}>查找结果</Text> 
       </View>  
       <ScrollView>
            

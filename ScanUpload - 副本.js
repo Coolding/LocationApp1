@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import Camera from 'react-native-camera';
 import ScanUploadResult from './ScanUploadResult';
-import Loading from './Loading';
 
 var Dimensions = require('Dimensions');
 var w=Dimensions.get('window').width;
@@ -25,19 +24,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
     header: { 
-    flexDirection: 'row',
     height: 40, 
+    width:w,
     backgroundColor: '#12B7F5', 
-    justifyContent: 'flex-start', 
-    width:w
-}, 
-leftitle: { 
-    alignSelf: 'center', 
-    fontSize: 20, 
-    color: '#ffffff', 
+    justifyContent: 'center', 
 }, 
 headtitle: { 
-    marginLeft:90,
     alignSelf: 'center', 
     fontSize: 20, 
     color: '#ffffff', 
@@ -99,11 +91,6 @@ headtitle: {
     },
 });
 
-export function test(){
-    alert('test')
-  }
- //返回到扫描按钮界面
-
 export default class ScanUpload extends React.Component {
   constructor(props) {
     super(props);
@@ -118,10 +105,9 @@ export default class ScanUpload extends React.Component {
       },
       isRecording: false
     };
- 
-  }
 
- 
+   
+  }
 
   componentWillMount= () => {
    //获取当前登录用户的部门和姓名，用于上传GPS信息时记录上传人员
@@ -152,31 +138,13 @@ export default class ScanUpload extends React.Component {
     console.log(e.data);  
 }
 
-test1=()=>{
-  alert('test1')
-}
- gotoScanButton=() =>{
-    const { navigator } = this.props;
-    navigator.replace({
-                name: 'Loading',
-                component: Loading,
-              params: {
-              }});
-    
-}
-
-
   render() {
+
     return (
       <View style={styles.container}>
-           <View style={styles.header}> 
-            <TouchableOpacity   
-                style={{alignSelf:'center',}}            
-                onPress={this.gotoScanButton}>
-                <Text style={styles.leftitle}>返回</Text> 
-            </TouchableOpacity>
-           <Text style={styles.headtitle}>扫描上传</Text> 
-      </View>  
+          <View style={styles.header}> 
+              <Text style={styles.headtitle}>扫描上传</Text> 
+          </View>  
      
                 <StatusBar
                   animated

@@ -23,8 +23,6 @@ import Login from './Login';
 import Regist from './regist';
 import Loading from './Loading';
 import NavRegist from './NavRegist';
-import {test} from './ScanUpload'
-
 
  
 var w=Dimensions.get('window').width;
@@ -43,10 +41,8 @@ export default class AppMain extends React.Component {
 
 
 press=()=>{
-  this.TestClass.gotoScanButton()
-  this.setState({ selectedTab: 'UploadGps' })
-  
-     
+
+  alert("ddkdkd")
 }
 render() { 
      return (       
@@ -68,8 +64,7 @@ render() {
             title="UploadGps"
             renderIcon={() => <Image source={require('./assets/2.png')} style={styles.iconStyle}/>}
             renderSelectedIcon={() => <Image source={require('./assets/22.png')}  style={styles.iconStyle}/>}
-            
-            onPress={this.press}>
+            onPress={() => this.setState({ selectedTab: 'UploadGps' })}>
 
             <Navigator
               initialRoute={{ name: 'UploadGps', component: UploadGps }}
@@ -96,7 +91,7 @@ render() {
               }}
               renderScene={(route, navigator) => {
                 let Component = route.component;
-                return <Component {...route.params} navigator={navigator} ref={e=>this.TestClass=e}/>
+                return <Component {...route.params} navigator={navigator} />
               }} />            
             </TabNavigator.Item>
 
