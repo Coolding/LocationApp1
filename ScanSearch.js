@@ -6,10 +6,11 @@ import {
   TouchableOpacity,
   View,
   Navigator,
+  Text,
 } from 'react-native';
 import Camera from 'react-native-camera';
 import scanSearchResult from './scanSearchResult';
-
+import Search from './Search';
 var Dimensions = require('Dimensions');
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
@@ -18,6 +19,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+   header: { 
+    flexDirection: 'row',
+    height: 40, 
+    backgroundColor: '#12B7F5', 
+    justifyContent: 'flex-start', 
+    width:w
+}, 
+leftitle: { 
+    alignSelf: 'center', 
+    fontSize: 20, 
+    color: '#ffffff', 
+}, 
+headtitle: { 
+    marginLeft:90,
+    alignSelf: 'center', 
+    fontSize: 20, 
+    color: '#ffffff', 
+}, 
   preview: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -142,10 +161,31 @@ export default class ScanSearch extends React.Component {
 }
 
 
+ gotoSearch=() =>{
+    const { navigator } = this.props;
+    navigator.replace({
+                name: 'Search',
+                component: Search,
+              params: {
+              }});
+    
+}
+
+
+
+
   render() {
 
     return (
       <View style={styles.container}>
+          <View style={styles.header}> 
+            <TouchableOpacity   
+                style={{alignSelf:'center',}}            
+                onPress={this.gotoSearch}>
+                <Text style={styles.leftitle}>返回</Text> 
+            </TouchableOpacity>
+            <Text style={styles.headtitle}>扫描搜索</Text> 
+           </View> 
         <StatusBar
           animated
           hidden

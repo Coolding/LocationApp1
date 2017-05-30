@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import Camera from 'react-native-camera';
 import ScanUploadResult from './ScanUploadResult';
-import Loading from './Loading';
+import ScanMain from './ScanMain';
 
 var Dimensions = require('Dimensions');
 var w=Dimensions.get('window').width;
@@ -99,9 +99,7 @@ headtitle: {
     },
 });
 
-export function test(){
-    alert('test')
-  }
+ 
  //返回到扫描按钮界面
 
 export default class ScanUpload extends React.Component {
@@ -152,14 +150,12 @@ export default class ScanUpload extends React.Component {
     console.log(e.data);  
 }
 
-test1=()=>{
-  alert('test1')
-}
+ 
  gotoScanButton=() =>{
     const { navigator } = this.props;
     navigator.replace({
-                name: 'Loading',
-                component: Loading,
+                name: 'ScanMain',
+                component: ScanMain,
               params: {
               }});
     
@@ -175,8 +171,8 @@ test1=()=>{
                 onPress={this.gotoScanButton}>
                 <Text style={styles.leftitle}>返回</Text> 
             </TouchableOpacity>
-           <Text style={styles.headtitle}>扫描上传</Text> 
-      </View>  
+            <Text style={styles.headtitle}>扫描上传</Text> 
+           </View>  
      
                 <StatusBar
                   animated

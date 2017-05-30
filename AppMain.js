@@ -23,7 +23,7 @@ import Login from './Login';
 import Regist from './regist';
 import Loading from './Loading';
 import NavRegist from './NavRegist';
-import {test} from './ScanUpload'
+
 
 
  
@@ -42,12 +42,47 @@ export default class AppMain extends React.Component {
   }  
 
 
-press=()=>{
-  this.TestClass.gotoScanButton()
-  this.setState({ selectedTab: 'UploadGps' })
-  
-     
+pressToUploadGps=()=>{
+  try{
+    this.TestClass.gotoScanButton()
+  }
+   catch(e)    {   
+           console.log("error:" + e);   
+       }  
+  finally{
+      this.setState({ selectedTab: 'UploadGps' })
+  }
 }
+
+
+  pressToHome=()=>{
+  try{
+    this.TestClass.gotoScanButton()
+  }
+   catch(e)    {   
+           console.log("error:" + e);   
+       }  
+  finally{
+      this.setState({ selectedTab: 'home' })
+  }
+       
+}
+
+  pressToSearch=()=>{
+  try{
+    this.TestClass.gotoScanButton()
+  }
+   catch(e)    {   
+           console.log("error:" + e);   
+       }  
+  finally{
+      this.setState({ selectedTab: 'map' })
+  }
+       
+}
+
+
+
 render() { 
      return (       
      <View style={{flex: 1}}>
@@ -58,7 +93,7 @@ render() {
             renderIcon={() => <Image source={require('./assets/1.png')} style={styles.iconStyle}/>}
             renderSelectedIcon={() => <Image source={require('./assets/12.png')} style={styles.iconStyle}/>}
             badgeText=""
-            onPress={() => this.setState({ selectedTab: 'home' })}>
+            onPress={ this.pressToHome}>
             
             <Home {...this.props}/>
             </TabNavigator.Item>
@@ -69,7 +104,7 @@ render() {
             renderIcon={() => <Image source={require('./assets/2.png')} style={styles.iconStyle}/>}
             renderSelectedIcon={() => <Image source={require('./assets/22.png')}  style={styles.iconStyle}/>}
             
-            onPress={this.press}>
+            onPress={this.pressToUploadGps}>
 
             <Navigator
               initialRoute={{ name: 'UploadGps', component: UploadGps }}
@@ -106,7 +141,7 @@ render() {
             renderIcon={() => <Image source={require('./assets/4.png')} style={styles.iconStyle}/>}
             renderSelectedIcon={() => <Image source={require('./assets/42.png')} style={styles.iconStyle}/>}
             badgeText=""
-            onPress={() => this.setState({ selectedTab: 'map' })}>
+            onPress={ this.pressToSearch}>
             
             <Navigator
               initialRoute={{ name: 'Search', component: Search }}

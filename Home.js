@@ -16,26 +16,8 @@ var Dimensions = require('Dimensions');
 var w=Dimensions.get('window').width;
 var h=Dimensions.get('window').height;  //获得屏幕的宽高
 
-class Tbb extends Component {  
- render() {
-    let a=[{id:1,index:1},{id:2,index:2},{id:3,index:3},];
-      return (
-        <View>
-        {  a.map( function(x){ return <Text key={x.id}>第{x.index}个</Text>} )   }
-        </View>
-        );  
-    
- }
-}
-
-class Greeting extends Component {
-  render() {
-    return (
-      <Text>Hello {this.props.name}!</Text>
-    );
-  }
-}
-
+ 
+ 
  
 export default class Home extends Component {
  constructor(props) {
@@ -46,15 +28,22 @@ export default class Home extends Component {
       currentVersion:'V 1.0',
       NewestVersion:'',
       updateDisabled:true,
+      availableGps:0,
     };
  }
 
 componentWillMount() {
-//检查登录信息，以便判断用户打开APP之后是跳转到登录页面还是系统主界面
  
+   //可用gps数量
+    let url="http://1.loactionapp.applinzi.com/adsjlfsjldafsdfaxcveu/availableGps";
+            fetch(url,{method:"GET"}).then(response => response.json())            
+             .then(data => this.setState({availableGps:data}))
+              .catch(e => console.log("Oops,error", e))
+  
+    //版本检查
     try{   
           AsyncStorage.getItem('NewestVersion').then((value) => { 
-             this.setState({NewestVersion:value})  //还没登录
+             this.setState({NewestVersion:value})   
              if(this.state.NewestVersion!=this.state.currentVersion){
                this.setState({updateDisabled:false})
              }
@@ -62,7 +51,7 @@ componentWillMount() {
                     
       }
     catch (e) {
-        this.setState({NewestVersion:'V 1.0'})  //还没登录
+        this.setState({NewestVersion:'V 1.0'})   
       } 
 
 }
@@ -163,13 +152,29 @@ initSearchHistory=()=>{
         </TouchableOpacity>
       
      </View> 
-   
-      <Text>当前App版本：{this.state.currentVersion}</Text> 
-      <Text>最新App版本：{this.state.NewestVersion}</Text> 
-      <Button disabled={this.state.updateDisabled}
-              onPress={this.updateVersion}
-              title="更新"
-              />
+      
+        <View style={{width:w,}}>
+                    <View style={styles.textViewStyle}>
+                        <Text>当前系统可用的GPS地址数量：{this.state.availableGps}</Text> 
+                    </View>
+                    <View style={[styles.textViewStyle,{height:100}]}>
+                        <Text>当前App版本：{this.state.currentVersion}</Text> 
+                        <Text>最新App版本：{this.state.NewestVersion}</Text> 
+                        <View style={{marginTop:5,marginRight:10,width:w*0.3}}>
+                              <Button disabled={this.state.updateDisabled}
+                                  onPress={this.updateVersion}
+                                  title="更新"
+                              />
+                        </View>
+                   </View>
+        </View>
+
+
+
+     
+      
+      
+      
         
          <Button onPress={this.gotoHelp}
               title="app使用帮助"
@@ -181,8 +186,7 @@ initSearchHistory=()=>{
                onPress={()=>this.initSearchHistory()}>查询历史记录初始化</Text> 
         </View> 
  
-   <Tbb />
-   <Greeting name='Valeera' />
+   
       </View>
     );
   }
@@ -210,6 +214,26 @@ headtitle: {
     fontSize: 20, 
     color: '#ffffff', 
 }, 
+    textViewStyle:{
+    flexDirection: 'column',
+    justifyContent: 'center',
+    //alignItems: 'center',
+    backgroundColor:"white",
+    marginLeft:w*0.01,
+    marginRight:w*0.01,
+    marginBottom:1,
+    marginTop:0,
+    height:40,
+    borderWidth:0,
+    borderRadius:5,
+  },
+  textStyle2:{
+    fontSize: 15,
+    textAlign: 'left',
+    marginLeft: 10,
+    marginRight: 10,
+ 
+},
   textStyle:{
     fontSize: 40,
     textAlign: 'center',

@@ -251,13 +251,13 @@ confirmboxIndex =() =>{
     return (
       
     <View  style={styles.container} >   
-     <View style={styles.header}> 
-        <Text style={styles.headtitle}>上传设备GPS</Text> 
-    </View>   
 
-     <ScrollView style={{width:w,}}>
-        {/*<Text style={styles.textStyle}>LastGPS:{this.state.Lastlatitude},{this.state.Lastlongitude}{'\n'}
-         CurrentGPS:{this.state.Currentlatitude},{this.state.Currentlongitude}</Text>*/}
+
+        <View style={styles.header}> 
+            <Text style={styles.headtitle}>上传设备GPS</Text> 
+        </View>   
+
+  
 
         <View style={{backgroundColor:'white',borderRadius:5,marginBottom:10}}>
                 <View style={{marginTop:10}}>
@@ -286,68 +286,68 @@ confirmboxIndex =() =>{
                 </View>
          </View>
 
-        <View style={styles.textViewStyle}>
-            <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}{'\n'}</Text>
-        </View>
-        <View style={styles.textViewStyle}>
-            <Text style={styles.textStyle}>这是系统收到的第{this.state.InsertSerial}个GPS信息{'\n'}</Text>
-        </View>
-        <View style={styles.textViewStyle}>
-            <Text style={styles.textStyle}>上传的设备信息为：{this.state.AssetInfo}{'\n'}</Text>
-        </View>
-        <View style={styles.textViewStyle}>
-            <Text style={styles.textStyle}>当前表箱关联设备数：{this.state.boxRelateCount}{'\n'}</Text>
-        </View>
-        <View style={styles.textViewStyle}>
-            <Text style={styles.textStyle}>当前地址关联设备数：{this.state.addrRelateCount}{'\n'}</Text>
-        </View>
-        <View style={styles.textViewStyle}>
-            <Text style={styles.textStyle}>上传的经纬度为：{this.state.Currentlatitude},{this.state.Currentlongitude}{'\n'}</Text>
-        </View>
-        <View style={styles.textViewStyle}>
-            <Text style={styles.textStyle}>你在“ {this.state.currentAddr} ”附近{'\n'}</Text>
-        </View>
+         <View style={{width:w,}}>
+                    <View style={styles.textViewStyle}>
+                        <Text style={styles.textStyle}>上传结果：{this.state.uploadResult}{'\n'}</Text>
+                    </View>
+                    <View style={styles.textViewStyle}>
+                        <Text style={styles.textStyle}>这是系统收到的第{this.state.InsertSerial}个GPS信息{'\n'}</Text>
+                    </View>
+                    <View style={styles.textViewStyle}>
+                        <Text style={styles.textStyle}>上传的设备信息为：{this.state.AssetInfo}{'\n'}</Text>
+                    </View>
+                    <View style={styles.textViewStyle}>
+                        <Text style={styles.textStyle}>当前表箱关联设备数：{this.state.boxRelateCount}{'\n'}</Text>
+                    </View>
+                    <View style={styles.textViewStyle}>
+                        <Text style={styles.textStyle}>当前地址关联设备数：{this.state.addrRelateCount}{'\n'}</Text>
+                    </View>
+                    <View style={styles.textViewStyle}>
+                        <Text style={styles.textStyle}>上传的经纬度为：{this.state.Currentlatitude},{this.state.Currentlongitude}{'\n'}</Text>
+                    </View>
+                    <View style={styles.textViewStyle}>
+                        <Text style={styles.textStyle}>你在“ {this.state.currentAddr} ”附近{'\n'}</Text>
+                    </View>
 
- 
+       </View>
     
 
  
-        <View>
-       {  
-            
-//             this.state.sBoxConsRelateConfirm.map(               
-//                (RelateConfirm)=>{              
-//                return (
-//                  <View key={RelateConfirm.id} style={{backgroundColor:"white",marginBottom:2}}>
-//                       <Text style={{fontSize: 15,marginBottom:5,}}>({RelateConfirm.id})表号：{RelateConfirm.AssetNo}{'\n'}   地址：{RelateConfirm.elecAddr}  {RelateConfirm.Confirm}</Text>
-//                       <View style={{flexDirection:"row",marginBottom:5,height:35,width:w,}}>
-//                           <View style={{marginLeft:15,width:w*0.3}}>
-//                           <Button                   
-//                           onPress={()=>this.confirmOk(RelateConfirm.id-1)}
-//                           title="在表箱里"
-//                           color="#ff9a00"
-//                           accessibilityLabel=""
-//                           />
-//                           </View>
-//                           <View style={{marginLeft:50,marginRight:50,width:w*0.3}}>
-//                           <Button                        
-//                           onPress={()=>this.confirmNo(RelateConfirm.id-1)}
-//                           title="不在表箱里"
-//                           color="#ff9a00"
-//                           accessibilityLabel=""
-//                           />
-//                           </View>
-//                       </View>
-//                  </View>
-//                )
-//                //
-//                } )
-         
-  }
-
-       </View>
+              <View>
+              {  
+                        
+            //             this.state.sBoxConsRelateConfirm.map(               
+            //                (RelateConfirm)=>{              
+            //                return (
+            //                  <View key={RelateConfirm.id} style={{backgroundColor:"white",marginBottom:2}}>
+            //                       <Text style={{fontSize: 15,marginBottom:5,}}>({RelateConfirm.id})表号：{RelateConfirm.AssetNo}{'\n'}   地址：{RelateConfirm.elecAddr}  {RelateConfirm.Confirm}</Text>
+            //                       <View style={{flexDirection:"row",marginBottom:5,height:35,width:w,}}>
+            //                           <View style={{marginLeft:15,width:w*0.3}}>
+            //                           <Button                   
+            //                           onPress={()=>this.confirmOk(RelateConfirm.id-1)}
+            //                           title="在表箱里"
+            //                           color="#ff9a00"
+            //                           accessibilityLabel=""
+            //                           />
+            //                           </View>
+            //                           <View style={{marginLeft:50,marginRight:50,width:w*0.3}}>
+            //                           <Button                        
+            //                           onPress={()=>this.confirmNo(RelateConfirm.id-1)}
+            //                           title="不在表箱里"
+            //                           color="#ff9a00"
+            //                           accessibilityLabel=""
+            //                           />
+            //                           </View>
+            //                       </View>
+            //                  </View>
+            //                )
+            //                //
+            //                } )
+                    
+              }
+                </View>
        
- </ScrollView>
+ 
       </View>
       
     )
