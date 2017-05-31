@@ -76,7 +76,18 @@ export default class Search extends Component {
                         
                       })
                  }
-                     
+
+                
+             this.setState({SearchHistoryDetail:SearchHistory}, function () {
+                   const { navigator } = this.props;
+                    navigator.push({
+                        name: 'SearchResult',
+                        component: SearchResult,
+                        params: {
+                        SearchAssetNo: this.state.toSearchAssetNo
+                        }});  
+               });
+             
            });
          
     }
@@ -85,13 +96,7 @@ export default class Search extends Component {
    }
 
  
-     const { navigator } = this.props;
-     navigator.push({
-        name: 'SearchResult',
-        component: SearchResult,
-        params: {
-        SearchAssetNo: this.state.toSearchAssetNo
-        }});
+     
 
     
       // <View>

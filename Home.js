@@ -172,13 +172,14 @@ initSearchHistory=()=>{
 
 
      
-      
-      
-      
-        
-         <Button onPress={this.gotoHelp}
+       <View style={{flexDirection: 'row',justifyContent: 'flex-start',backgroundColor:"white",marginLeft:2,marginTop:1,marginRight:0,width:w}}>
+       <Text style={{alignSelf: 'center', }}>不会使用？点击按钮查看帮助文档--->   </Text> 
+      <Button onPress={this.gotoHelp}
               title="app使用帮助"
               />
+      </View>
+        
+         
         <Text   onPress={()=>this.removeRegistKey()  }>删除本机存储的登录信息</Text> 
 
         <View style={{marginTop:30,marginBottom:10,marginLeft:10}}> 
