@@ -104,6 +104,11 @@ ReturnToSearch=()=>{
             </TouchableOpacity>
         <Text style={styles.headtitle}>查找结果</Text> 
       </View>    
+      <View style={{width:w,backgroundColor:'white',justifyContent: 'center',marginBottom:5,height:40}}>
+              <Text style={{fontSize: 17}}>一共扫描到{this.state.AssetNoArray.length}个设备信息{'\n'}
+              </Text>      
+       </View>
+      <ScrollView>
       <View>{
 
          this.state.AssetNoArray.map(               
@@ -128,6 +133,7 @@ ReturnToSearch=()=>{
        }
          
        </View>
+       </ScrollView>
       </View>
     )
   }  

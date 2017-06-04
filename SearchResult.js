@@ -47,7 +47,7 @@ export default class SearchResult extends Component {
      currentAssetNo:"",
      currentElecAddr:"获取中",
      currentDataSource:"",
-     addrCount:" 获取中，请稍候……",
+     addrCount:" ........信息获取中，请稍候........",
     }; 
   }  
   
@@ -88,11 +88,14 @@ export default class SearchResult extends Component {
                         this.setState({addrCount:data[1].length})                        
                         for (var i = 0 ; i < addrArray1.length ; i++){
                             addrArray[i]={}
-                            addrArray[i]['数据来源']='智能生成'
-                            addrArray[i]['RecordMan']='王ds'
+                            addrArray[i]['数据来源']='上传（模糊定位）'
+                            addrArray[i]['RecordMan']='集海分中心 王丁盛2'
                             addrArray[i]['RecordTime']='2017-1-1'
                             addrArray[i]['BaiduLongitude']=addrArray1[i]['BaiduLon']                            
                             addrArray[i]['BaiduLatitude']=addrArray1[i]['BaiduLat']
+                            addrArray[i]['BarCode']=addrArray1[i]['BarCode']
+                            addrArray[i]['AssetInfo']=addrArray1[i]['ASSET_NO']                     
+
                             addrArray[i]['id']=i+1
                         }
                         this.setState({currentAssetNo:addrArray1[0]['ASSET_NO']})
@@ -176,8 +179,8 @@ openBaiduMap=(lng,lat)=>{
       <ScrollView>
            
        
-          <View style={{width:w,backgroundColor:'white',justifyContent: 'center',marginBottom:5}}>
-              <Text>一共查找到{this.state.addrCount}个关于{this.state.toSearchAssetNo}的定位信息{'\n'}
+          <View style={{width:w,backgroundColor:'white',justifyContent: 'center',marginBottom:5,height:40}}>
+              <Text style={{fontSize: 17}}>一共查找到{this.state.addrCount}个关于{this.state.toSearchAssetNo}的定位信息{'\n'}
               </Text>      
           </View>
             <View>
@@ -190,13 +193,13 @@ openBaiduMap=(lng,lat)=>{
                  <View  style={{flexDirection:"row",backgroundColor:"white",marginBottom:2}}>                 
                       <View style={{width:w*0.9,}}>
                           <Text style={{fontSize: 15,marginBottom:5,lineHeight:25}}>
-                          ({addrInfo.id})查找结果：{'\n'}
+                          第{addrInfo.id}条查找结果：{'\n'}
                           AssetInfo：{addrInfo.AssetInfo}{'\n'}
                           BarCode：{addrInfo.BarCode}{'\n'}
                           数据来源：{addrInfo.数据来源}{'\n'}
                           GPS上传人员：{addrInfo.RecordMan}{'\n'}
                           GPS上传时间：{addrInfo.RecordTime}{'\n'}
-                          经纬度：{addrInfo.BaiduLongitude},{addrInfo.BaiduLatitude}                        
+                          经纬度：{addrInfo.BaiduLongitude.slice(0,10)},{addrInfo.BaiduLatitude.slice(0,10)}                        
                           </Text> 
                       </View>
                       <View style={{width:w*0.1,marginRight:0,justifyContent: 'center',}}>
