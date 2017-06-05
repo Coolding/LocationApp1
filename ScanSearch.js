@@ -116,7 +116,7 @@ export default class ScanSearch extends React.Component {
  
 //扫描到条形码
   onBarCodeRead=(e)=>{
-    const { navigator } = this.props;
+    
     let b=[]
     a=e.data
     
@@ -135,18 +135,22 @@ export default class ScanSearch extends React.Component {
       a=a.replace("  "," ")  
 
     a=a.replace(/(^\s*)|(\s*$)/g, ""); //去除左右两边的空格   
-    alert(a)
+     
     
     b=a.split(" ")
     this.saveToSearchHistory(a)
   
+       
+    
+  const { navigator } = this.props;
     navigator.replace({
-                name: 'scanSearchResult',
-                component: scanSearchResult,
-              params: {
-                AllScanedAssetNo: b
-              }});
-    console.log(e.data);  
+    name: 'scanSearchResult',
+    component: scanSearchResult,
+    params: {
+    AllScanedAssetNo: b
+    }});
+    
+   
 }
 
 saveToSearchHistory=(searchString)=>{
@@ -178,9 +182,10 @@ saveToSearchHistory=(searchString)=>{
                                     else
                                         SearchHistory= SearchHistory+SearchHistoryArray[i]+','     
                                       }
-                                  AsyncStorage.setItem('SearchHistory',SearchHistory) 
-                        
-                                })
+                                  AsyncStorage.setItem('SearchHistory',SearchHistory)
+                                    
+                        }) 
+                                
                  }
       })
 
@@ -189,11 +194,12 @@ saveToSearchHistory=(searchString)=>{
 
  gotoSearch=() =>{
     const { navigator } = this.props;
-    navigator.replace({
-                name: 'Search',
-                component: Search,
-              params: {
-              }});
+    // navigator.replace({
+    //             name: 'Search',
+    //             component: Search,
+    //           params: {
+    //           }});
+    navigator.pop()
     
 }
 

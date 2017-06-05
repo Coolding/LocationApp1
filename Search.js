@@ -11,10 +11,13 @@ import {
   AsyncStorage,
   Math,
   BackAndroid,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from 'react-native'; 
 import SearchResult from './SearchResult'; 
 import ScanSearch from './ScanSearch'; 
+import scanSearchResult from './scanSearchResult'; 
+
 
   
 var w=Dimensions.get('window').width;
@@ -58,7 +61,12 @@ export default class Search extends Component {
    
 
  }
+refresh=()=>{
+    AsyncStorage.getItem('SearchHistory').then((SearchHistory) => {
+      this.setState({SearchHistoryDetail:SearchHistory})
+   })
 
+}
 
   //点击查找之后，存储查找结果，并跳转到信息和地图显示页面
  ShowMap=()=>{      
@@ -91,21 +99,23 @@ export default class Search extends Component {
                                     else
                                         SearchHistory= SearchHistory+SearchHistoryArray[i]+','     
                                       }
-                                  AsyncStorage.setItem('SearchHistory',SearchHistory) 
+                                  AsyncStorage.setItem('SearchHistory',SearchHistory,()=>{
+                                          this.setState({SearchHistoryDetail:SearchHistory}, function () {
+                                          const { navigator } = this.props;
+                                          navigator.push({
+                                          name: 'SearchResult',
+                                          component: SearchResult,
+                                          params: {
+                                          SearchAssetNo: this.state.toSearchAssetNo
+                                          }});  
+                                          });
+                                  }) 
                         
                                 })
                  }
 
                 
-             this.setState({SearchHistoryDetail:SearchHistory}, function () {
-                   const { navigator } = this.props;
-                    navigator.push({
-                        name: 'SearchResult',
-                        component: SearchResult,
-                        params: {
-                        SearchAssetNo: this.state.toSearchAssetNo
-                        }});  
-               });
+             
              
            });
          
@@ -143,6 +153,31 @@ export default class Search extends Component {
         });
  }
 
+//点击查询历史的时候，跳到相应的页面
+gotoSearchResult=(SearchHistory)=>{
+   let SearchHistoryArray=SearchHistory.split(" ")
+    const { navigator } = this.props;
+   if(SearchHistoryArray.length==1){           
+       navigator.push({
+          name: 'SearchResult',
+          component: SearchResult,
+          params: {
+          SearchAssetNo: SearchHistoryArray[0]
+          }});  
+   }
+   else{
+     navigator.push({
+          name: 'scanSearchResult',
+          component: scanSearchResult,
+        params: {
+          AllScanedAssetNo: SearchHistoryArray
+        }});
+   }
+
+
+}
+
+
   render() {  
     return (  
       <View style={styles.container}>  
@@ -179,19 +214,30 @@ export default class Search extends Component {
                         />
            </View>
          </View>
-         
-         <Text style={{fontSize: 15,marginBottom:5,}}>最近查询记录</Text>
+
+          <View style={{flexDirection: 'row', justifyContent: 'flex-start',marginLeft:5,width:w,alignItems: 'center',}}>
+         <Text style={{fontSize: 18,marginBottom:5,marginLeft:5,marginRight:w*0.3,}}>最近查询记录</Text>
+          <Button       style={{marginTop:0}} 
+                        onPress={this.refresh}
+                        title="刷新查询记录"                
+                        color="#ff9a00"                        
+                        accessibilityLabel=""
+                        />
+          </View>
+            <View  style={{marginTop:5}} ></View>
          <ScrollView>
          <View>
          {
            this.state.SearchHistoryDetail.split(",").map(
-                (addrInfo,index)=>{                        
+                (SearchHistory,index)=>{                        
                return (
-                 <View style={{width:w,marginBottom:2,backgroundColor:"white"}} key={index}>
-                          <Text style={{fontSize: 15,marginBottom:5,lineHeight:25}}>
-                           （{index+1}）{addrInfo.split(" ")[0]}等{addrInfo.split(" ").length}个{'\n'}             
+                 <TouchableOpacity key={index}  onPress={()=>this.gotoSearchResult(SearchHistory)}>
+                 <View style={{width:w,marginBottom:2,backgroundColor:"white"}}>
+                          <Text style={{fontSize: 15,marginBottom:5,lineHeight:30}}>
+                           （{index+1}）{SearchHistory.split(" ")[0]}等{SearchHistory.split(" ").length}个{'\n'}             
                           </Text> 
                   </View>
+                  </TouchableOpacity>
                )
                 }
            )

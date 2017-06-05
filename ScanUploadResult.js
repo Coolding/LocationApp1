@@ -162,6 +162,7 @@ componentDidMount() {
           formData.append("RecordTime",getNowFormatDate());
           formData.append("AssetInfo",this.state.AssetInfo);
           formData.append("RecordMan",currentLoginUserName);
+          formData.append("tips",'');
           
           let url="http://1.loactionapp.applinzi.com/upload";
           fetch(url,{method:"POST",headers:{},body:formData}).then(response => response.json())

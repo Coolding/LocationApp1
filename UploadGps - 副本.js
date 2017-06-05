@@ -79,7 +79,6 @@ export default class UploadGps extends Component {
       factboxIndex:'',  //现场实际的表箱号
       boxDisable:false,
       sBoxConsRelateConfirm:[],
-      tips:''
     };
  }
 
@@ -198,8 +197,6 @@ confirmboxIndex =() =>{
           formData.append("RecordTime",getNowFormatDate());
           formData.append("AssetInfo",this.state.AssetInfo);
           formData.append("RecordMan",currentUserName);
-          formData.append("tips",this.state.tips);
-        
           
           let url="http://1.loactionapp.applinzi.com/upload";
           fetch(url,{method:"POST",headers:{},body:formData}).then(response => response.json())
@@ -275,7 +272,7 @@ confirmboxIndex =() =>{
                     <Text style={styles.textStyle}>请输入资产编码或者设备编号、设备名称等关键信息,然后点击上传按钮</Text>
                 </View>
                 
-                <View  style={{height:80,flexDirection: 'column',alignItems:'flex-start',marginBottom:10}} >
+                <View  style={{height:40,flexDirection: 'row',alignItems:'flex-start',marginBottom:10}} >
                     <TextInput
                     style={{marginLeft:w*0.02,marginBottom:10,height:40,width:w*0.75, borderColor: 'gray', borderWidth:1,borderRadius:5}}
                     underlineColorAndroid="transparent"
@@ -284,26 +281,24 @@ confirmboxIndex =() =>{
                     clearTextOnFocus={true}                
                     onChangeText={(text) =>   this.setState({AssetInfo:text})  }
                       />
-                      <View  style={{height:40,flexDirection: 'row',alignItems:'flex-start',marginBottom:10}} >
-                                  <TextInput
-                                style={{marginLeft:w*0.02,marginBottom:10,height:40,width:w*0.75, borderColor: 'gray', borderWidth:1,borderRadius:5}}
-                                underlineColorAndroid="transparent"
-                                selectTextOnFocus={true} 
-                                placeholder="这里可以输入备注信息"    
-                                clearTextOnFocus={true}                
-                                onChangeText={(text) =>   this.setState({tips:text})  }
-                                  />
-                                <View style={{marginLeft:w*0.02,marginBottom:10,height:45,width:w*0.15}}>
-                                    <Button    
-                                        sytle={styles.BottonStyle}              
-                                        onPress={this.GetAndUploadGps}
-                                        title="上传"                
-                                        color="#ff9a00"
-                                        disabled={this.state.boxDisable}
-                                        accessibilityLabel="Learn more about this purple button"
-                                        />
-                                </View>
-                      </View>
+                       <TextInput
+                    style={{marginLeft:w*0.02,marginBottom:10,height:40,width:w*0.75, borderColor: 'gray', borderWidth:1,borderRadius:5}}
+                    underlineColorAndroid="transparent"
+                    selectTextOnFocus={true} 
+                    placeholder="这里可以输入备注信息"    
+                    clearTextOnFocus={true}                
+                    onChangeText={(text) =>   this.setState({AssetInfo:text})  }
+                      />
+                    <View style={{marginLeft:w*0.02,marginBottom:10,height:45,width:w*0.15}}>
+                        <Button    
+                            sytle={styles.BottonStyle}              
+                            onPress={this.GetAndUploadGps}
+                            title="上传"                
+                            color="#ff9a00"
+                            disabled={this.state.boxDisable}
+                            accessibilityLabel="Learn more about this purple button"
+                            />
+                    </View>
                 </View>
          </View>
 

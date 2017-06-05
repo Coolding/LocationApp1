@@ -86,10 +86,11 @@ export default class scanSearchResult extends Component {
 
 ReturnToSearch=()=>{
      const { navigator } = this.props;
-     navigator.replace({
-        name: 'Search',
-        component: Search,
-        });
+    //  navigator.replace({
+    //     name: 'Search',
+    //     component: Search,
+    //     });
+    navigator.pop()
  }
 
  

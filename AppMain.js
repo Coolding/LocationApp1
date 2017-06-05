@@ -91,7 +91,7 @@ render() {
         <TabNavigator   Style={styles.tab} >
             <TabNavigator.Item
             selected={this.state.selectedTab === 'home'}
-            title="Home"
+            title="主页"
             renderIcon={() => <Image source={require('./assets/1.png')} style={styles.iconStyle}/>}
             renderSelectedIcon={() => <Image source={require('./assets/12.png')} style={styles.iconStyle}/>}
             badgeText=""
@@ -102,7 +102,7 @@ render() {
             
             <TabNavigator.Item                   //手动输入设备信息，上传GPS定位信息
             selected={this.state.selectedTab === 'UploadGps'}
-            title="UploadGps"
+            title="上传GPS"
             renderIcon={() => <Image source={require('./assets/2.png')} style={styles.iconStyle}/>}
             renderSelectedIcon={() => <Image source={require('./assets/22.png')}  style={styles.iconStyle}/>}
             
@@ -121,7 +121,7 @@ render() {
            
             <TabNavigator.Item                       //扫描设备条码，上传GPS定位信息
             selected={this.state.selectedTab === 'ScanUpload'}
-            title="ScanUpload"
+            title="扫描上传"
             renderIcon={() => <Image source={require('./assets/3.png')} style={styles.iconStyle}/>}
             renderSelectedIcon={() => <Image source={require('./assets/32.png')}  style={styles.iconStyle}/>}
             onPress={() => this.setState({ selectedTab: 'ScanUpload' })}>
@@ -139,7 +139,7 @@ render() {
 
             <TabNavigator.Item
             selected={this.state.selectedTab === 'map'}
-            title="map"
+            title="查找定位"
             renderIcon={() => <Image source={require('./assets/4.png')} style={styles.iconStyle}/>}
             renderSelectedIcon={() => <Image source={require('./assets/42.png')} style={styles.iconStyle}/>}
             badgeText=""

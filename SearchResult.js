@@ -199,7 +199,8 @@ openBaiduMap=(lng,lat)=>{
                           数据来源：{addrInfo.数据来源}{'\n'}
                           GPS上传人员：{addrInfo.RecordMan}{'\n'}
                           GPS上传时间：{addrInfo.RecordTime}{'\n'}
-                          经纬度：{addrInfo.BaiduLongitude.slice(0,10)},{addrInfo.BaiduLatitude.slice(0,10)}                        
+                          经纬度：{addrInfo.BaiduLongitude.slice(0,10)},{addrInfo.BaiduLatitude.slice(0,10)}  {'\n'}
+                          备注信息：{addrInfo.tips}     {'\n'}            
                           </Text> 
                       </View>
                       <View style={{width:w*0.1,marginRight:0,justifyContent: 'center',}}>
