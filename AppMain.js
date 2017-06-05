@@ -42,9 +42,10 @@ export default class AppMain extends React.Component {
   }  
 
 
+
 pressToUploadGps=()=>{
   try{
-    this.TestClass.gotoScanButton()
+    this.ScanUpload.gotoScanButton()
   }
    catch(e)    {   
            console.log("error:" + e);   
@@ -56,8 +57,9 @@ pressToUploadGps=()=>{
 
 
   pressToHome=()=>{
+    this.Home.getAvailableGpsCount()
   try{
-    this.TestClass.gotoScanButton()
+    this.ScanUpload.gotoScanButton()
   }
    catch(e)    {   
            console.log("error:" + e);   
@@ -70,7 +72,7 @@ pressToUploadGps=()=>{
 
   pressToSearch=()=>{
   try{
-    this.TestClass.gotoScanButton()
+    this.ScanUpload.gotoScanButton()
   }
    catch(e)    {   
            console.log("error:" + e);   
@@ -95,7 +97,7 @@ render() {
             badgeText=""
             onPress={ this.pressToHome}>
             
-            <Home {...this.props}/>
+            <Home {...this.props}  ref={e=>this.Home=e}/>
             </TabNavigator.Item>
             
             <TabNavigator.Item                   //手动输入设备信息，上传GPS定位信息
@@ -131,7 +133,7 @@ render() {
               }}
               renderScene={(route, navigator) => {
                 let Component = route.component;
-                return <Component {...route.params} navigator={navigator} ref={e=>this.TestClass=e}/>
+                return <Component {...route.params} navigator={navigator} ref={e=>this.ScanUpload=e}/>
               }} />            
             </TabNavigator.Item>
 

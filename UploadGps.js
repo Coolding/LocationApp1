@@ -177,6 +177,14 @@ confirmboxIndex =() =>{
    this.setState({Currentlongitude:""})
    this.setState({relateCount:0,assetInfo:0,currentAddr:""}); 
    this.setState({boxDisable:true})
+
+   this.setState({boxRelateCount:""})
+   this.setState({addrRelateCount:""})
+   this.setState({uploadResult:""})
+   this.setState({InsertSerial:"........"})
+   
+
+
    navigator.geolocation.getCurrentPosition(
       (initialPosition) => {
           this.setState({Currentlatitude:initialPosition.coords.latitude})

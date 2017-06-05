@@ -8,6 +8,7 @@ import {
   Navigator,
   Text,
   AsyncStorage,
+ 
 } from 'react-native';
 import Camera from 'react-native-camera';
 import ScanUploadResult from './ScanUploadResult';
@@ -122,6 +123,7 @@ export default class ScanUpload extends React.Component {
  
 
   componentWillMount= () => {
+ 
    //获取当前登录用户的部门和姓名，用于上传GPS信息时记录上传人员
      AsyncStorage.getItem('department').then((department) => { 
             if(department!=null)  {

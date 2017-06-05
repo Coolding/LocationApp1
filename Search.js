@@ -10,6 +10,8 @@ import {
   Button,
   AsyncStorage,
   Math,
+  BackAndroid,
+  ScrollView
 } from 'react-native'; 
 import SearchResult from './SearchResult'; 
 import ScanSearch from './ScanSearch'; 
@@ -32,8 +34,24 @@ export default class Search extends Component {
      SearchHistoryDetail:"",
     }; 
   }  
+
+   onBackAndroid = () => {
+    const { navigator } = this.props;
+    const routers = navigator.getCurrentRoutes();
+     
+    if (routers.length > 1) {
+      navigator.pop();
+      return true;
+    }
+    return false;
+  };
+ 
+
+ 
   
  componentWillMount() {
+    //安卓返回键监听事件   
+  BackAndroid.addEventListener('hardwareBackPress', this.onBackAndroid);
    AsyncStorage.getItem('SearchHistory').then((SearchHistory) => {
       this.setState({SearchHistoryDetail:SearchHistory})
    })
@@ -42,7 +60,7 @@ export default class Search extends Component {
  }
 
 
-  //点击查找之后，跳转到信息和地图显示页面
+  //点击查找之后，存储查找结果，并跳转到信息和地图显示页面
  ShowMap=()=>{      
      var SearchHistory='';
      var SearchHistoryArray=[];
@@ -56,25 +74,26 @@ export default class Search extends Component {
                   // alert(SearchHistoryArray)
                  }
                  else {               //搜索历史非空，之前已有搜索过
-                      SearchHistoryArray=SearchHistory.split(",");
+                     //注意，AsyncStorage只能存储字符串！
+                      SearchHistoryArray=SearchHistory.split(",");  //字符串先变为数组
                       AsyncStorage.getItem('SearchHistoryCount').then((SearchHistoryCount) => {
-                        if(SearchHistoryCount>SearchHistoryArray.length)
-                            SearchHistoryCount=SearchHistoryArray.length+1
-                        for (let i=SearchHistoryCount-1; i>=1; i--) {  
-                              SearchHistoryArray[i]= SearchHistoryArray[i-1]            
-                             }
-                        SearchHistoryArray[0]=this.state.toSearchAssetNo;
-                        //alert(SearchHistoryArray)
-                        SearchHistory=''
-                        for (let i=0; i<SearchHistoryArray.length; i++) {  
-                          if(i==SearchHistoryArray.length-1)
-                              SearchHistory= SearchHistory+SearchHistoryArray[i]
-                          else
-                              SearchHistory= SearchHistory+SearchHistoryArray[i]+','     
-                             }
-                        AsyncStorage.setItem('SearchHistory',SearchHistory) 
+                                  if(SearchHistoryCount>SearchHistoryArray.length)
+                                      SearchHistoryCount=SearchHistoryArray.length+1
+                                  for (let i=SearchHistoryCount-1; i>=1; i--) {      //查询历史逐个向后移动，将最新的查询记录存放在第一个位置
+                                        SearchHistoryArray[i]= SearchHistoryArray[i-1]            
+                                      }
+                                  SearchHistoryArray[0]=this.state.toSearchAssetNo;
+                                  //alert(SearchHistoryArray)
+                                  SearchHistory=''        //将查询记录数组重新转化为字符串并存储
+                                  for (let i=0; i<SearchHistoryArray.length; i++) {  
+                                    if(i==SearchHistoryArray.length-1)
+                                        SearchHistory= SearchHistory+SearchHistoryArray[i]
+                                    else
+                                        SearchHistory= SearchHistory+SearchHistoryArray[i]+','     
+                                      }
+                                  AsyncStorage.setItem('SearchHistory',SearchHistory) 
                         
-                      })
+                                })
                  }
 
                 
@@ -118,7 +137,7 @@ export default class Search extends Component {
 //跳转到扫描（电能表二维码）批量定位页面
  gotoScanSearch=()=>{
      const { navigator } = this.props;
-     navigator.replace({
+     navigator.push({
         name: 'ScanSearch',
         component: ScanSearch,
         });
@@ -160,8 +179,25 @@ export default class Search extends Component {
                         />
            </View>
          </View>
-
-         <Text style={{fontSize: 15,marginBottom:5,}}>查询历史：{this.state.SearchHistoryDetail}{'\n'} </Text>
+         
+         <Text style={{fontSize: 15,marginBottom:5,}}>最近查询记录</Text>
+         <ScrollView>
+         <View>
+         {
+           this.state.SearchHistoryDetail.split(",").map(
+                (addrInfo,index)=>{                        
+               return (
+                 <View style={{width:w,marginBottom:2,backgroundColor:"white"}} key={index}>
+                          <Text style={{fontSize: 15,marginBottom:5,lineHeight:25}}>
+                           （{index+1}）{addrInfo.split(" ")[0]}等{addrInfo.split(" ").length}个{'\n'}             
+                          </Text> 
+                  </View>
+               )
+                }
+           )
+         }
+        </View>
+     </ScrollView>
   </View>
  
     

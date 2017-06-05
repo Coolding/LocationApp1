@@ -9,6 +9,7 @@ import {
   Image,
   AsyncStorage,
   Linking,
+  
 } from 'react-native';
 
 var currentUser
@@ -32,13 +33,27 @@ export default class Home extends Component {
     };
  }
 
-componentWillMount() {
- 
-   //可用gps数量
+getAvailableGpsCount=()=>{
+  //可用gps数量
     let url="http://1.loactionapp.applinzi.com/adsjlfsjldafsdfaxcveu/availableGps";
             fetch(url,{method:"GET"}).then(response => response.json())            
              .then(data => this.setState({availableGps:data}))
               .catch(e => console.log("Oops,error", e))
+}
+
+ 
+ 
+ 
+
+
+componentWillMount() {
+  
+ 
+ 
+
+
+   //可用gps数量
+    this.getAvailableGpsCount()
   
     //版本检查
     try{   
