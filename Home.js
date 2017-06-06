@@ -191,31 +191,31 @@ LeaveMessage=()=>{
     </View> 
        <View style={{width:w, marginBottom:3,}}><Image source={require('./assets/banner.png')} style={{height:h/6,width:w,resizeMode:"stretch"}}/></View>
       <View  style={styles.sbu_view}>
-           
-        <TouchableOpacity 
-        style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}
-        onPress={()=>alert('开发中，敬请期待')}>
-            <Image source={require('./assets/home1.png')} style={styles.icon_img} />
-            <Text>上传历史</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-        style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}
-        onPress={()=>alert('开发中，敬请期待')}>
-            <Image source={require('./assets/home2.png')} style={styles.icon_img} />
-            <Text>最近查询</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-        style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}
-        onPress={()=>alert('开发中，敬请期待')}>
-            <Image source={require('./assets/home3.png')} style={styles.icon_img} />
-            <Text>附近未上传</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}
-          onPress={()=>alert('开发中，敬请期待')}>
-            <Image source={require('./assets/home1.png')} style={styles.icon_img} />
-            <Text>上传排名</Text>
-        </TouchableOpacity>
+                
+              <TouchableOpacity 
+              style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}
+              onPress={()=>alert('开发中，敬请期待')}>
+                  <Image source={require('./assets/home1.png')} style={styles.icon_img} />
+                  <Text>上传历史</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+              style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}
+              onPress={()=>alert('开发中，敬请期待')}>
+                  <Image source={require('./assets/home2.png')} style={styles.icon_img} />
+                  <Text>最近查询</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+              style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}
+              onPress={()=>alert('开发中，敬请期待')}>
+                  <Image source={require('./assets/home3.png')} style={styles.icon_img} />
+                  <Text>附近未上传</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={{backgroundColor: 'white',marginRight:3,flex:1,justifyContent: 'flex-start',alignItems:'center',}}
+                onPress={()=>alert('开发中，敬请期待')}>
+                  <Image source={require('./assets/home1.png')} style={styles.icon_img} />
+                  <Text>上传排名</Text>
+              </TouchableOpacity>
       
      </View> 
       
@@ -225,37 +225,24 @@ LeaveMessage=()=>{
                     </View>
 
                     <View style={[styles.textViewStyle,{height:70,flexDirection:'row',justifyContent:'flex-start',alignItems:'center',}]}>
-                      <View style={{height:70,flexDirection:'column',justifyContent:'center',alignItems:'flex-start',}}>
-                            <Text>当前App版本：{this.state.currentVersion}</Text> 
-                            <Text>最新App版本：{this.state.NewestVersion}</Text> 
-                      </View>
-                        <View style={{marginLeft:w*0.3,marginTop:5,marginRight:10,width:w*0.3}}>
-                              <Button disabled={this.state.updateDisabled}
-                                  onPress={this.updateVersion}
-                                  color="#ff9a00" 
-                                  title="更新"
-                              />
+                            <View style={{height:70,flexDirection:'column',justifyContent:'center',alignItems:'flex-start',}}>
+                                  <Text>当前App版本：{this.state.currentVersion}</Text> 
+                                  <Text>最新App版本：{this.state.NewestVersion}</Text> 
+                            </View>
+                              <View style={{marginLeft:w*0.3,marginTop:5,marginRight:10,width:w*0.3}}>
+                                    <Button disabled={this.state.updateDisabled}
+                                        onPress={this.updateVersion}
+                                        color="#ff9a00" 
+                                        title="更新"
+                                    />
                         </View>
                    </View>
         </View>
 
 
-
-     
-       <View style={{flexDirection: 'row',height:45,justifyContent: 'flex-start',alignItems: 'center',backgroundColor:"white",marginLeft:2,marginTop:1,marginRight:0,width:w}}>
-            <Text style={{alignSelf: 'center', }}>不会使用？点击按钮查看帮助文档--->   </Text> 
-            <View style={{height:25}}>
-                  <Button onPress={this.gotoHelp}
-                    color="#ff9a00" 
-                    title="app使用帮助"
-                    />
-            </View>
-      </View>
-        
-
-          <View  style={{height:100,flexDirection: 'row',alignItems:'center',backgroundColor:"white",marginBottom:10,marginTop:2,}} >
+          <View  style={{height:140,flexDirection: 'column',alignItems:'flex-end',backgroundColor:"white"}} >
                                   <TextInput
-                                style={{marginLeft:w*0.02,marginBottom:10,height:80,width:w*0.75, borderColor: 'gray', borderWidth:1,borderRadius:5}}
+                                style={{marginLeft:w*0.02,marginBottom:10,marginTop:5,marginRight:w*0.02,height:80,width:w*0.95, borderColor: 'gray', borderWidth:1,borderRadius:5}}
                                 underlineColorAndroid="transparent"
                                 selectTextOnFocus={true} 
                                 placeholder="有什么好的意见、建议或者在使用中遇到什么问题都可以给我留言哦"    
@@ -263,7 +250,7 @@ LeaveMessage=()=>{
                                 multiline={true}             
                                 onChangeText={(text) =>   this.setState({message:text})  }
                                   />
-                                <View style={{marginLeft:w*0.02,marginBottom:10,height:45,width:w*0.15}}>
+                                <View style={{marginLeft:w*0.02,marginRight:w*0.02,marginBottom:10,height:45,width:w*0.3}}>
                                     <Button    
                                         sytle={styles.BottonStyle}              
                                         onPress={this.LeaveMessage}
@@ -272,6 +259,19 @@ LeaveMessage=()=>{
                                         />
                                 </View>
          </View>
+     
+       <View style={{flexDirection: 'row',height:45,justifyContent: 'flex-start',alignItems: 'center',backgroundColor:"white",marginLeft:2,marginTop:1,marginRight:0,width:w}}>
+            <Text style={{alignSelf: 'center', }}>不会使用？点击按钮查看帮助文档--->   </Text> 
+            <View style={{height:25,width:w*0.3}}>
+                  <Button onPress={this.gotoHelp}
+                    color="#ff9a00" 
+                    title="app使用帮助"
+                    />
+            </View>
+      </View>
+        
+
+      
 
 
          
@@ -315,8 +315,8 @@ headtitle: {
     justifyContent: 'center',
     //alignItems: 'center',
     backgroundColor:"white",
-    marginLeft:w*0.01,
-    marginRight:w*0.01,
+    //marginLeft:w*0.01,
+    //marginRight:w*0.01,
     marginBottom:1,
     marginTop:0,
     height:40,
@@ -346,7 +346,7 @@ sbu_view:{
     borderWidth:1,
     borderRadius:5,
     borderColor:"white",
-    marginBottom:10,
+    marginBottom:2,
     flexDirection:'row',
     //backgroundColor: 'white',
 },

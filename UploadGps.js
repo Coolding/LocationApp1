@@ -277,10 +277,10 @@ confirmboxIndex =() =>{
                 
                 <View  style={{height:80,flexDirection: 'column',alignItems:'flex-start',marginBottom:10}} >
                     <TextInput
-                    style={{marginLeft:w*0.02,marginBottom:10,height:40,width:w*0.75, borderColor: 'gray', borderWidth:1,borderRadius:5}}
+                    style={{marginLeft:w*0.02,marginBottom:10,height:40,width:w*0.92, borderColor: 'gray', borderWidth:1,borderRadius:5}}
                     underlineColorAndroid="transparent"
                     selectTextOnFocus={true} 
-                    placeholder="请输入表号，表箱号，户号或者设备名称"    
+                    placeholder="请输入设备关键信息(名称/编号/表号/表箱号/户号)"    
                     clearTextOnFocus={true}                
                     onChangeText={(text) =>   this.setState({AssetInfo:text})  }
                       />
