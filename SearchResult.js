@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Linking,
+  AsyncStorage,
 } from 'react-native'; 
 import Search from './Search'; 
 import AssetMapView from './AssetMapView'; 
@@ -59,50 +60,58 @@ export default class SearchResult extends Component {
         addrArray=[]
         this.setState({currentAssetNo:''})
         this.setState({toSearchAssetNo: this.props.SearchAssetNo},function(){
-            //查找SearchAssetNo在数据库里面是否已有人上传过的GPS地址
-            let url="http://1.loactionapp.applinzi.com/GetGPSInfo/"+this.props.SearchAssetNo;
-            fetch(url,{method:"GET"}).then(response => response.json())
-            .then(data => {
-                //没找到任何信息
-                if(data[0]==0){
-                    alert("不好意思，没找到该设备的信息")
-                    addrArray=[];
-                    this.setState({addrCount:0})
-                    CurrentAddrIndex=0;
-                }
-                //有找到上传的GPS信息
-                else if(data[0]==1){
-                       //alert("找到了")
-                        addrArray1=data[1];
-                        this.setState({addrCount:data[1].length})
-                        for (var i = 0 ; i < addrArray1.length ; i++){
-                            addrArray[i]=addrArray1[i]
-                            addrArray[i]['id']=i+1
-                        }
-                        this.setState({currentAssetNo:addrArray[0]['AssetInfo']})
-                }
-                //没有找到上传的GPS信息，但是consLow有相应信息，采用consLow里面的gps地址
-                else if(data[0]==2){
-                        //alert("找到了")
-                        addrArray1=data[1];                        
-                        this.setState({addrCount:data[1].length})                        
-                        for (var i = 0 ; i < addrArray1.length ; i++){
-                            addrArray[i]={}
-                            addrArray[i]['数据来源']='上传（模糊定位）'
-                            addrArray[i]['RecordMan']='集海分中心 王丁盛2'
-                            addrArray[i]['RecordTime']='2017-1-1'
-                            addrArray[i]['BaiduLongitude']=addrArray1[i]['BaiduLon']                            
-                            addrArray[i]['BaiduLatitude']=addrArray1[i]['BaiduLat']
-                            addrArray[i]['BarCode']=addrArray1[i]['BarCode']
-                            addrArray[i]['AssetInfo']=addrArray1[i]['ASSET_NO']                     
+                                    //查找SearchAssetNo在数据库里面是否已有人上传过的GPS地址
+           AsyncStorage.getItem('tel').then((value) => { 
+                                    let formData=new FormData();             
+                                    formData.append("searchAssetNo",this.props.SearchAssetNo);  
+                                    formData.append("tel",value)
+                                    let url="http://1.loactionapp.applinzi.com/GetGPSInfo/";
+                                    fetch(url,{method:"POST",headers:{},body:formData}).then(response => response.json())
+                                    .then(data => {
+                                            
+                                        //没找到任何信息
+                                        if(data[0]==0){
+                                            alert("不好意思，没找到该设备的信息")
+                                            addrArray=[];
+                                            this.setState({addrCount:0})
+                                            CurrentAddrIndex=0;
+                                        }
+                                        //有找到上传的GPS信息
+                                        else if(data[0]==1){
+                                            //alert("找到了")
+                                                addrArray1=data[1];
+                                                this.setState({addrCount:data[1].length})
+                                                for (var i = 0 ; i < addrArray1.length ; i++){
+                                                    addrArray[i]=addrArray1[i]
+                                                    addrArray[i]['id']=i+1
+                                                }
+                                                this.setState({currentAssetNo:addrArray[0]['AssetInfo']})
+                                        }
+                                        //没有找到上传的GPS信息，但是consLow有相应信息，采用consLow里面的gps地址
+                                        else if(data[0]==2){
+                                                //alert("找到了")
+                                                addrArray1=data[1];                        
+                                                this.setState({addrCount:data[1].length})                        
+                                                for (var i = 0 ; i < addrArray1.length ; i++){
+                                                    addrArray[i]={}
+                                                    addrArray[i]['数据来源']='模糊定位'
+                                                        addrArray[i]['RecordMan']='集海分中心 王丁盛2'
+                                                        addrArray[i]['RecordTime']='2017-1-1'
+                                                        addrArray[i]['BaiduLongitude']=addrArray1[i]['BaiduLon']                            
+                                                        addrArray[i]['BaiduLatitude']=addrArray1[i]['BaiduLat']
+                                                        addrArray[i]['BarCode']=addrArray1[i]['BarCode']
+                                                        addrArray[i]['AssetInfo']=addrArray1[i]['ASSET_NO']                     
 
-                            addrArray[i]['id']=i+1
-                        }
-                        this.setState({currentAssetNo:addrArray1[0]['ASSET_NO']})
-                }
+                                                        addrArray[i]['id']=i+1
+                                                    }
+                                                    this.setState({currentAssetNo:addrArray1[0]['ASSET_NO']})
+                                            }
+                                    })
+                                    .catch(e => console.log("Oops, error", e))
+            });
 
-                      })  
-            .catch(e => console.log("Oops, error", e))
+
+            
         } 
         );        
  }
@@ -146,6 +155,7 @@ getDistanceFromXtoY=(lat_a,lng_a,lat_b,lng_b)=>{
 openBaiduMap=(lng,lat)=>{
     navigator.geolocation.getCurrentPosition(
       (initialPosition) => {
+           //将当前位置的gps经纬度转化为百度格式经纬度，作为出发地点
             let openurl="http://api.map.baidu.com/geoconv/v1/?coords="+initialPosition.coords.longitude+','+initialPosition.coords.latitude+"&from=1&to=5&ak=hAYszgjy50mrlSDBIusNfSc4"
             fetch(openurl,{method:"GET"}).then(response => response.json())
                 .then(data => {
@@ -196,8 +206,10 @@ openBaiduMap=(lng,lat)=>{
                           第{addrInfo.id}条查找结果：{'\n'}
                           AssetInfo：{addrInfo.AssetInfo}{'\n'}
                           BarCode：{addrInfo.BarCode}{'\n'}
-                          数据来源：{addrInfo.数据来源}{'\n'}
-                          GPS上传人员：{addrInfo.RecordMan}{'\n'}
+                          数据来源：{addrInfo.数据来源}
+                          <Text style={{fontSize:16,color:'#1DBAF1'}}
+                               onPress={()=>alert("定位精确度：上传>关联>模糊定位。上传的比较准确，关联的有可能准有可能不准（取决于系统档案的准确性），模糊定位只能导航到该设备附近，无法精确定位")}>          来源说明?</Text> {'\n'}
+                           GPS上传人员：{addrInfo.RecordMan}{'\n'}
                           GPS上传时间：{addrInfo.RecordTime}{'\n'}
                           经纬度：{addrInfo.BaiduLongitude.slice(0,10)},{addrInfo.BaiduLatitude.slice(0,10)}  {'\n'}
                           备注信息：{addrInfo.tips}     {'\n'}            
@@ -216,7 +228,7 @@ openBaiduMap=(lng,lat)=>{
   </View>
   <View style={{marginTop:30,marginBottom:10,marginLeft:10}}> 
         <Text style={{fontSize:18,color:'#1DBAF1'}}
-               onPress={()=>alert("点击上面的定位信息--打开的页面拉到最下方--点击导航（要先安装百度地图APP，注意不要使用其他地图）")}>导航使用帮助?</Text> 
+               onPress={()=>alert("（1）点击上面的查找结果（2）app会用手机浏览器打开百度地图页面或者直接打开百度地图app（3）把打开的页面拉到最下方，点击导航，即可打开百度地图app进行导航（要先安装百度地图APP，注意不要使用其他地图，否则导航会不准）")}>导航使用帮助?</Text> 
     </View> 
       </ScrollView>
       </View>

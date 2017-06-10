@@ -134,7 +134,7 @@ return (
             <Text style={styles.divider}></Text> 
         </View> 
     </View> 
-    <View style={{marginLeft:w*0.1,marginTop:10,width:w*0.8,height:80,borderRadius:6,}}>
+    <View style={{marginLeft:w*0.1,marginTop:10,width:w*0.8,height:40,borderRadius:6,}}>
                         <Button    
                             sytle={{borderRadius:6,fontSize:20}}   
                             onPress={this.startRegist}
@@ -144,16 +144,17 @@ return (
                             disabled={this.state.regDisable}
                             />
     </View> 
-    <View style={styles.bottomleftbtnview}> 
-         <Text>{this.props.RegStatus}</Text>
-    </View> 
+ 
+<View style={{flexDirection:'row',justifyContent: 'space-between', alignItems: 'center', height:20,width:w,marginTop:30}}>
     <View style={styles.bottomleftbtnview}> 
         <Text style={styles.bottombtn}
-               onPress={this.gotoLogin}>我有账号，直接登录1</Text> 
+               onPress={this.gotoLogin}>我有账号，直接登录</Text> 
     </View> 
     <View style={styles.bottomrightbtnview}> 
-        <Text style={styles.bottombtn}>忘记密码？</Text> 
+        <Text style={styles.bottombtn} onPress={()=>alert("请发送你的登录手机号码、部门和姓名到18959298867，注明：需重置密码")}>忘记密码？</Text>
     </View> 
+
+  </View> 
 </View> 
 ); 
 } 

@@ -298,7 +298,7 @@ confirmboxIndex =() =>{
                                         sytle={styles.BottonStyle}              
                                         onPress={this.GetAndUploadGps}
                                         title="上传"                
-                                        color="#ff9a00"
+                                        color="#1DBAF1"
                                         disabled={this.state.boxDisable}
                                         accessibilityLabel="Learn more about this purple button"
                                         />

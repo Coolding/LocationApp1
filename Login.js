@@ -44,13 +44,26 @@ removeKey=(key)=>{
                     alert(key+'失败',+error);
                 }
 } 
- 
-removeRegistKey=()=>{
-    this.removeKey('LoginUserName')
-    this.removeKey('tel')
-    this.removeKey('department')
-    alert("删除成功")
+ //初始化查询记录
+ initSearchHistory=()=>{
+    
+    try {
+           this.removeKey('SearchHistory')
+           AsyncStorage.setItem('SearchHistory','0520509096') 
+           AsyncStorage.setItem('SearchHistoryCount','10') 
+          //  AsyncStorage.multiSet([['Search1',''],['Search2',''],['Search3',''],['Search4',''],['Search5','']] );   
+          //  AsyncStorage.setItem('SearchArrayCount','5')  //总共存储几个查找记录，与上面的设置要相符，否则会出错！
+           //AsyncStorage.setItem('SearchStorageIndex','1')  //存储到第几个搜索记录
+           alert("登录初始化成功")       
+                 
+    }
+  catch (error){
+          alert('登录初始化失败'+error);
+   }
+     
+    
 }
+
 
 startLogin=()=>{
     let reg=/^[0-9]{11}$/   
@@ -77,9 +90,9 @@ startLogin=()=>{
     .then(data =>{
             try{   //登录成功，写入登录信息   
                      
-                if(typeof(data)=="string")  alert(data) //登录失败，显示从服务器返回的错误信息
+                if(typeof(data)=="string")  alert('登录失败：'+data) //登录失败，显示从服务器返回的错误信息
                 else{
-                            
+                            this.initSearchHistory()   //查询定位记录初始化
                             AsyncStorage.setItem('LoginUserName',data.UserName); 
                             AsyncStorage.setItem('tel', data.UserTel); 
                             AsyncStorage.setItem('department', data.UserDept); 
@@ -135,7 +148,7 @@ return (
             <Text style={styles.divider}></Text> 
         </View> 
     </View> 
-    <View style={{marginLeft:w*0.1,marginTop:10,width:w*0.8,height:80,borderRadius:6,}}>
+    <View style={{marginLeft:w*0.1,marginTop:10,width:w*0.8,height:40,borderRadius:6,}}>
                         <Button    
                             sytle={{borderRadius:6,fontSize:20}}   
                             onPress={this.startLogin}
@@ -144,24 +157,19 @@ return (
                             accessibilityLabel=""
                             />
     </View> 
-    <View style={styles.bottombtnsview}> 
+   
           
-<View style={styles.bottomleftbtnview}> 
-         <Text>{this.props.RegStatus}</Text>
-</View> 
+<View style={{flexDirection:'row',justifyContent: 'space-between', alignItems: 'center', height:20,width:w,marginTop:30}}>
+        <View style={styles.bottomleftbtnview}> 
+                <Text style={styles.bottombtn}  onPress={this.gotoRegist}>注册新账号</Text> 
+        </View> 
 
-<View style={styles.bottomleftbtnview}> 
-        <Text style={styles.bottombtn}
-               onPress={this.gotoRegist}>注册新账号1</Text> 
+        <View style={styles.bottomleftbtnview}> 
+                <Text style={styles.bottombtn} onPress={()=>alert("请发送你的登录手机号码、部门和姓名到18959298867，注明：需重置密码")}>忘记密码？</Text> 
+        </View> 
  </View> 
 
-<View style={styles.bottomleftbtnview}> 
-        <Text style={styles.bottombtn} onPress={()=>alert("请发送你的登录手机号码、部门和姓名到18959298867，注明：需重置密码")}>忘记密码？</Text> 
-</View> 
-<View style={styles.bottomrightbtnview}> 
-        <Text style={styles.bottombtn} onPress={()=>this.removeRegistKey()  }>删除本机存储的登录信息</Text> 
-</View> 
-</View> 
+ 
 
 </View> 
 ); 

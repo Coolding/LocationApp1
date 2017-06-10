@@ -43,7 +43,7 @@ export default class ScanMain extends Component {
                         <Button          
                             onPress={this.gotoScan}
                             title="扫描条形码上传"                
-                            color="#ff9a00"                        
+                            color="#1DBAF1"                        
                             accessibilityLabel=""
                         />
               </View>

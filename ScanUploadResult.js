@@ -249,7 +249,7 @@ componentDidMount() {
                           <Button                   
                           onPress={ this.gotoScanUpload}
                           title="继续扫描"
-                          color="#ff9a00"
+                          color="#1DBAF1"
                           disabled={this.state.boxDisable}
                           accessibilityLabel=""
                           />

@@ -200,27 +200,27 @@ gotoSearchResult=(SearchHistory)=>{
                     <Button           
                         onPress={this.ShowMap}
                         title="查找"                
-                        color="#ff9a00"                        
+                        color="#1DBAF1"                        
                         accessibilityLabel=""
                         />
                 </View>
             </View>
-            <View style={{marginLeft:w*0.2,marginBottom:10,width:w*0.6}}>
+            <View style={{marginLeft:w*0.35,marginBottom:10,width:w*0.6}}>
                     <Button          
                         onPress={this.gotoScanSearch}
                         title="扫描二维码批量定位"                
-                        color="#ff9a00"                        
+                        color="#1DBAF1"                        
                         accessibilityLabel=""
                         />
            </View>
          </View>
 
           <View style={{flexDirection: 'row', justifyContent: 'flex-start',marginLeft:5,width:w,alignItems: 'center',}}>
-         <Text style={{fontSize: 18,marginBottom:5,marginLeft:5,marginRight:w*0.3,}}>最近查询记录</Text>
+         <Text style={{fontSize: 18,marginBottom:5,marginLeft:25,marginRight:w*0.3,}}>最近查询记录</Text>
           <Button       style={{marginTop:0}} 
                         onPress={this.refresh}
                         title="刷新查询记录"                
-                        color="#ff9a00"                        
+                        color="#1DBAF1"                        
                         accessibilityLabel=""
                         />
           </View>
@@ -243,6 +243,10 @@ gotoSearchResult=(SearchHistory)=>{
            )
          }
         </View>
+         <View style={{marginTop:30,marginBottom:10,marginLeft:10}}> 
+        <Text style={{fontSize:18,color:'#1DBAF1'}}
+               onPress={()=>alert("如果你输入要查找的内容仅包含字母和数字（如户号），则APP会进行精确查找。如果你输入的内容包含中文，则APP会进行模糊查找。另外目前公变只能用台区名称查找，专变只用能户号表号等查找，不能使用户名来查找")}>查找说明</Text> 
+    </View> 
      </ScrollView>
   </View>
  

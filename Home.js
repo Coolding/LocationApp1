@@ -10,6 +10,7 @@ import {
   AsyncStorage,
   Linking,
   TextInput,
+  ScrollView
 } from 'react-native';
 
 var currentUser
@@ -45,7 +46,7 @@ export default class Home extends Component {
  this.state = {
       selectedTab:'home',
       //当前APP版本信息，每次要发布新版本时注意来这里修改当前版本号！
-      currentVersion:'V 1.0',
+      currentVersion:'V 1.4',
       NewestVersion:'',
       updateDisabled:true,
       availableGps:0,
@@ -99,6 +100,7 @@ componentWillMount() {
                 }
 } 
 
+//删除本次存储的登录信息（注销）
 removeRegistKey=()=>{
     this.removeKey('LoginUserName')
     this.removeKey('tel')
@@ -131,21 +133,22 @@ Linking.openURL(url)
  
 }
 
+
 //登录的时候就要这样初始化，补充代码！！！！！！！！！！！！！！！
 initSearchHistory=()=>{
     
     try {
            this.removeKey('SearchHistory')
-           AsyncStorage.setItem('SearchHistory','5,4,3,2') 
+           AsyncStorage.setItem('SearchHistory','') 
            AsyncStorage.setItem('SearchHistoryCount','10') 
           //  AsyncStorage.multiSet([['Search1',''],['Search2',''],['Search3',''],['Search4',''],['Search5','']] );   
           //  AsyncStorage.setItem('SearchArrayCount','5')  //总共存储几个查找记录，与上面的设置要相符，否则会出错！
            //AsyncStorage.setItem('SearchStorageIndex','1')  //存储到第几个搜索记录
-           alert("初始化成功")       
+           alert("登录初始化成功")       
                  
     }
   catch (error){
-          alert('初始化失败'+error);
+          alert('登录初始化失败'+error);
    }
      
     
@@ -218,7 +221,7 @@ LeaveMessage=()=>{
               </TouchableOpacity>
       
      </View> 
-      
+    
         <View style={{width:w,}}>
                     <View style={styles.textViewStyle}>
                         <Text>当前系统可用的GPS地址数量：{this.state.availableGps}</Text> 
@@ -229,10 +232,10 @@ LeaveMessage=()=>{
                                   <Text>当前App版本：{this.state.currentVersion}</Text> 
                                   <Text>最新App版本：{this.state.NewestVersion}</Text> 
                             </View>
-                              <View style={{marginLeft:w*0.3,marginTop:5,marginRight:10,width:w*0.3}}>
+                              <View style={{marginLeft:w*0.3+5,marginTop:5,marginRight:10,width:w*0.3}}>
                                     <Button disabled={this.state.updateDisabled}
                                         onPress={this.updateVersion}
-                                        color="#ff9a00" 
+                                        color="#1DBAF1" 
                                         title="更新"
                                     />
                         </View>
@@ -247,41 +250,30 @@ LeaveMessage=()=>{
                                 selectTextOnFocus={true} 
                                 placeholder="有什么好的意见、建议或者在使用中遇到什么问题都可以给我留言哦"    
                                 clearTextOnFocus={true}   
-                                multiline={true}             
+                                multiline={true}    
                                 onChangeText={(text) =>   this.setState({message:text})  }
                                   />
-                                <View style={{marginLeft:w*0.02,marginRight:w*0.02,marginBottom:10,height:45,width:w*0.3}}>
+                                <View style={{marginLeft:w*0.02,marginRight:10,marginBottom:10,height:45,width:w*0.3}}>
                                     <Button    
                                         sytle={styles.BottonStyle}              
                                         onPress={this.LeaveMessage}
                                         title="发送"                
-                                        color="#ff9a00"                                         
+                                        color="#1DBAF1"                                         
                                         />
                                 </View>
          </View>
      
-       <View style={{flexDirection: 'row',height:45,justifyContent: 'flex-start',alignItems: 'center',backgroundColor:"white",marginLeft:2,marginTop:1,marginRight:0,width:w}}>
+       <View style={{flexDirection: 'row',height:65,justifyContent: 'flex-start',alignItems: 'center',backgroundColor:"white",marginLeft:2,marginTop:1,marginRight:0,width:w}}>
             <Text style={{alignSelf: 'center', }}>不会使用？点击按钮查看帮助文档--->   </Text> 
-            <View style={{height:25,width:w*0.3}}>
+            <View style={{width:w*0.3}}>
                   <Button onPress={this.gotoHelp}
-                    color="#ff9a00" 
+                    color="#1DBAF1" 
                     title="app使用帮助"
                     />
             </View>
       </View>
         
-
-      
-
-
-         
-        <Text   onPress={()=>this.removeRegistKey()  }>删除本机存储的登录信息</Text> 
-
-        <View style={{marginTop:30,marginBottom:10,marginLeft:10}}> 
-        <Text style={{fontSize:18,color:'#1DBAF1'}}
-               onPress={()=>this.initSearchHistory()}>查询历史记录初始化</Text> 
-        </View> 
- 
+  
    
       </View>
     );
