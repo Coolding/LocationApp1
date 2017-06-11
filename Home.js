@@ -46,7 +46,7 @@ export default class Home extends Component {
  this.state = {
       selectedTab:'home',
       //当前APP版本信息，每次要发布新版本时注意来这里修改当前版本号！
-      currentVersion:'V 1.4',
+      currentVersion:'V 1.5',
       NewestVersion:'',
       updateDisabled:true,
       availableGps:0,
